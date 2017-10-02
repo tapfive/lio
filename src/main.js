@@ -3,6 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 
+window.blockstack = require('blockstack')
+window.blockstackStorage = require('blockstack-storage')
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

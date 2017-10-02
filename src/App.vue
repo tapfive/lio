@@ -1,17 +1,40 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <landing v-if="! blockstack.isUserSignedIn()"></landing>
+    <hello v-if="user" :user="user"></hello>
   </div>
 </template>
 
 <script>
+
+import Landing from './components/Landing'
 import Hello from './components/Hello'
 
 export default {
   name: 'app',
   components: {
+    Landing,
     Hello
+  },
+
+  mounted () {
+    const blockstack = this.blockstack
+
+    if (blockstack.isUserSignedIn()) {
+      this.user = blockstack.loadUserData().profile
+    } else if (blockstack.isSignInPending()) {
+      blockstack.handlePendingSignIn()
+      .then((userData) => {
+        window.location = window.location.origin
+      })
+    }
+  },
+
+  data () {
+    return {
+      blockstack: window.blockstack,
+      user: null
+    }
   }
 }
 </script>
