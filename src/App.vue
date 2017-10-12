@@ -1,23 +1,22 @@
 <template>
   <div id="app">
     <landing v-if="! blockstack.isUserSignedIn()"></landing>
-    <hello v-if="user" :user="user"></hello>
+    <portfolio v-if="user" :user="user"></portfolio>
   </div>
 </template>
 
 <script>
-
 import Landing from './components/Landing'
-import Hello from './components/Hello'
+import Portfolio from './components/Portfolio'
 
 export default {
   name: 'app',
   components: {
     Landing,
-    Hello
+    Portfolio
   },
 
-  mounted () {
+  created () {
     const blockstack = this.blockstack
 
     if (blockstack.isUserSignedIn()) {
@@ -46,6 +45,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+body {
+  margin: 0;
 }
 </style>
