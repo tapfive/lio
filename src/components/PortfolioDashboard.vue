@@ -1,50 +1,59 @@
 <template>
   <div class="portfolio-dashboard">
-    <h1>Dash</h1>
-    <button class="btn btn-default" @click.prevent="saveData">Save Some Data</button>
-    <div>{{ coinData }}</div>
+    <portfolio-modal v-if="showModal" @close="showModal = false">
+      <h3 slot="header">custom header</h3>
+    </portfolio-modal>
+
+    <portfolio-balance currency-name="BTC" :currency-price="coinData.USD" currency-balance="0.25"></portfolio-balance>
+
+    <div class="floating-action-button" @click="showModal = true">+</div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-
-var STORAGE_FILE = 'currencies.json'
+import PortfolioModal from './PortfolioModal'
+import PortfolioBalance from './PortfolioBalance'
+import coinInfo from '../js/coininfo'
+import storage from '../js/storage'
 
 export default {
   name: 'portfolio-dashboard',
+
+  components: {
+    PortfolioModal,
+    PortfolioBalance
+  },
 
   data () {
     return {
       blockstack: window.blockstack,
       savedCoins: [],
       coinData: [],
-      errors: []
+      errors: [],
+      showModal: false
     }
   },
 
   created () {
-    this.getSavedData()
+    this.getPrices()
   },
 
   methods: {
     saveData () {
-      this.savedCoins = ['BTC', 'ETH', 'LTC']
-      this.blockstack.putFile(STORAGE_FILE, JSON.stringify(['BTC', 'ETH', 'LTC']), true)
+      storage.storeInvestment('BTC', '0.25', 0)
+      this.getSavedData()
     },
     getSavedData () {
-      this.blockstack.getFile(STORAGE_FILE, true)
+      storage.getInvestments()
       .then((savedCoinsText) => {
         this.savedCoins = JSON.parse(savedCoinsText || '[]')
-        this.getPrices()
       })
     },
     getPrices () {
-      var requestUrl = 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=' + this.savedCoins + '&tsyms=BTC,USD'
-      axios.get(requestUrl)
+      coinInfo.getPrice('BTC', 'USD')
       .then(response => {
-        this.coinData = response.data
         console.log(response)
+        this.coinData = response.data
       })
       .catch(e => {
         this.errors.push(e)
@@ -57,5 +66,22 @@ export default {
 <style scoped>
 .portfolio-dashboard {
   flex-grow: 4;
+  background-color: rgba(0, 68, 102, 0.03);
+}
+
+.floating-action-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  color: #fff;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  border-radius: 25px;
+  font-size: 25px;
+  font-weight: 700;
+  box-shadow: 4px 4px 35px 0px rgba(0, 0, 0, 0.5);
+  background-color: #00FFA2;
+  cursor: pointer;
 }
 </style>

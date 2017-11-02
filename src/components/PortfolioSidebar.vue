@@ -25,8 +25,10 @@ export default {
 
 <style scoped>
 .portfolio-sidebar {
-  flex-grow: 1; 
+  flex-grow: 1;
+  max-width: 300px;
   background-color: #004466;
+  box-shadow: 5px 0px 15px rgba(0,0,0,0.6);
 }
 
 h1 {
