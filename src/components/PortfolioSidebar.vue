@@ -27,8 +27,9 @@ export default {
 .portfolio-sidebar {
   flex-grow: 1;
   max-width: 300px;
-  background-color: #004466;
-  box-shadow: 5px 0px 15px rgba(0,0,0,0.6);
+  background: #00273A;
+  background-image: linear-gradient(-180deg, #003752 0%, #002A3F 100%);
+  box-shadow: 4px 0 10px 0 rgba(0,16,24,0.33);
 }
 
 h1 {
