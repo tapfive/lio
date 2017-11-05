@@ -5,25 +5,38 @@
         <div class="modal-container" @click.stop>
 
           <div class="modal-header">
-            <slot name="header">
-              default header
-            </slot>
+            <h3>ADD BALANCE</h3>
           </div>
 
           <div class="modal-body">
-            <slot name="body">
-              default body
-            </slot>
+            <v-autocomplete
+              :items="items"
+              :min-len='0'
+              :get-label="getLabel"
+              :component-item='template'
+              :auto-select-one-item='false'
+              @update-items="updateItems">
+            </v-autocomplete>
+
+            <div>
+              <label for="lio-coin-amount">Coin Amount</label>
+              <input id="lio-coin-amount" type="text">
+            </div>
+            <div>
+              <label for="lio-date-purchased">Date Purchased</label>
+              <input id="lio-date-purchased" type="date">
+            </div>
+            <div>
+              <label for="lio-additional-fees">Additional Fees</label>
+              <input id="lio-additional-fees" type="text">
+            </div>
+
           </div>
 
           <div class="modal-footer">
-            <slot name="footer">
-              default footer
-              <button class="modal-default-button" @click="close">
-                OK
-              </button>
-            </slot>
+            <button class="modal-default-button" @click="close">OK</button>
           </div>
+
         </div>
       </div>
     </div>
@@ -31,12 +44,30 @@
 </template>
 
 <script>
+import Coins from '../js/coins.js'
+import InvestmentAddItem from './InvestmentAddItem.vue'
+
 export default {
   name: 'portfolio-modal',
+
+  data () {
+    return {
+      items: [],
+      template: InvestmentAddItem
+    }
+  },
 
   methods: {
     close: function () {
       this.$emit('close')
+    },
+    getLabel (item) {
+      return item.name
+    },
+    updateItems (text) {
+      this.items = Coins.filter((item) => {
+        return (new RegExp(text.toLowerCase())).test(item.symbol.toLowerCase() + item.name.toLowerCase())
+      })
     }
   }
 }
@@ -61,14 +92,14 @@ export default {
 }
 
 .modal-container {
-  width: 300px;
+  width: 375px;
   margin: 0px auto;
   padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 3px 6px 0 rgba(22, 46, 58, 0.15);
   transition: all .3s ease;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Source Code Pro';  
 }
 
 .modal-header h3 {

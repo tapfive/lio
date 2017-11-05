@@ -1,8 +1,6 @@
 <template>
   <div class="portfolio-dashboard">
-    <portfolio-modal v-if="showModal" @close="showModal = false">
-      <h3 slot="header">custom header</h3>
-    </portfolio-modal>
+    <investment-add-modal v-if="showModal" @close="showModal = false"></investment-add-modal>
 
     <portfolio-balance currency-name="BTC" :currency-price="coinData.USD" currency-balance="0.25"></portfolio-balance>
 
@@ -11,7 +9,7 @@
 </template>
 
 <script>
-import PortfolioModal from './PortfolioModal'
+import InvestmentAddModal from './InvestmentAddModal'
 import PortfolioBalance from './PortfolioBalance'
 import coinInfo from '../js/coininfo'
 import storage from '../js/storage'
@@ -20,7 +18,7 @@ export default {
   name: 'portfolio-dashboard',
 
   components: {
-    PortfolioModal,
+    InvestmentAddModal,
     PortfolioBalance
   },
 

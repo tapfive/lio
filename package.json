@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "blockstack": "^0.13.0",
+    "v-autocomplete": "^1.7.4",
     "vue": "^2.5.2"
   },
   "devDependencies": {

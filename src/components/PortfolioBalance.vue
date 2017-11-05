@@ -20,7 +20,20 @@
 <script>
 export default {
   name: 'portfolio-balance',
-  props: ['currencyName', 'currencyPrice', 'currencyBalance'],
+  props: {
+    currencyName: {
+      type: String,
+      required: true
+    },
+    currencyPrice: {
+      type: String,
+      required: true
+    },
+    currencyBalance: {
+      type: Number,
+      required: true
+    }
+  },
 
   computed: {
     currencyValue: function () {

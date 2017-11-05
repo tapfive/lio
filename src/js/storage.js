@@ -10,7 +10,14 @@ export default {
         investments = {'data': []}
       }
 
-      investments.data.push({'coin': coin, 'amount': amount, 'timestamp': timestamp})
+      investments.data.push(
+        {
+          'coin': coin,
+          'amount': amount,
+          'timestamp': timestamp
+        }
+      )
+
       window.blockstack.putFile(INVESTMENTS_FILE, JSON.stringify(investments), true)
     })
   },
