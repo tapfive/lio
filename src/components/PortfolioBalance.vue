@@ -26,11 +26,11 @@ export default {
       required: true
     },
     currencyPrice: {
-      type: String,
+      type: Number,
       required: true
     },
     currencyBalance: {
-      type: Number,
+      type: String,
       required: true
     }
   },

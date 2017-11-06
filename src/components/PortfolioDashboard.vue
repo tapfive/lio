@@ -11,8 +11,8 @@
 <script>
 import InvestmentAddModal from './InvestmentAddModal'
 import PortfolioBalance from './PortfolioBalance'
-import coinInfo from '../js/coininfo'
-import storage from '../js/storage'
+import Storage from '../js/storage'
+import CoinInfo from '../js/coininfo'
 
 export default {
   name: 'portfolio-dashboard',
@@ -37,18 +37,14 @@ export default {
   },
 
   methods: {
-    saveData () {
-      storage.storeInvestment('BTC', '0.25', 0)
-      this.getSavedData()
-    },
     getSavedData () {
-      storage.getInvestments()
-      .then((savedCoinsText) => {
-        this.savedCoins = JSON.parse(savedCoinsText || '[]')
+      Storage.getAllBalances()
+      .then((balanceData) => {
+        console.log(balanceData)
       })
     },
     getPrices () {
-      coinInfo.getPrice('BTC', 'USD')
+      CoinInfo.getPrice('BTC', 'USD')
       .then(response => {
         console.log(response)
         this.coinData = response.data

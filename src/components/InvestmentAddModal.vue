@@ -34,7 +34,7 @@
           </div>
 
           <div class="modal-footer">
-            <button class="modal-default-button" @click="close">OK</button>
+            <button class="modal-default-button" @click="addInvestment">Add</button>
           </div>
 
         </div>
@@ -45,6 +45,7 @@
 
 <script>
 import Coins from '../js/coins.js'
+import Storage from '../js/storage'
 import InvestmentAddItem from './InvestmentAddItem.vue'
 
 export default {
@@ -60,6 +61,9 @@ export default {
   methods: {
     close: function () {
       this.$emit('close')
+    },
+    addInvestment: function () {
+      Storage.storeInvestment('BTC', '0.13', 10, 'USD', 0)
     },
     getLabel (item) {
       return item.name
