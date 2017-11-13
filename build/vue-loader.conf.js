@@ -9,6 +9,7 @@ module.exports = {
       : config.dev.cssSourceMap,
     extract: isProduction
   }),
+  postcss: [require('postcss-cssnext')()],
   transformToRequire: {
     video: 'src',
     source: 'src',
