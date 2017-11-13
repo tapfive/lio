@@ -12,7 +12,7 @@
     <div class="currency-balance">
       <span>{{ currencyName }} Balance</span>
       <br/>
-      {{ currencyBalance }}
+      {{ currencyBalance.toFixed(5) }}
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
       required: true
     },
     currencyBalance: {
-      type: String,
+      type: Number,
       required: true
     }
   },

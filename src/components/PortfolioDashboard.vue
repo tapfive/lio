@@ -1,20 +1,32 @@
 <template>
   <div class="portfolio-dashboard">
-    <investment-add-modal v-if="showModal" @close="showModal = false"></investment-add-modal>
+    <investment-add-modal
+      v-if="showModal"
+      @close="showModal = false"
+      @reload="handleDataAdded()">
+    </investment-add-modal>
 
-    <portfolio-balance currency-name="BTC" :currency-price="coinData.USD" currency-balance="0.25"></portfolio-balance>
+    <div v-if="loaded" v-for="balance in balanceData" :key="balance.coin.symbol">
+      <portfolio-balance 
+        :currency-name="balance.coin.symbol" 
+        :currency-price="coinData[balance.coin.symbol].USD" 
+        :currency-balance="balance.amount">
+      </portfolio-balance>
+    </div>
 
     <div class="floating-action-button" @click="showModal = true">+</div>
   </div>
 </template>
 
-<script>
-import InvestmentAddModal from './InvestmentAddModal'
-import PortfolioBalance from './PortfolioBalance'
+<script lang="ts">
+import Vue from 'vue'
+import InvestmentAddModal from './InvestmentAddModal.vue'
+import PortfolioBalance from './PortfolioBalance.vue'
 import Storage from '../js/storage'
 import CoinInfo from '../js/coininfo'
+import * as Models from '../js/models'
 
-export default {
+export default Vue.extend({
   name: 'portfolio-dashboard',
 
   components: {
@@ -24,16 +36,16 @@ export default {
 
   data () {
     return {
-      blockstack: window.blockstack,
-      savedCoins: [],
+      balanceData: <Models.Balance[]>[],
+      loaded: false,
       coinData: [],
       errors: [],
       showModal: false
     }
   },
 
-  created () {
-    this.getPrices()
+  mounted () {
+    this.getSavedData()
   },
 
   methods: {
@@ -41,20 +53,33 @@ export default {
       Storage.getAllBalances()
       .then((balanceData) => {
         console.log(balanceData)
+        this.balanceData = balanceData
+        this.displayBalances(balanceData)
       })
     },
-    getPrices () {
-      CoinInfo.getPrice('BTC', 'USD')
+
+    displayBalances (balanceData: Models.Balance[]) {
+      var coins = []
+      for (var item of balanceData) {
+        coins.push(item.coin.symbol)
+      }
+      CoinInfo.getPriceMultiple(coins)
       .then(response => {
         console.log(response)
         this.coinData = response.data
+        this.loaded = true
       })
-      .catch(e => {
-        this.errors.push(e)
+      .catch((error: string) => {
+        console.log(error)
       })
+    },
+
+    handleDataAdded () {
+      this.showModal = false
+      this.getSavedData()
     }
   }
-}
+})
 </script>
 
 <style scoped>

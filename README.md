@@ -1,4 +1,4 @@
-# lio
+# Lio
 
 > A Vue.js project
 

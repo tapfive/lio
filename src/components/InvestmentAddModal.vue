@@ -10,17 +10,19 @@
 
           <div class="modal-body">
             <v-autocomplete
+              :input-attrs="{id:'lio-coin-autocomplete'}"
               :items="items"
-              :min-len='0'
+              :min-len="0"
               :get-label="getLabel"
-              :component-item='template'
-              :auto-select-one-item='false'
+              :component-item="template"
+              :auto-select-one-item="false"
+              v-model="selectedItem"
               @update-items="updateItems">
             </v-autocomplete>
 
             <div>
               <label for="lio-coin-amount">Coin Amount</label>
-              <input id="lio-coin-amount" type="text">
+              <input id="lio-coin-amount" v-model="amount" type="text">
             </div>
             <div>
               <label for="lio-date-purchased">Date Purchased</label>
@@ -28,7 +30,7 @@
             </div>
             <div>
               <label for="lio-additional-fees">Additional Fees</label>
-              <input id="lio-additional-fees" type="text">
+              <input id="lio-additional-fees" v-model="fees" type="text">
             </div>
 
           </div>
@@ -43,17 +45,21 @@
   </transition>
 </template>
 
-<script>
-import Coins from '../js/coins.js'
-import Storage from '../js/storage'
+<script lang="ts">
+import Vue from 'vue'
 import InvestmentAddItem from './InvestmentAddItem.vue'
+import Storage from '../js/storage'
+import * as Models from '../js/models'
 
-export default {
-  name: 'portfolio-modal',
+export default Vue.extend({
+  name: 'investment-add-modal',
 
   data () {
     return {
-      items: [],
+      selectedItem: new Models.Coin('', ''),
+      items: <Models.Coin[]>[],
+      amount: 0,
+      fees: 0,
       template: InvestmentAddItem
     }
   },
@@ -62,19 +68,29 @@ export default {
     close: function () {
       this.$emit('close')
     },
+
     addInvestment: function () {
-      Storage.storeInvestment('BTC', '0.13', 10, 'USD', 0)
+      Storage.storeInvestment(this.selectedItem, new Models.Investment(this.amount, this.fees, 'USD', 0))
+      .then((response: string) => {
+        this.$emit('reload')
+      })
+      .catch((error: string) => {
+        console.log(error)
+        this.$emit('close')
+      })
     },
-    getLabel (item) {
+
+    getLabel (item: Models.Coin) {
       return item.name
     },
-    updateItems (text) {
-      this.items = Coins.filter((item) => {
+
+    updateItems (text: string) {
+      this.items = Models.Coin.getAvailable().filter((item) => {
         return (new RegExp(text.toLowerCase())).test(item.symbol.toLowerCase() + item.name.toLowerCase())
       })
     }
   }
-}
+})
 </script>
 
 <style scoped>

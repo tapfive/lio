@@ -16,7 +16,7 @@ export default {
     ThePortfolio
   },
 
-  created () {
+  mounted () {
     const blockstack = this.blockstack
 
     if (blockstack.isUserSignedIn()) {
