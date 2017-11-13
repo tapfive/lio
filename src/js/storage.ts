@@ -1,15 +1,15 @@
 import * as Models from './models'
 
 const INVESTMENTS_FILE = 'investments_dev.json'
-const INVESTMENTS_VERSION = 5
+const INVESTMENTS_VERSION = 8
 
 export default {
   storeInvestment: async function (coin: Models.Coin, investment: Models.Investment): Promise<string> {
-    let storage = await (loadStorage())
-    addData(storage, coin, investment)
-
     try {
-      return await (window.blockstack.putFile(INVESTMENTS_FILE, JSON.stringify(storage), false))
+      let storage = await (loadStorage())
+      addData(storage, coin, investment)
+      
+      return await (window.blockstack.putFile(INVESTMENTS_FILE, JSON.stringify(storage), true))
     }
     catch (error) {
       throw Error(error)
@@ -59,25 +59,31 @@ export default {
 
 async function loadStorage(): Promise<Storage> {
   try {
-    var investmentsText = await (window.blockstack.getFile(INVESTMENTS_FILE, false))
-
-    if (investmentsText) {
-      let storage: Storage = JSON.parse(investmentsText)
-
-      if (storage.version !== INVESTMENTS_VERSION) {
-        // Future migrations, just recreate for now
-        storage = new Storage(INVESTMENTS_VERSION)
-      }
-
-      return storage
-    }
-    else {
-      // No data yet, create new object
-      return new Storage(INVESTMENTS_VERSION)
-    }
+    var investmentsText = await (window.blockstack.getFile(INVESTMENTS_FILE, true))
   }
   catch (error) {
-    throw Error(error)
+    // Dumb workaround for when the file doesn't exist, will fix later
+    if (String(error).indexOf('Cannot read property') !== -1) {
+      await (window.blockstack.putFile(INVESTMENTS_FILE, JSON.stringify(new Storage(INVESTMENTS_VERSION)), true))
+    }
+    else {
+      throw Error(error)
+    }
+  }
+
+  if (investmentsText) {
+    let storage: Storage = JSON.parse(investmentsText)
+
+    if (storage.version !== INVESTMENTS_VERSION) {
+      // Future migrations, just recreate for now
+      storage = new Storage(INVESTMENTS_VERSION)
+    }
+
+    return storage
+  }
+  else {
+    // No data yet, create new object
+    return new Storage(INVESTMENTS_VERSION)
   }
 }
 

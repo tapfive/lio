@@ -56,6 +56,9 @@ export default Vue.extend({
         this.balanceData = balanceData
         this.displayBalances(balanceData)
       })
+      .catch ((error) => {
+        console.log(error)
+      })
     },
 
     displayBalances (balanceData: Models.Balance[]) {
@@ -63,15 +66,19 @@ export default Vue.extend({
       for (var item of balanceData) {
         coins.push(item.coin.symbol)
       }
-      CoinInfo.getPriceMultiple(coins)
-      .then(response => {
-        console.log(response)
-        this.coinData = response.data
-        this.loaded = true
-      })
-      .catch((error: string) => {
-        console.log(error)
-      })
+
+      // Only check prices if coins have been added
+      if (coins.length > 0) {
+        CoinInfo.getPriceMultiple(coins)
+        .then(response => {
+          console.log(response)
+          this.coinData = response.data
+          this.loaded = true
+        })
+        .catch((error: string) => {
+          console.log(error)
+        })
+      }
     },
 
     handleDataAdded () {

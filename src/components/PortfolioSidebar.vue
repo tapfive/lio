@@ -1,6 +1,7 @@
 <template>
   <div class="portfolio-sidebar">
     <h1>Lio</h1>
+    <h3>{{ user.name }}</h3>
     <a href="#" @click.prevent="signOut">Sign Out</a>
   </div>
 </template>
@@ -8,6 +9,11 @@
 <script>
 export default {
   name: 'portfolio-sidebar',
+  props: {
+    user: {
+      required: true
+    }
+  },
 
   data () {
     return {
@@ -32,7 +38,7 @@ export default {
   box-shadow: 4px 0 10px 0 rgba(0,16,24,0.33);
 }
 
-h1 {
+h1, h3 {
   color: #00FFA2;
 }
 

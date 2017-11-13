@@ -1,6 +1,6 @@
 <template>
   <div class="portfolio container">
-    <portfolio-sidebar></portfolio-sidebar>
+    <portfolio-sidebar :user="user"></portfolio-sidebar>
     <portfolio-dashboard></portfolio-dashboard>
   </div>
 </template>
@@ -11,7 +11,11 @@ import PortfolioDashboard from './PortfolioDashboard'
 
 export default {
   name: 'portfolio',
-  props: ['user'],
+  props: {
+    user: {
+      required: true
+    }
+  },
 
   components: {
     PortfolioSidebar,

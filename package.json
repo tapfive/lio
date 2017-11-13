@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "blockstack": "^0.13.4",
+    "blockstack": "^0.13.5",
     "v-autocomplete": "^1.8.0",
     "vue": "^2.5.3"
   },
@@ -26,7 +26,7 @@
     "babel-preset-stage-2": "^6.22.0",
     "babel-register": "^6.22.0",
     "chalk": "^2.3.0",
-    "connect-history-api-fallback": "^1.4.0",
+    "connect-history-api-fallback": "^1.5.0",
     "copy-webpack-plugin": "^4.2.0",
     "css-loader": "^0.28.0",
     "cssnano": "^3.10.0",
@@ -53,11 +53,11 @@
     "ts-loader": "^3.1.1",
     "typescript": "^2.6.1",
     "url-loader": "^0.5.8",
-    "vue-loader": "^13.4.0",
+    "vue-loader": "^13.5.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.3",
     "webpack": "^2.6.1",
-    "webpack-bundle-analyzer": "^2.2.1",
+    "webpack-bundle-analyzer": "^2.9.1",
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.20.0",
     "webpack-merge": "^4.1.1"
