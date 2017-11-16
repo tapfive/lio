@@ -45,59 +45,59 @@ export default {
 
 <style scoped>
 .portfolio-balance {
-  height: 95px;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
   margin: 16px;
+  height: 95px;
   border-radius: 6px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px 0 rgba(22, 46, 58, 0.15);
 }
 
 .coin-logo {
-  background: #444444
+  background: #444444;
 }
 
 .coin-name {
-  font-size: 26px;
-  font-weight: 600;
-  text-align: center;
-  color: #004466;
   margin-bottom: 8px;
+  color: #004466;
+  text-align: center;
+  font-weight: 600;
+  font-size: 26px;
 }
 
 .coin-price {
-  font-family: 'Source Code Pro';
-  font-size: 18px;
-  font-weight: 600;
-  color: #004466;
   margin-bottom: 16px;
+  color: #004466;
+  font-weight: 600;
+  font-size: 18px;
+  font-family: 'Source Code Pro';
 }
 
 .coin-value {
-  font-size: 36px;
-  font-weight: 900;
-  text-align: center;
-  color: #004466;
   margin-bottom: 16px;
+  color: #004466;
+  text-align: center;
+  font-weight: 900;
+  font-size: 36px;
 }
 
 .coin-balance {
-  font-family: 'Source Code Pro';
-  font-size: 18px;
-  font-weight: 600;
-  text-align: center;
   color: #004466;
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  font-family: 'Source Code Pro';
 }
 .coin-balance > span{
-  font-family: 'Source Sans Pro';
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
   color: #004466;
-  opacity: 0.5;
+  text-align: center;
   letter-spacing: 0.3px;
+  font-weight: 600;
+  font-size: 12px;
+  font-family: 'Source Sans Pro';
+  opacity: 0.5;
 }
 </style>

@@ -48,5 +48,10 @@ export default {
 }
 body {
   margin: 0;
+  --bg-theme-color: #F7F7FA;
+  transition: --bg-theme-color 1s ease-in-out;
+}
+body.dark-theme {
+  --bg-theme-color: #004466;
 }
 </style>

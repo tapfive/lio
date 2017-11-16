@@ -19,14 +19,14 @@ export default {
 
 <style scoped>
 .portfolio-total {
-  height: 230px;
   display: block;
   margin: 16px;
-  background: #FFFFFF;
+  height: 230px;
   border-radius: 11.2px;
-  font-size: 26px;
+  background: #FFFFFF;
+  box-shadow: 0 3px 76px -16px rgba(22,46,58,0.16);
   color: #004466;
   text-align: center;
-  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+  font-size: 26px;
 }
 </style>

@@ -17,8 +17,8 @@
         </portfolio-balance>
       </div>
     </div>
-    
-    <div class="floating-action-button" @click="showModal = true">+</div>
+
+    <div class="floating-action-button" @click="showModal = true">+ Add Balance</div>
   </div>
 </template>
 
@@ -102,7 +102,7 @@ export default Vue.extend({
           balance += item.amount * this.coinData[item.coin.symbol].USD
         }
       }
-      
+
       return balance.toFixed(2)
     }
   }
@@ -112,22 +112,28 @@ export default Vue.extend({
 <style scoped>
 .portfolio-dashboard {
   flex-grow: 4;
-  background-color: rgba(0, 68, 102, 0.03);
+  background: #F7F7FA;
+  background-image: linear-gradient(-180deg, #FFFFFF 0%, #F7F7FA 100%);
+  box-shadow: 30px 0 74px 0 rgba(22,46,58,0.15);
 }
 
 .floating-action-button {
   position: fixed;
   bottom: 30px;
-  right: 30px;
-  color: #fff;
-  height: 50px;
-  width: 50px;
-  text-align: center;
-  border-radius: 25px;
-  font-size: 25px;
-  font-weight: 700;
-  box-shadow: 4px 4px 35px 0px rgba(0, 0, 0, 0.5);
+  left: 30px;
+  width: 180px;
+  height: 62px;
+  border-radius: 6px;
   background-color: #00FFA2;
+  box-shadow: 0 3px 8px 0 rgba(22,46,58,0.16);
+  color: #fff;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
