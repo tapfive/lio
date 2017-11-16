@@ -6,14 +6,18 @@
       @reload="handleDataAdded()">
     </investment-add-modal>
 
-    <div v-if="loaded" v-for="balance in balanceData" :key="balance.coin.symbol">
-      <portfolio-balance 
-        :currency-name="balance.coin.symbol" 
-        :currency-price="coinData[balance.coin.symbol].USD" 
-        :currency-balance="balance.amount">
-      </portfolio-balance>
-    </div>
+    <div v-if="loaded">
+      <portfolio-total :total-balance="totalBalance"></portfolio-total>
 
+      <div v-for="balance in balanceData" :key="balance.coin.symbol">
+        <portfolio-balance
+          :coin-name="balance.coin.symbol"
+          :coin-price="coinData[balance.coin.symbol].USD"
+          :coin-balance="balance.amount">
+        </portfolio-balance>
+      </div>
+    </div>
+    
     <div class="floating-action-button" @click="showModal = true">+</div>
   </div>
 </template>
@@ -21,6 +25,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import InvestmentAddModal from './InvestmentAddModal.vue'
+import PortfolioTotal from './PortfolioTotal.vue'
 import PortfolioBalance from './PortfolioBalance.vue'
 import Storage from '../js/storage'
 import CoinInfo from '../js/coininfo'
@@ -31,6 +36,7 @@ export default Vue.extend({
 
   components: {
     InvestmentAddModal,
+    PortfolioTotal,
     PortfolioBalance
   },
 
@@ -38,7 +44,7 @@ export default Vue.extend({
     return {
       balanceData: <Models.Balance[]>[],
       loaded: false,
-      coinData: [],
+      coinData: <any>[],
       errors: [],
       showModal: false
     }
@@ -83,7 +89,21 @@ export default Vue.extend({
 
     handleDataAdded () {
       this.showModal = false
+      this.loaded = false
       this.getSavedData()
+    }
+  },
+
+  computed: {
+    totalBalance: function() {
+      let balance = 0
+      if (this.loaded) {
+        for (var item of this.balanceData) {
+          balance += item.amount * this.coinData[item.coin.symbol].USD
+        }
+      }
+      
+      return balance.toFixed(2)
     }
   }
 })

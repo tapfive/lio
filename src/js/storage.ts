@@ -1,7 +1,7 @@
 import * as Models from './models'
 
 const INVESTMENTS_FILE = 'investments_dev.json'
-const INVESTMENTS_VERSION = 8
+const INVESTMENTS_VERSION = 10
 
 export default {
   storeInvestment: async function (coin: Models.Coin, investment: Models.Investment): Promise<string> {
@@ -12,7 +12,7 @@ export default {
       return await (window.blockstack.putFile(INVESTMENTS_FILE, JSON.stringify(storage), true))
     }
     catch (error) {
-      throw Error(error)
+      throw error
     }
   },
 
@@ -34,7 +34,7 @@ export default {
       return balanceData
     }
     catch (error) {
-      throw Error(error)
+      throw error
     }
   },
 
@@ -52,7 +52,7 @@ export default {
       return [new Models.Investment(0, 0, '', 0)]
     }
     catch (error) {
-      throw Error(error)
+      throw error
     }
   }
 }
@@ -62,12 +62,14 @@ async function loadStorage(): Promise<Storage> {
     var investmentsText = await (window.blockstack.getFile(INVESTMENTS_FILE, true))
   }
   catch (error) {
-    // Dumb workaround for when the file doesn't exist, will fix later
-    if (String(error).indexOf('Cannot read property') !== -1) {
+    let dataExists = await (checkForExistingData())
+
+    if (!dataExists) {
+      // If error was caused by trying to decrypt an empty file, create a new one
       await (window.blockstack.putFile(INVESTMENTS_FILE, JSON.stringify(new Storage(INVESTMENTS_VERSION)), true))
     }
     else {
-      throw Error(error)
+      throw error
     }
   }
 
@@ -85,6 +87,22 @@ async function loadStorage(): Promise<Storage> {
     // No data yet, create new object
     return new Storage(INVESTMENTS_VERSION)
   }
+}
+
+async function checkForExistingData(): Promise<boolean> {
+  let investmentText = null
+
+  try {
+    // Get data unencrypted just to see if it exists
+    investmentText = await (window.blockstack.getFile(INVESTMENTS_FILE, false))
+  }
+  catch (error) {
+    throw error
+  }
+
+  console.log(investmentText)
+
+  return investmentText !== null
 }
 
 function addData(storage: Storage, coin: Models.Coin, investment: Models.Investment) {
