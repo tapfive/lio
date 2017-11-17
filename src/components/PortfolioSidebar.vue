@@ -7,12 +7,15 @@
 
     <h3>{{ user.name }}</h3>
     <a href="#" @click.prevent="signOut">Sign Out</a>
+
+    <div class="add-investment-button" @click="showModal">+ Add Balance</div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'portfolio-sidebar',
+
   props: {
     user: {
       required: true
@@ -28,6 +31,10 @@ export default {
   methods: {
     signOut () {
       this.blockstack.signUserOut(window.location.href)
+    },
+
+    showModal: function () {
+      this.$emit('show-modal')
     }
   }
 }
@@ -50,6 +57,26 @@ a {
 }
 
 .sidebar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-investment-button {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 180px;
+  height: 62px;
+  border-radius: 6px;
+  background-color: #00FFA2;
+  box-shadow: 0 3px 8px 0 rgba(22,46,58,0.16);
+  color: #fff;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;

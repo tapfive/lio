@@ -1,13 +1,27 @@
 <template>
   <div class="portfolio container">
-    <portfolio-sidebar :user="user"></portfolio-sidebar>
-    <portfolio-dashboard></portfolio-dashboard>
+    <portfolio-sidebar
+      @show-modal="showModal = true"
+      :user="user">
+    </portfolio-sidebar>
+
+    <portfolio-dashboard
+      :reload-data="reloadData"
+      @update:reload-data="val => reloadData = val">
+    </portfolio-dashboard>
+
+    <investment-add-modal
+      v-if="showModal"
+      @close="showModal = false"
+      @reload="handleDataAdded()">
+    </investment-add-modal>
   </div>
 </template>
 
 <script>
 import PortfolioSidebar from './PortfolioSidebar'
 import PortfolioDashboard from './PortfolioDashboard'
+import InvestmentAddModal from './InvestmentAddModal'
 
 export default {
   name: 'portfolio',
@@ -19,12 +33,22 @@ export default {
 
   components: {
     PortfolioSidebar,
-    PortfolioDashboard
+    PortfolioDashboard,
+    InvestmentAddModal
   },
 
   data () {
     return {
-      blockstack: window.blockstack
+      blockstack: window.blockstack,
+      showModal: false,
+      reloadData: false
+    }
+  },
+
+  methods: {
+    handleDataAdded: function () {
+      this.showModal = false
+      this.reloadData = true
     }
   }
 }

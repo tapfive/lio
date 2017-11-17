@@ -1,11 +1,5 @@
 <template>
   <div class="portfolio-dashboard">
-    <investment-add-modal
-      v-if="showModal"
-      @close="showModal = false"
-      @reload="handleDataAdded()">
-    </investment-add-modal>
-
     <div v-if="loaded">
       <portfolio-total :total-balance="totalBalance"></portfolio-total>
 
@@ -17,14 +11,11 @@
         </portfolio-balance>
       </div>
     </div>
-
-    <div class="floating-action-button" @click="showModal = true">+ Add Balance</div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import InvestmentAddModal from './InvestmentAddModal.vue'
 import PortfolioTotal from './PortfolioTotal.vue'
 import PortfolioBalance from './PortfolioBalance.vue'
 import Storage from '../js/storage'
@@ -35,9 +26,15 @@ export default Vue.extend({
   name: 'portfolio-dashboard',
 
   components: {
-    InvestmentAddModal,
     PortfolioTotal,
     PortfolioBalance
+  },
+
+  props: {
+    reloadData: {
+      type: Boolean,
+      required: true
+    }
   },
 
   data () {
@@ -45,8 +42,7 @@ export default Vue.extend({
       balanceData: <Models.Balance[]>[],
       loaded: false,
       coinData: <any>[],
-      errors: [],
-      showModal: false
+      errors: []
     }
   },
 
@@ -85,12 +81,16 @@ export default Vue.extend({
           console.log(error)
         })
       }
-    },
+    }
+  },
 
-    handleDataAdded () {
-      this.showModal = false
-      this.loaded = false
-      this.getSavedData()
+  watch: {
+    reloadData: function (reload) {
+      if (reload) {
+        this.$emit('update:reload-data', false)
+        this.loaded = false
+        this.getSavedData()
+      }
     }
   },
 
@@ -115,25 +115,5 @@ export default Vue.extend({
   background: #F7F7FA;
   background-image: linear-gradient(-180deg, #FFFFFF 0%, #F7F7FA 100%);
   box-shadow: 30px 0 74px 0 rgba(22,46,58,0.15);
-}
-
-.floating-action-button {
-  position: fixed;
-  bottom: 30px;
-  left: 30px;
-  width: 180px;
-  height: 62px;
-  border-radius: 6px;
-  background-color: #00FFA2;
-  box-shadow: 0 3px 8px 0 rgba(22,46,58,0.16);
-  color: #fff;
-  color: #FFFFFF;
-  text-align: center;
-  font-weight: 700;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>
