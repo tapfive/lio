@@ -14,7 +14,7 @@
     "axios": "^0.16.2",
     "blockstack": "^0.13.5",
     "v-autocomplete": "^1.8.0",
-    "vue": "^2.5.3"
+    "vue": "^2.5.7"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.6",
@@ -27,7 +27,7 @@
     "babel-register": "^6.22.0",
     "chalk": "^2.3.0",
     "connect-history-api-fallback": "^1.5.0",
-    "copy-webpack-plugin": "^4.2.0",
+    "copy-webpack-plugin": "^4.2.1",
     "css-loader": "^0.28.0",
     "cssnano": "^3.10.0",
     "eslint": "^3.19.0",
@@ -57,7 +57,7 @@
     "url-loader": "^0.5.8",
     "vue-loader": "^13.5.0",
     "vue-style-loader": "^3.0.1",
-    "vue-template-compiler": "^2.5.3",
+    "vue-template-compiler": "^2.5.7",
     "webpack": "^2.6.1",
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-dev-middleware": "^1.10.0",

@@ -10,7 +10,7 @@
 
           <div class="modal-body">
             <v-autocomplete
-              :input-attrs="{id:'lio-coin-autocomplete'}"
+              :input-attrs="{id:'coin-autocomplete'}"
               :items="items"
               :min-len="0"
               :get-label="getLabel"
@@ -20,23 +20,30 @@
               @update-items="updateItems">
             </v-autocomplete>
 
-            <div>
-              <label for="lio-coin-amount">Coin Amount</label>
-              <input id="lio-coin-amount" v-model="amount" type="text">
+            <div :class="{'input-error': !amountIsValid}">
+              <label for="coin-amount">Coin Amount</label>
+              <input id="coin-amount" v-model="amount" type="number">
             </div>
+            <span class="error-message" v-if="!amountIsValid">Please enter a valid coin amount</span>
+
             <div>
-              <label for="lio-date-purchased">Date Purchased</label>
-              <input id="lio-date-purchased" type="date">
+              <label for="date-purchased">Date Purchased</label>
+              <input id="date-purchased" type="date">
             </div>
-            <div>
-              <label for="lio-additional-fees">Additional Fees</label>
-              <input id="lio-additional-fees" v-model="fees" type="text">
+
+            <div :class="{'input-error': !feeIsValid}">
+              <label for="additional-fees">Additional Fees</label>
+              <input id="additional-fees" v-model="fees" type="number">
+              <select v-model="feeCurrency">
+                <option v-for="currency in availableCurrencies" :key="currency">{{ currency }}</option>
+              </select>
             </div>
+            <span class="error-message" v-if="!feeIsValid">Please enter a valid amount or zero</span>
 
           </div>
 
-          <div class="modal-footer">
-            <button class="modal-default-button" @click="addInvestment">Add</button>
+          <div class="modal-footer" >
+            <button class="modal-default-button" :disabled="!inputIsValid" @click="addInvestment">Add</button>
           </div>
 
         </div>
@@ -56,11 +63,38 @@ export default Vue.extend({
 
   data () {
     return {
+      availableCurrencies: ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'ZAR', 'CNY'],
       selectedItem: new Models.Coin('', ''),
       items: <Models.Coin[]>[],
-      amount: 0,
+      amount: '',
       fees: 0,
-      template: InvestmentAddItem
+      feeCurrency: 'USD',
+      template: InvestmentAddItem,
+      coinIsValid: false,
+      amountIsValid: true,
+      amountChecked: false,
+      feeIsValid: true
+    }
+  },
+
+  watch: {
+    amount: function (val) {
+      this.amountIsValid = this.isValidNumberInput(val)
+      this.amountChecked = true
+    },
+
+    fees: function (val) {
+      this.feeIsValid = this.isValidNumberInput(val) || val == 0
+    },
+
+    selectedItem: function (val) {
+      this.coinIsValid = val instanceof Models.Coin
+    }
+  },
+
+  computed: {
+    inputIsValid: function (): boolean {
+      return this.coinIsValid && this.amountIsValid && this.feeIsValid && this.amountChecked
     }
   },
 
@@ -70,11 +104,11 @@ export default Vue.extend({
     },
 
     addInvestment: function () {
-      Storage.storeInvestment(this.selectedItem, new Models.Investment(this.amount, this.fees, 'USD', 0))
-      .then((response: string) => {
+      Storage.storeInvestment(this.selectedItem, new Models.Investment(Number(this.amount), this.fees, 'USD', 0))
+      .then((response) => {
         this.$emit('reload')
       })
-      .catch((error: string) => {
+      .catch((error) => {
         console.log(error)
         this.$emit('close')
       })
@@ -88,12 +122,26 @@ export default Vue.extend({
       this.items = Models.Coin.getAvailable().filter((item) => {
         return (new RegExp(text.toLowerCase())).test(item.symbol.toLowerCase() + item.name.toLowerCase())
       })
+    },
+
+    isValidNumberInput: function (val: string): boolean {
+      // Number with optional decimals
+      let regex = /^(\d+\.?\d*|\.\d+)$/
+      return regex.test(val) && Number(val) > 0
     }
   }
 })
 </script>
 
 <style scoped>
+.error-message {
+  color: red
+}
+
+.input-error {
+  color: red
+}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;

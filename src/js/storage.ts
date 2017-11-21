@@ -1,7 +1,7 @@
 import * as Models from './models'
 
 const INVESTMENTS_FILE = 'investments_dev.json'
-const INVESTMENTS_VERSION = 11
+const INVESTMENTS_VERSION = 12
 
 export default {
   storeInvestment: async function (coin: Models.Coin, investment: Models.Investment): Promise<string> {
