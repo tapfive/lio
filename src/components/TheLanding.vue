@@ -1,6 +1,11 @@
 <template>
   <div class="landing">
-    <h1>Lio</h1>
+    <div class="hero-bg">
+    </div>
+    <div class="hero-logo">
+      <svg width="226" height="83" viewBox="0 0 226 83" xmlns="http://www.w3.org/2000/svg"><title>logo</title><g fill="#00FFA2" fill-rule="evenodd"><text font-family="SourceSansPro-Semibold, Source Sans Pro" font-size="108" font-weight="500" transform="translate(2 -28)"><tspan x="87" y="106">Lio</tspan></text><path fill-opacity=".33" d="M33.5 50L62 66.502 33.503 83 5 66.502z"/><path stroke="#046" stroke-width="3" d="M33 73L2 55.252V19.751L33 2l31 17.75v35.502z"/></g></svg>
+      <h2>Simple Portfolio Tracking</h2>
+    </div>
     <button class="btn btn-default" @click.prevent="signIn">Sign In With Blockstack</button>
   </div>
 </template>
@@ -25,6 +30,47 @@ export default {
 
 <style scoped>
 .landing {
-  height: 100%;
+  /* height: 100%; */
+}
+.hero-bg {
+  width: 100%;
+  height: 800px;
+  background: #004466;
+  background-image: linear-gradient(-135deg, #004466 0%, #01324A 100%);
+  transform: skewY(-8deg);
+  transform-origin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.hero-logo {
+  margin-top: 192px;
+}
+
+.hero-logo > h2 {
+  font-weight: 300;
+  font-size: 48px;
+  color: #00FFA2;
+}
+
+button {
+  padding: 24px 24px;
+  border: none;
+  border-radius: 6px;
+  background: #00FFA2;
+  box-shadow: 2px 4px 24px -8px rgba(0, 3, 4, 0.8);
+  color: #002A3F;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all .25s var(--ease-out-cubic);
+  transform: translateY(0px);
+}
+
+button:hover{
+    transform: translateY(-1px);
+    box-shadow: 4px 16px 24px -16px rgba(0, 3, 4, 0.6);
 }
 </style>

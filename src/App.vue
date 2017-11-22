@@ -40,7 +40,7 @@ export default {
 
 <style>
 #app {
-  font-family: 'Source Sans Pro','Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Source Sans Pro','Avenir', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
