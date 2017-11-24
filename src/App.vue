@@ -44,7 +44,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: var(--dark-blue);
 }
 body {
   margin: 0;
@@ -52,14 +52,14 @@ body {
   transition: --bg-theme-color 1s ease-in-out;
 }
 body.dark-theme {
-  --bg-theme-color: #004466;
+  --bg-theme-color: #00334C;
 }
 
 button {
   padding: 8px 8px;
   border: none;
   border-radius: 6px;
-  background: #00FFA2;
+  background: var(--green);
   box-shadow: 0 3px 8px 0 rgba(22,46,58,0.16);
   color: #002A3F;
   text-transform: uppercase;
@@ -72,6 +72,6 @@ button {
 button:hover{
     box-shadow: 0 3px 8px 0 rgba(22,46,58,0.16);
     transform: translateY(-1px);
-    background: #4dffbe;
+    background: var(--light-green);
 }
 </style>

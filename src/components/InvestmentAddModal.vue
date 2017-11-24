@@ -15,23 +15,23 @@
               :min-len="0"
               :get-label="getLabel"
               :component-item="template"
-              :auto-select-one-item="false"
               v-model="selectedItem"
+              :placeholder="Coin"
               @update-items="updateItems">
             </v-autocomplete>
 
-            <div :class="{'input-error': !amountIsValid}">
+            <div class="modal-input" :class="{'input-error': !amountIsValid}">
               <label for="coin-amount">Coin Amount</label>
-              <input id="coin-amount" v-model="amount" type="number">
+              <input id="coin-amount" v-model="amount" placeholder="0.000000" type="number">
             </div>
             <span class="error-message" v-if="!amountIsValid">Please enter a valid coin amount</span>
 
-            <div>
+            <div class="modal-input">
               <label for="date-purchased">Date Purchased</label>
               <input id="date-purchased" type="date">
             </div>
 
-            <div :class="{'input-error': !feeIsValid}">
+            <div class="modal-input" :class="{'input-error': !feeIsValid}">
               <label for="additional-fees">Additional Fees</label>
               <input id="additional-fees" v-model="fees" type="number">
               <select v-model="feeCurrency">
@@ -43,7 +43,7 @@
           </div>
 
           <div class="modal-footer" >
-            <button class="modal-default-button" :disabled="!inputIsValid" @click="addInvestment">Add</button>
+            <button class="modal-default-button" :disabled="!inputIsValid" @click="addInvestment">+ Add</button>
           </div>
 
         </div>
@@ -134,12 +134,37 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+input {
+  border: 1px solid #DFE3E9;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 16px;
+}
+
+select {
+  font-size: 16px;
+  margin-top:8px;
+}
+
+.modal-input {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 16px;
+  margin-left:16px;
+  margin-right: 16px;
+}
+
 .error-message {
-  color: red
+  color: var(--red);
+  text-align: left;
+  margin-bottom:24px;
 }
 
 .input-error {
-  color: red
+  color: var(--red);
+  text-align: left;
 }
 
 .modal-mask {
@@ -149,9 +174,9 @@ export default Vue.extend({
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 17, 26, .6);
   display: table;
-  transition: opacity .3s ease;
+  transition: opacity .25s ease;
 }
 
 .modal-wrapper {
@@ -166,13 +191,12 @@ export default Vue.extend({
   border-radius: 12px;
   background-color: #ffffff;
   box-shadow: 0 3px 6px 0 rgba(22, 46, 58, 0.15);
-  transition: all .3s ease;
-  font-family: 'Source Code Pro';  
+  transition: all .25s ease;
 }
 
 .modal-header h3 {
   margin-top: 0;
-  color: #42b983;
+  font-size: 24px;
 }
 
 .modal-body {
@@ -181,6 +205,8 @@ export default Vue.extend({
 
 .modal-default-button {
   float: right;
+  font-size:  16px;
+  padding: 8px 16px;
 }
 
 /*
@@ -202,7 +228,8 @@ export default Vue.extend({
 
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+  transform: scale(0.95);
+  transform-origin: 50% 200%;
+  transition: all .25s var(--ease-out-cubic);
 }
 </style>

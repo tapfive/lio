@@ -57,43 +57,34 @@ export default {
 }
 
 .coin-logo {
-  background: #444444;
+  background: #00FFA2;
+  width: 48px;
+  height: 48px;
+  border-radius: 100px;
 }
 
 .coin-name {
-  margin-bottom: 8px;
-  color: #004466;
-  text-align: center;
   font-weight: 600;
   font-size: 26px;
 }
 
 .coin-price {
-  margin-bottom: 16px;
-  color: #004466;
   font-weight: 600;
   font-size: 18px;
   font-family: 'Source Code Pro';
 }
 
 .coin-value {
-  margin-bottom: 16px;
-  color: #004466;
-  text-align: center;
   font-weight: 900;
   font-size: 36px;
 }
 
 .coin-balance {
-  color: #004466;
-  text-align: center;
   font-weight: 600;
   font-size: 18px;
   font-family: 'Source Code Pro';
 }
 .coin-balance > span{
-  color: #004466;
-  text-align: center;
   letter-spacing: 0.3px;
   font-weight: 600;
   font-size: 12px;

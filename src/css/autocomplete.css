@@ -1,28 +1,38 @@
 .v-autocomplete-input {
   font-size: 1.5em;
   padding: 10px 15px;
-  box-shadow: none;
-  border: 1px solid #157977;
+  border: 1px solid #DFE3E9;
   width: calc(100% - 32px);
+  margin-bottom: 24px;
   outline: none;
-  background-color: #eee;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 0 2px 0 rgba(0,68,102,0.14);
 }
-  
+
 .v-autocomplete-list {
-  width: 100%;
+  font-family: 'Source Code Pro', monospace;
+  width: calc(100% - 34px);
   text-align: left;
-  border: none;
+  border-left: 1px solid #DFE3E9;
+  border-right: 1px solid #DFE3E9;
+  border-bottom: 1px solid #DFE3E9;
+  border-radius: 0 0 6px 6px;
   border-top: none;
+  background-color: #fff;
   max-height: 400px;
+  margin-top: -28px;
+  margin-left: 16px;
   overflow-y: auto;
-  border-bottom: 1px solid #157977;
+  box-shadow: 0 0 2px 0 rgba(0,68,102,0.14);
 }
-  
+
 .v-autocomplete-list-item {
   cursor: pointer;
   background-color: #fff;
-  padding: 10px;
-  border-bottom: 1px solid #157977;
-  border-left: 1px solid #157977;
-  border-right: 1px solid #157977
+  padding: 8px;
+}
+
+.v-autocomplete-list-item:hover {
+    background-color: #fff;
 }
