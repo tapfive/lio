@@ -111,9 +111,13 @@ export default Vue.extend({
 
 <style scoped>
 .portfolio-dashboard {
+  display: flex;
   flex-grow: 4;
   background: #F7F7FA;
   background-image: linear-gradient(-180deg, #FFFFFF 0%, #F7F7FA 100%);
   box-shadow: 30px 0 74px 0 rgba(22,46,58,0.15);
+  grid-row: 1 / 4;
+  grid-column: 2 / 5;
+  flex-direction: column;
 }
 </style>

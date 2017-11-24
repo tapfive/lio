@@ -56,21 +56,15 @@ export default {
 
 button {
   padding: 24px 24px;
-  border: none;
-  border-radius: 6px;
-  background: #00FFA2;
   box-shadow: 2px 4px 24px -8px rgba(0, 3, 4, 0.8);
-  color: #002A3F;
   text-transform: uppercase;
-  font-weight: 500;
   font-size: 24px;
-  cursor: pointer;
-  transition: all .25s var(--ease-out-cubic);
-  transform: translateY(0px);
 }
 
 button:hover{
-    transform: translateY(-1px);
+    background: #002A3F;
     box-shadow: 4px 16px 24px -16px rgba(0, 3, 4, 0.6);
+    color: #00FFA2;
+    transform: translateY(-1px);
 }
 </style>

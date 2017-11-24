@@ -56,9 +56,14 @@ export default {
 
 <style scoped>
 .container {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
+  /* display: flex;
+  flex-direction: row; */
+  /* align-items: stretch; */
+  display: grid;
   min-height: 100vh;
+  width: 100vw;
+  grid-template-columns: 220px 1fr 1fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
+  /* grid-gap: 1rem; */
 }
 </style>
