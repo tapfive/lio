@@ -15,71 +15,71 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import PortfolioTotal from './PortfolioTotal.vue'
-import PortfolioBalance from './PortfolioBalance.vue'
-import Storage from '../js/storage'
-import CoinInfo from '../js/coininfo'
-import * as Models from '../js/models'
+import Vue from 'vue';
+import PortfolioTotal from './PortfolioTotal.vue';
+import PortfolioBalance from './PortfolioBalance.vue';
+import Storage from '../ts/storage';
+import CoinInfo from '../ts/coininfo';
+import * as Models from '../ts/models';
 
 export default Vue.extend({
   name: 'portfolio-dashboard',
 
   components: {
-    PortfolioTotal,
-    PortfolioBalance
+    PortfolioBalance,
+    PortfolioTotal
   },
 
   props: {
     reloadData: {
-      type: Boolean,
-      required: true
+      required: true,
+      type: Boolean
     }
   },
 
   data () {
     return {
       balanceData: <Models.Balance[]>[],
-      loaded: false,
       coinData: <any>[],
-      errors: []
-    }
+      errors: [],
+      loaded: false
+    };
   },
 
   mounted () {
-    this.getSavedData()
+    this.getSavedData();
   },
 
   methods: {
     getSavedData () {
       Storage.getAllBalances()
       .then((balanceData) => {
-        console.log(balanceData)
-        this.balanceData = balanceData
-        this.displayBalances(balanceData)
+        console.log(balanceData);
+        this.balanceData = balanceData;
+        this.displayBalances(balanceData);
       })
       .catch ((error) => {
-        console.log(error)
-      })
+        console.log(error);
+      });
     },
 
     displayBalances (balanceData: Models.Balance[]) {
-      var coins = []
-      for (var item of balanceData) {
-        coins.push(item.coin.symbol)
+      let coins = [];
+      for (let item of balanceData) {
+        coins.push(item.coin.symbol);
       }
 
       // Only check prices if coins have been added
       if (coins.length > 0) {
         CoinInfo.getPriceMultiple(coins)
         .then(response => {
-          console.log(response)
-          this.coinData = response.data
-          this.loaded = true
+          console.log(response);
+          this.coinData = response.data;
+          this.loaded = true;
         })
         .catch((error: string) => {
-          console.log(error)
-        })
+          console.log(error);
+        });
       }
     }
   },
@@ -87,26 +87,26 @@ export default Vue.extend({
   watch: {
     reloadData: function (reload) {
       if (reload) {
-        this.$emit('update:reload-data', false)
-        this.loaded = false
-        this.getSavedData()
+        this.$emit('update:reload-data', false);
+        this.loaded = false;
+        this.getSavedData();
       }
     }
   },
 
   computed: {
     totalBalance: function() {
-      let balance = 0
+      let balance = 0;
       if (this.loaded) {
-        for (var item of this.balanceData) {
-          balance += item.amount * this.coinData[item.coin.symbol].USD
+        for (let item of this.balanceData) {
+          balance += item.amount * this.coinData[item.coin.symbol].USD;
         }
       }
 
-      return balance.toFixed(2)
+      return balance.toFixed(2);
     }
   }
-})
+});
 </script>
 
 <style scoped>

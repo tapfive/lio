@@ -16,13 +16,13 @@
               :get-label="getLabel"
               :component-item="template"
               v-model="selectedItem"
-              :placeholder="Coin"
+              :placeholder="'Coin'"
               @update-items="updateItems">
             </v-autocomplete>
 
             <div class="modal-input" :class="{'input-error': !amountIsValid}">
               <label for="coin-amount">Coin Amount</label>
-              <input id="coin-amount" v-model="amount" placeholder="0.000000" type="number">
+              <input id="coin-amount" v-model="amount" placeholder="0.000000">
             </div>
             <span class="error-message" v-if="!amountIsValid">Please enter a valid coin amount</span>
 
@@ -33,7 +33,7 @@
 
             <div class="modal-input" :class="{'input-error': !feeIsValid}">
               <label for="additional-fees">Additional Fees</label>
-              <input id="additional-fees" v-model="fees" type="number">
+              <input id="additional-fees" v-model="fees">
               <select v-model="feeCurrency">
                 <option v-for="currency in availableCurrencies" :key="currency">{{ currency }}</option>
               </select>
@@ -53,84 +53,84 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import InvestmentAddItem from './InvestmentAddItem.vue'
-import Storage from '../js/storage'
-import * as Models from '../js/models'
+import Vue from 'vue';
+import InvestmentAddItem from './InvestmentAddItem.vue';
+import Storage from '../ts/storage';
+import * as Models from '../ts/models';
 
 export default Vue.extend({
   name: 'investment-add-modal',
 
   data () {
     return {
-      availableCurrencies: ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'ZAR', 'CNY'],
-      selectedItem: new Models.Coin('', ''),
-      items: <Models.Coin[]>[],
       amount: '',
-      fees: 0,
-      feeCurrency: 'USD',
-      template: InvestmentAddItem,
-      coinIsValid: false,
-      amountIsValid: true,
       amountChecked: false,
-      feeIsValid: true
-    }
+      amountIsValid: true,
+      availableCurrencies: ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'ZAR', 'CNY'],
+      coinIsValid: false,
+      feeCurrency: 'USD',
+      feeIsValid: true,
+      fees: 0,
+      items: <Models.Coin[]>[],
+      selectedItem: new Models.Coin('', ''),
+      template: InvestmentAddItem
+    };
   },
 
   watch: {
     amount: function (val) {
-      this.amountIsValid = this.isValidNumberInput(val)
-      this.amountChecked = true
+      this.amountIsValid = this.isValidNumberInput(val);
+      this.amountChecked = true;
     },
 
     fees: function (val) {
-      this.feeIsValid = this.isValidNumberInput(val) || val == 0
+      this.feeIsValid = this.isValidNumberInput(val) || val === '0';
     },
 
     selectedItem: function (val) {
-      this.coinIsValid = val instanceof Models.Coin
+      this.coinIsValid = val instanceof Models.Coin;
     }
   },
 
   computed: {
     inputIsValid: function (): boolean {
-      return this.coinIsValid && this.amountIsValid && this.feeIsValid && this.amountChecked
+      return this.coinIsValid && this.amountIsValid && this.feeIsValid && this.amountChecked;
     }
   },
 
   methods: {
     close: function () {
-      this.$emit('close')
+      this.$emit('close');
     },
 
     addInvestment: function () {
       Storage.storeInvestment(this.selectedItem, new Models.Investment(Number(this.amount), this.fees, 'USD', 0))
       .then((response) => {
-        this.$emit('reload')
+        this.$emit('reload');
       })
       .catch((error) => {
-        console.log(error)
-        this.$emit('close')
-      })
+        console.log(error);
+        this.$emit('close');
+      });
     },
 
     getLabel (item: Models.Coin) {
-      return item.name
+      return item.name;
     },
 
     updateItems (text: string) {
       this.items = Models.Coin.getAvailable().filter((item) => {
-        return (new RegExp(text.toLowerCase())).test(item.symbol.toLowerCase() + item.name.toLowerCase())
-      })
+        return (new RegExp(text.toLowerCase())).test(item.symbol.toLowerCase() + item.name.toLowerCase());
+      });
     },
 
     isValidNumberInput: function (val: string): boolean {
       // Number with optional decimals
-      let regex = /^(\d+\.?\d*|\.\d+)$/
-      return regex.test(val) && Number(val) > 0
+      let regex = /^(\d+\.?\d*|\.\d+)$/;
+      return regex.test(val) && Number(val) > 0;
     }
   }
-})
+});
 </script>
 
 <style scoped>

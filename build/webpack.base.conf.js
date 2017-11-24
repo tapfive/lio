@@ -35,6 +35,11 @@ module.exports = {
           appendTsSuffixTo: [/\.vue$/]
         }
       },
+      {
+        test: /\.ts$/,
+        enforce: 'pre',
+        loader: 'tslint-loader'
+      },
       /*{
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
