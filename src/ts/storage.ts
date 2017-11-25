@@ -1,12 +1,31 @@
 import * as Models from './models';
+import CurrencyApi from './api/currency-api';
+import { StringMap } from './string-map';
+import { DateTime } from 'luxon';
 
 const INVESTMENTS_FILE = 'investments_dev.json';
 const INVESTMENTS_VERSION = 12;
 
 export default {
-  storeInvestment: async function (coin: Models.Coin, investment: Models.Investment): Promise<string> {
+  storeInvestment: async function (coin: Models.Coin, amount: number, fee: number, feeCurrency: string,
+    datePurchased: string): Promise<string> {
     try {
+      let formattedDate = DateTime.fromISO(datePurchased).toISODate();
+
+      let exchangeRates = await (CurrencyApi.getExchangeRates(feeCurrency, formattedDate));
       let storage = await (loadStorage());
+
+      // Map for fees
+      let fees: StringMap = {};
+      fees[feeCurrency] = Number(fee);
+
+      // Store fees as all currencies
+      for (let key in exchangeRates) {
+        let value = exchangeRates[key];
+        fees[key] = value * fee;
+      }
+
+      let investment = new Models.Investment(amount, fees, datePurchased);
       addData(storage, coin, investment);
 
       return await (window.blockstack.putFile(INVESTMENTS_FILE, JSON.stringify(storage), true));
@@ -47,7 +66,7 @@ export default {
       }
 
       // Return blank object
-      return [new Models.Investment(0, 0, '', 0)];
+      return [new Models.Investment(0, {}, '')];
     } catch (error) {
       throw error;
     }

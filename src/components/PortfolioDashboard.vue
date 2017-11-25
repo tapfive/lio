@@ -6,7 +6,7 @@
       <div v-for="balance in balanceData" :key="balance.coin.symbol">
         <portfolio-balance
           :coin-name="balance.coin.symbol"
-          :coin-price="coinData[balance.coin.symbol].USD"
+          :coin-price="coinData[balance.coin.symbol]['USD']"
           :coin-balance="balance.amount">
         </portfolio-balance>
       </div>
@@ -19,7 +19,7 @@ import Vue from 'vue';
 import PortfolioTotal from './PortfolioTotal.vue';
 import PortfolioBalance from './PortfolioBalance.vue';
 import Storage from '../ts/storage';
-import CoinInfo from '../ts/coininfo';
+import CoinApi from '../ts/api/coin-api';
 import * as Models from '../ts/models';
 
 export default Vue.extend({
@@ -54,7 +54,6 @@ export default Vue.extend({
     getSavedData () {
       Storage.getAllBalances()
       .then((balanceData) => {
-        console.log(balanceData);
         this.balanceData = balanceData;
         this.displayBalances(balanceData);
       })
@@ -71,10 +70,9 @@ export default Vue.extend({
 
       // Only check prices if coins have been added
       if (coins.length > 0) {
-        CoinInfo.getPriceMultiple(coins)
+        CoinApi.getPriceMultiple(coins)
         .then(response => {
-          console.log(response);
-          this.coinData = response.data;
+          this.coinData = response;
           this.loaded = true;
         })
         .catch((error: string) => {

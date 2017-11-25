@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import Autocomplete from 'v-autocomplete';
+import Datetime from 'vue-datetime';
 import * as blockstack from 'blockstack';
 
 import './css/easings.css';
@@ -12,6 +13,7 @@ import './css/autocomplete.css';
 import 'v-autocomplete/dist/v-autocomplete.css';
 
 Vue.use(Autocomplete);
+Vue.use(Datetime);
 
 declare global {
   interface Window {

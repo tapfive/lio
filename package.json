@@ -13,8 +13,10 @@
   "dependencies": {
     "axios": "^0.16.2",
     "blockstack": "^0.13.7",
+    "luxon": "^0.2.1",
     "v-autocomplete": "^1.8.0",
-    "vue": "^2.5.8"
+    "vue": "^2.5.8",
+    "vue-datetime": "^0.6.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.6",

@@ -28,7 +28,12 @@
 
             <div class="modal-input">
               <label for="date-purchased">Date Purchased</label>
-              <input id="date-purchased" type="date">
+              <datetime
+                id="date-purchased"
+                v-model="datePurchased"
+                type="datetime"
+                input-format="MMMM DD, YYYY hh:mm a">
+              </datetime>
             </div>
 
             <div class="modal-input" :class="{'input-error': !feeIsValid}">
@@ -68,6 +73,7 @@ export default Vue.extend({
       amountIsValid: true,
       availableCurrencies: ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'ZAR', 'CNY'],
       coinIsValid: false,
+      datePurchased: '',
       feeCurrency: 'USD',
       feeIsValid: true,
       fees: 0,
@@ -104,7 +110,7 @@ export default Vue.extend({
     },
 
     addInvestment: function () {
-      Storage.storeInvestment(this.selectedItem, new Models.Investment(Number(this.amount), this.fees, 'USD', 0))
+      Storage.storeInvestment(this.selectedItem, Number(this.amount), this.fees, 'USD', this.datePurchased)
       .then((response) => {
         this.$emit('reload');
       })

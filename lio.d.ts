@@ -5,3 +5,5 @@ declare module "*.vue" {
 
 declare module "blockstack"
 declare module "v-autocomplete"
+declare module "vue-datetime"
+declare module "luxon"

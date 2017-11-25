@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { StringMap } from '../string-map';
 
 const BASE_URL = 'https://min-api.cryptocompare.com';
 const CURRENCIES = ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'ZAR', 'CNY'];
@@ -9,8 +10,10 @@ export default {
     return axios.get(requestUrl);
   },
 
-  getPriceMultiple: function (coins: string[]) {
+  getPriceMultiple: async function (coins: string[]): Promise<StringMap> {
     const requestUrl = BASE_URL + '/data/pricemulti?fsyms=' + coins + '&tsyms=' + CURRENCIES;
-    return axios.get(requestUrl);
+    let axiosResult = await (axios.get(requestUrl));
+
+    return axiosResult.data;
   }
 };

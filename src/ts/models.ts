@@ -1,3 +1,5 @@
+import { StringMap } from './string-map';
+
 export class Coin {
   public symbol: string;
   public name: string;
@@ -50,15 +52,13 @@ export class CoinData {
 export class Investment {
   public id?: number;
   public amount: number;
-  public fees: number;
-  public feeCurrency: string;
-  public timestamp: number;
+  public fees: StringMap;
+  public dateTime: string;
 
-  constructor(amount: number, fees: number, feeCurrency: string, timestamp: number) {
+  constructor(amount: number, fees: StringMap, dateTime: string) {
     this.amount = amount;
     this.fees = fees;
-    this.feeCurrency = feeCurrency;
-    this.timestamp = timestamp;
+    this.dateTime = dateTime;
   }
 }
 
