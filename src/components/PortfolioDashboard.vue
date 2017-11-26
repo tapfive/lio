@@ -136,7 +136,8 @@ export default Vue.extend({
   background: #F7F7FA;
   background-image: linear-gradient(-180deg, #FFFFFF 0%, #F7F7FA 100%);
   box-shadow: 30px 0 74px 0 rgba(22,46,58,0.15);
-  grid-area: dashboard;
+  /* grid-area: dashboard; */
+  grid-column: 2 / 3;
 }
 
 .dashboard-content {
@@ -150,6 +151,12 @@ export default Vue.extend({
     ". total           total           total           total          ."
     ". balance-labels  balance-labels  balance-labels  balance-labels ."
     ". balance         balance         balance         balance        .";
+}
+
+@media screen and (max-width: 1100px) {
+  .dashboard-content {
+    grid-template-columns: 0.5fr minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) 0.5fr
+  }
 }
 
 .time-range-picker {

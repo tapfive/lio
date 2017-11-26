@@ -42,15 +42,24 @@ export default {
 
 <style scoped>
 .portfolio-sidebar {
+  position: fixed;
+  top: 0;
+  left:0;
   display: flex;
-  flex-grow: 1;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+
+  box-sizing: border-box;
   padding-top: 24px;
   padding-bottom: 24px;
+  min-height: 100vh;
+  max-height: 100vh;
+  width: 220px;
+  height: 100vh;
   background: var(--bg-theme-color);
-  grid-area: sidebar;
+  /* grid-area: sidebar; */
+  /* grid-column: 1 / 2; */
 }
 
 h1, h3 {

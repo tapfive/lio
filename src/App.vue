@@ -49,6 +49,8 @@ export default {
 body {
   --bg-theme-color: #F7F7FA;
   margin: 0;
+  max-width: 100vw;
+  overflow-x: hidden;
   transition: --bg-theme-color 1s ease-in-out;
 }
 body.dark-theme {

@@ -62,12 +62,12 @@ export default {
   display: grid;
   min-height: 100vh;
   width: 100vw;
-  grid-template-columns: 220px 1fr 1fr 1fr;
-  grid-template-rows: repeat(autofill, 1fr);
-  grid-template-areas:
-    "sidebar dashboard dashboard dashboard"
-    "sidebar dashboard dashboard dashboard"
-    "sidebar dashboard dashboard dashboard";
+  overflow-x: hidden;
+  overflow-y: scroll;
+  grid-template-columns: 220px 1fr;
+  /* grid-template-rows: 1fr; */
+  /* grid-template-areas:
+    "sidebar dashboard dashboard dashboard"; */
 }
 
 </style>
