@@ -1,31 +1,23 @@
 import * as Models from './models';
+import CoinApi from './api/coin-api';
 import CurrencyApi from './api/currency-api';
 import { StringMap } from './string-map';
 import { DateTime } from 'luxon';
 
 const INVESTMENTS_FILE = 'investments_dev.json';
-const INVESTMENTS_VERSION = 12;
+const INVESTMENTS_VERSION = 15;
 
 export default {
-  storeInvestment: async function (coin: Models.Coin, amount: number, fee: number, feeCurrency: string,
-    datePurchased: string): Promise<string> {
+  storeInvestment: async function (coin: Models.Coin, amount: number, price: number, fees: number, feeCurrency: string,
+    date: string): Promise<string> {
     try {
-      let formattedDate = DateTime.fromISO(datePurchased).toISODate();
+      let formattedDate = DateTime.fromISO(date).toISODate();
 
       let exchangeRates = await (CurrencyApi.getExchangeRates(feeCurrency, formattedDate));
       let storage = await (loadStorage());
+      exchangeRates[feeCurrency] = 1;
 
-      // Map for fees
-      let fees: StringMap = {};
-      fees[feeCurrency] = Number(fee);
-
-      // Store fees as all currencies
-      for (let key in exchangeRates) {
-        let value = exchangeRates[key];
-        fees[key] = value * fee;
-      }
-
-      let investment = new Models.Investment(amount, fees, datePurchased);
+      let investment = new Models.Investment(amount, price, fees, exchangeRates, date);
       addData(storage, coin, investment);
 
       return await (window.blockstack.putFile(INVESTMENTS_FILE, JSON.stringify(storage), true));
@@ -34,11 +26,25 @@ export default {
     }
   },
 
-  getAllBalances: async function (): Promise<Models.Balance[]> {
+  storeLatestPrice: async function (prices: StringMap<StringMap<number>>) {
     try {
       let storage = await (loadStorage());
 
-      let balanceData: Models.Balance[] = [];
+      for (let item of storage.coins) {
+        item.latestPrice = prices[item.coin.symbol];
+      }
+
+      window.blockstack.putFile(INVESTMENTS_FILE, JSON.stringify(storage), true);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  getAllBalances: async function (): Promise<StringMap<Models.Balance>> {
+    try {
+      let storage = await (loadStorage());
+
+      let balanceData: StringMap<Models.Balance> = {};
 
       for (let coinData of storage.coins) {
         let coinAmount = 0;
@@ -46,7 +52,7 @@ export default {
           coinAmount += Number(investment.amount);
         }
 
-        balanceData.push(new Models.Balance(coinData.coin, coinAmount));
+        balanceData[coinData.coin.symbol] = new Models.Balance(coinData.coin, coinAmount, coinData.latestPrice);
       }
 
       return balanceData;
@@ -65,8 +71,8 @@ export default {
         }
       }
 
-      // Return blank object
-      return [new Models.Investment(0, {}, '')];
+      // Not found
+      throw ('Investment not found');
     } catch (error) {
       throw error;
     }
@@ -114,8 +120,6 @@ async function checkForExistingData(): Promise<boolean> {
     throw error;
   }
 
-  console.log(investmentText);
-
   return investmentText !== null;
 }
 
@@ -123,11 +127,8 @@ function addData(storage: Models.StorageData, coin: Models.Coin, investment: Mod
   // Check if coin has previous investments
   for (let item of storage.coins) {
     if (coin.symbol === item.coin.symbol) {
-      // Increment id
-      item.lastId++;
-
-      // Add data
-      investment.id = item.lastId;
+      // Add data to existing object
+      investment.id = ++item.lastInvestmentId;
       item.investments.push(investment);
 
       return;

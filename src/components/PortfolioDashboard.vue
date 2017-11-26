@@ -1,12 +1,12 @@
 <template>
   <div class="portfolio-dashboard">
-    <div v-if="loaded">
+    <div v-if="loadedStorage">
       <portfolio-total :total-balance="totalBalance"></portfolio-total>
 
       <div v-for="balance in balanceData" :key="balance.coin.symbol">
         <portfolio-balance
           :coin-name="balance.coin.symbol"
-          :coin-price="coinData[balance.coin.symbol]['USD']"
+          :coin-price="balance.getPriceInCurrency(selectedCurrency)"
           :coin-balance="balance.amount">
         </portfolio-balance>
       </div>
@@ -21,6 +21,7 @@ import PortfolioBalance from './PortfolioBalance.vue';
 import Storage from '../ts/storage';
 import CoinApi from '../ts/api/coin-api';
 import * as Models from '../ts/models';
+import { StringMap } from '../ts/string-map';
 
 export default Vue.extend({
   name: 'portfolio-dashboard',
@@ -39,41 +40,55 @@ export default Vue.extend({
 
   data () {
     return {
-      balanceData: <Models.Balance[]>[],
-      coinData: <any>[],
+      balanceData: <StringMap<Models.Balance>> {},
       errors: [],
-      loaded: false
+      loadedApi: false,
+      loadedStorage: false,
+      selectedCurrency: 'USD'
     };
   },
 
   mounted () {
-    this.getSavedData();
+    this.loadBalances();
   },
 
   methods: {
-    getSavedData () {
+    loadBalances() {
       Storage.getAllBalances()
       .then((balanceData) => {
         this.balanceData = balanceData;
-        this.displayBalances(balanceData);
+        this.loadedStorage = true;
+
+        console.log('loadedStorage');
+
+        this.refreshPrices();
       })
       .catch ((error) => {
         console.log(error);
       });
     },
 
-    displayBalances (balanceData: Models.Balance[]) {
+    refreshPrices () {
       let coins = [];
-      for (let item of balanceData) {
-        coins.push(item.coin.symbol);
+      for (let key in this.balanceData) {
+        coins.push(key);
       }
 
       // Only check prices if coins have been added
       if (coins.length > 0) {
         CoinApi.getPriceMultiple(coins)
         .then(response => {
-          this.coinData = response;
-          this.loaded = true;
+          // Cache data for later
+          Storage.storeLatestPrice(response);
+
+          for (let key in response) {
+            let value = response[key];
+            this.balanceData[key].price = value;
+          }
+
+          console.log('loadedApi');
+
+          this.loadedApi = true;
         })
         .catch((error: string) => {
           console.log(error);
@@ -86,8 +101,9 @@ export default Vue.extend({
     reloadData: function (reload) {
       if (reload) {
         this.$emit('update:reload-data', false);
-        this.loaded = false;
-        this.getSavedData();
+        this.loadedStorage = false;
+        this.loadedApi = false;
+        this.loadBalances();
       }
     }
   },
@@ -95,9 +111,13 @@ export default Vue.extend({
   computed: {
     totalBalance: function() {
       let balance = 0;
-      if (this.loaded) {
-        for (let item of this.balanceData) {
-          balance += item.amount * this.coinData[item.coin.symbol].USD;
+      if (this.loadedStorage) {
+        for (let key in this.balanceData) {
+          // If the coin has a stored price, add it to the total
+          let value = this.balanceData[key];
+          if (value.price) {
+            balance += value.amount * value.price[this.selectedCurrency];
+          }
         }
       }
 

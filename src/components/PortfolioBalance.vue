@@ -9,7 +9,10 @@
       {{ coinBalance.toFixed(6) }}
     </div>
     <div class="coin-price">
-      ${{ coinPrice }}
+      <div v-if="coinPrice !== 0">
+        ${{ coinPrice }}
+      </div>
+      <div v-else>-</div>
     </div>
     <div class="coin-value">
       ${{ coinValue }}

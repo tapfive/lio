@@ -31,19 +31,26 @@
               <datetime
                 id="date-purchased"
                 v-model="datePurchased"
-                type="datetime"
-                input-format="MMMM DD, YYYY hh:mm a">
+                type="date"
+                input-format="MMMM DD, YYYY">
               </datetime>
             </div>
+
+            <div class="modal-input" :class="{'input-error': !priceIsValid}">
+              <label for="price">Price</label>
+              <input id="price" v-model="price">
+            </div>
+            <span class="error-message" v-if="!priceIsValid">Please enter a valid price</span>
 
             <div class="modal-input" :class="{'input-error': !feeIsValid}">
               <label for="additional-fees">Additional Fees</label>
               <input id="additional-fees" v-model="fees">
-              <select v-model="feeCurrency">
-                <option v-for="currency in availableCurrencies" :key="currency">{{ currency }}</option>
-              </select>
             </div>
             <span class="error-message" v-if="!feeIsValid">Please enter a valid amount or zero</span>
+
+            <select v-model="currency">
+                <option v-for="currency in availableCurrencies" :key="currency">{{ currency }}</option>
+              </select>
 
           </div>
 
@@ -73,11 +80,13 @@ export default Vue.extend({
       amountIsValid: true,
       availableCurrencies: ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'ZAR', 'CNY'],
       coinIsValid: false,
+      currency: 'USD',
       datePurchased: '',
-      feeCurrency: 'USD',
       feeIsValid: true,
       fees: 0,
       items: <Models.Coin[]>[],
+      price: '',
+      priceIsValid: true,
       selectedItem: new Models.Coin('', ''),
       template: InvestmentAddItem
     };
@@ -87,6 +96,10 @@ export default Vue.extend({
     amount: function (val) {
       this.amountIsValid = this.isValidNumberInput(val);
       this.amountChecked = true;
+    },
+
+    price: function (val) {
+      this.priceIsValid = this.isValidNumberInput(val);
     },
 
     fees: function (val) {
@@ -100,7 +113,7 @@ export default Vue.extend({
 
   computed: {
     inputIsValid: function (): boolean {
-      return this.coinIsValid && this.amountIsValid && this.feeIsValid && this.amountChecked;
+      return this.coinIsValid && this.amountIsValid && this.priceIsValid && this.feeIsValid && this.amountChecked;
     }
   },
 
@@ -110,7 +123,7 @@ export default Vue.extend({
     },
 
     addInvestment: function () {
-      Storage.storeInvestment(this.selectedItem, Number(this.amount), this.fees, 'USD', this.datePurchased)
+      Storage.storeInvestment(this.selectedItem, Number(this.amount), Number(this.price), this.fees, 'USD', this.datePurchased)
       .then((response) => {
         this.$emit('reload');
       })
