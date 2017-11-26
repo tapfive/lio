@@ -1,10 +1,12 @@
 <template>
   <div class="portfolio-balance">
-    <div class="coin-logo">
-      <i :class="coinName" class="cc"></i>
-    </div>
-    <div class="coin-name">
-      {{ coinName }}
+    <div class="coin-info">
+      <div class="coin-logo">
+        <i :class="coinName" class="cc"></i>
+      </div>
+      <div class="coin-name">
+        {{ coinName }}
+      </div>
     </div>
     <div class="coin-balance">
       {{ coinBalance.toFixed(6) }}
@@ -58,13 +60,24 @@ export default {
   border-radius: 6px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px 0 rgba(22, 46, 58, 0.15);
+  transition: all .25s var(--ease-out-cubic);
+  transform: translateY(0px);
+}
+
+.portfolio-balance:hover {
+  box-shadow: 0 4px 20px -4px rgba(22, 46, 58, 0.15);
+  transform: translateY(-4px);
+}
+
+.coin-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .coin-logo {
-  background: #00FFA2;
-  width: 48px;
-  height: 48px;
-  border-radius: 100px;
+  margin-right:16px;
+  font-size: 48px;
 }
 
 .coin-name {

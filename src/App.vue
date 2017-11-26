@@ -79,10 +79,10 @@ button:hover{
  * vue-datetime picker style overrides
  */
  .vdatetime-popup {
-     color: var(--dark-blue) !important;
-     font-family: 'Source Sans Pro','Avenir', system-ui, sans-serif !important;
-     font-weight: 400 !important;
-     border-radius: 6px !important;
+   border-radius: 6px !important;
+   color: var(--dark-blue) !important;
+   font-weight: 400 !important;
+   font-family: 'Source Sans Pro','Avenir', system-ui, sans-serif !important;
  }
 
  .vdatetime-popup__year, .vdatetime-popup__date-picker__item {

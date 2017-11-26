@@ -159,12 +159,12 @@ export default Vue.extend({
 
 <style scoped>
 input, #date-purchased {
-  border: 1px solid #DFE3E9;
   padding: 10px 15px;
+  border: 1px solid #DFE3E9;
   border-radius: 6px;
-  font-family: 'Source Code Pro', monospace;
-  font-size: 16px;
   box-shadow: 0 0 0px 0 rgba(0,68,102,0);
+  font-size: 16px;
+  font-family: 'Source Code Pro', monospace;
   transition: all 0.24s var(--ease-out-cubic);
 }
 
@@ -174,23 +174,23 @@ input:focus {
 }
 
 select {
-  font-size: 16px;
   margin-top:8px;
+  font-size: 16px;
 }
 
 .modal-input {
   display: flex;
   flex-direction: column;
-  text-align: left;
+  margin-right: 16px;
   margin-bottom: 16px;
   margin-left:16px;
-  margin-right: 16px;
+  text-align: left;
 }
 
 .error-message {
+  margin-bottom:24px;
   color: var(--red);
   text-align: left;
-  margin-bottom:24px;
 }
 
 .input-error {
@@ -200,13 +200,13 @@ select {
 
 .modal-mask {
   position: fixed;
-  z-index: 9998;
   top: 0;
   left: 0;
+  z-index: 9998;
+  display: table;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 17, 26, .6);
-  display: table;
   transition: opacity .25s ease;
 }
 
@@ -216,9 +216,9 @@ select {
 }
 
 .modal-container {
-  width: 375px;
   margin: 0px auto;
   padding: 20px 30px;
+  width: 375px;
   border-radius: 12px;
   background-color: #ffffff;
   box-shadow: 0 3px 6px 0 rgba(22, 46, 58, 0.15);
@@ -236,8 +236,8 @@ select {
 
 .modal-default-button {
   float: right;
-  font-size:  16px;
   padding: 8px 16px;
+  font-size:  16px;
 }
 
 /*
@@ -259,34 +259,34 @@ select {
 
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
+  transition: all .25s var(--ease-out-cubic);
   transform: scale(0.95);
   transform-origin: 50% 200%;
-  transition: all .25s var(--ease-out-cubic);
 }
 
 .select-style {
-    width: auto;
-    margin-bottom: 16px;
-    margin-left:16px;
-    margin-right: 16px;
-    border-radius: 3px;
-    overflow: hidden;
-    text-align: left;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    margin-left:16px;
+    width: auto;
+    border-radius: 3px;
+    text-align: left;
 }
 
 .select-style select {
-    width: 50%;
-    background-image: none;
-    -webkit-appearance: none;
-    border: 1px solid #DFE3E9;
     padding: 10px 15px;
+    width: 50%;
+    border: 1px solid #DFE3E9;
     border-radius: 6px;
-    font-family: 'Source Code Pro', monospace;
-    font-size: 16px;
+    background-image: none;
     box-shadow: 0 0 0px 0 rgba(0,68,102,0);
+    font-size: 16px;
+    font-family: 'Source Code Pro', monospace;
     transition: all 0.24s var(--ease-out-cubic);
+    -webkit-appearance: none;
 }
 
 .select-style select:focus {

@@ -1,13 +1,13 @@
 .v-autocomplete-input {
-  font-size: 1.5em;
-  padding: 10px 15px;
-  border: 1px solid #DFE3E9;
-  width: calc(100% - 32px);
   margin-bottom: 24px;
+  padding: 10px 15px;
+  width: calc(100% - 32px);
   outline: none;
-  background-color: #fff;
+  border: 1px solid #DFE3E9;
   border-radius: 6px;
+  background-color: #fff;
   box-shadow: 0 0 0px 0 rgba(0,68,102,0);
+  font-size: 1.5em;
   transition: all 0.24s var(--ease-out-cubic);
 }
 .v-autocomplete-input:focus {
@@ -16,27 +16,27 @@
 }
 
 .v-autocomplete-list {
-  font-family: 'Source Code Pro', monospace;
-  width: calc(100% - 34px);
-  text-align: left;
-  border-left: 1px solid #00FFA2;
-  border-right: 1px solid #00FFA2;
-  border-bottom: 1px solid #00FFA2;
-  border-radius: 0 0 6px 6px;
-  border-top: none;
-  background-color: #fff;
-  max-height: 400px;
+  overflow-y: auto;
   margin-top: -28px;
   margin-left: 16px;
-  overflow-y: auto;
+  max-height: 400px;
+  width: calc(100% - 34px);
+  border-top: none;
+  border-right: 1px solid #00FFA2;
+  border-bottom: 1px solid #00FFA2;
+  border-left: 1px solid #00FFA2;
+  border-radius: 0 0 6px 6px;
+  background-color: #fff;
   box-shadow: 0 0 2px 0 rgba(0,68,102,0.14);
+  text-align: left;
+  font-family: 'Source Code Pro', monospace;
   transition: all 0.24s var(--ease-out-cubic);
 }
 
 .v-autocomplete-list-item {
-  cursor: pointer;
-  background-color: #fff;
   padding: 8px;
+  background-color: #fff;
+  cursor: pointer;
   transition: all 0.24s var(--ease-out-cubic);
 }
 
