@@ -5,7 +5,14 @@
       <div class="time-range-picker">time range picker</div>
       <portfolio-total :total-balance="totalBalance"></portfolio-total>
 
-      <div class="column-labels">labels labels lebals</div>
+      <div class="column-labels">
+        <ul>
+          <li>Coin</li>
+          <li>Holdings</li>
+          <li>Value</li>
+          <li>Balance</li>
+        </ul>
+      </div>
 
       <div class="balance-wrapper" v-for="balance in balanceData" :key="balance.coin.symbol">
         <portfolio-balance
@@ -172,12 +179,18 @@ export default Vue.extend({
 }
 
 .column-labels {
-  border-radius: 100px;
-  box-shadow: 0 2px 8px 0 rgba(22, 46, 58, 0.15);
   /* grid-row: 3 / 4;
   grid-column: 2 / 6; */
   grid-area: balance-labels;
-  backround-color: white;
+
+  & ul {
+    display: grid;
+    padding:0;
+    list-style: none;
+    text-align: left;
+    font-weight: 600;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 }
 
 .balance-wrapper {
