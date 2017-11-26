@@ -73,7 +73,7 @@
 import Vue from 'vue';
 import InvestmentAddItem from './InvestmentAddItem.vue';
 import Storage from '../ts/storage';
-import * as Models from '../ts/models';
+import { Coin } from '../ts/coin';
 
 export default Vue.extend({
   name: 'investment-add-modal',
@@ -89,10 +89,10 @@ export default Vue.extend({
       datePurchased: '',
       feeIsValid: true,
       fees: 0,
-      items: <Models.Coin[]>[],
+      items: <Coin[]>[],
       price: '',
       priceIsValid: true,
-      selectedItem: new Models.Coin('', ''),
+      selectedItem: new Coin('', ''),
       template: InvestmentAddItem
     };
   },
@@ -112,7 +112,7 @@ export default Vue.extend({
     },
 
     selectedItem: function (val) {
-      this.coinIsValid = val instanceof Models.Coin;
+      this.coinIsValid = val instanceof Coin;
     }
   },
 
@@ -138,12 +138,12 @@ export default Vue.extend({
       });
     },
 
-    getLabel (item: Models.Coin) {
+    getLabel (item: Coin) {
       return item.name;
     },
 
     updateItems (text: string) {
-      this.items = Models.Coin.getAvailable().filter((item) => {
+      this.items = Coin.getAvailable().filter((item) => {
         return (new RegExp(text.toLowerCase())).test(item.symbol.toLowerCase() + item.name.toLowerCase());
       });
     },

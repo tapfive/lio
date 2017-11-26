@@ -1,6 +1,7 @@
 import * as Models from './models';
 import CoinApi from './api/coin-api';
 import CurrencyApi from './api/currency-api';
+import { Coin } from './coin';
 import { StringMap } from './string-map';
 import { DateTime } from 'luxon';
 
@@ -8,7 +9,7 @@ const INVESTMENTS_FILE = 'investments_dev.json';
 const INVESTMENTS_VERSION = 15;
 
 export default {
-  storeInvestment: async function (coin: Models.Coin, amount: number, price: number, fees: number, feeCurrency: string,
+  storeInvestment: async function (coin: Coin, amount: number, price: number, fees: number, feeCurrency: string,
     date: string): Promise<string> {
     try {
       let formattedDate = DateTime.fromISO(date).toISODate();
@@ -66,7 +67,7 @@ export default {
       let storage = await (loadStorage());
 
       for (let item of storage.coins) {
-        if (item.coin === Models.Coin.fromSymbol(coinSymbol)) {
+        if (item.coin === Coin.fromSymbol(coinSymbol)) {
           return item.investments;
         }
       }
@@ -123,7 +124,7 @@ async function checkForExistingData(): Promise<boolean> {
   return investmentText !== null;
 }
 
-function addData(storage: Models.StorageData, coin: Models.Coin, investment: Models.Investment) {
+function addData(storage: Models.StorageData, coin: Coin, investment: Models.Investment) {
   // Check if coin has previous investments
   for (let item of storage.coins) {
     if (coin.symbol === item.coin.symbol) {

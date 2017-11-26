@@ -1,38 +1,5 @@
 import { StringMap } from './string-map';
-
-export class Coin {
-  public symbol: string;
-  public name: string;
-
-  public static fromSymbol(symbol: string): Coin {
-    for (let item of Coin.getAvailable()) {
-      if (item.symbol === symbol) {
-        return item;
-      }
-    }
-
-    // TODO: return undefined
-    return new Coin('', '');
-  }
-
-  public static getAvailable(): Coin[] {
-    return [
-      new Coin('BTC', 'Bitcoin'),
-      new Coin('BCH', 'Bitcoin Cash'),
-      new Coin('ETH', 'Ethereum'),
-      new Coin('ETC', 'Ethereum Classic'),
-      new Coin('LTC', 'Litecoin'),
-      new Coin('DASH', 'Dash'),
-      new Coin('XMR', 'Monero'),
-      new Coin('ZEC', 'Zcash')
-    ];
-  }
-
-  constructor(symbol: string, name: string) {
-    this.symbol = symbol;
-    this.name = name;
-  }
-}
+import { Coin } from './coin';
 
 export class CoinData {
   public coin: Coin;
