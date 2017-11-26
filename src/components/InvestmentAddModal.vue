@@ -30,9 +30,11 @@
               <label for="date-purchased">Date Purchased</label>
               <datetime
                 id="date-purchased"
+                input-class="date-purchased-input"
                 v-model="datePurchased"
                 type="date"
-                input-format="MMMM DD, YYYY">
+                input-format="MMMM DD, YYYY"
+                :placeholder="'mm/dd/yyy'">
               </datetime>
             </div>
 
@@ -48,9 +50,12 @@
             </div>
             <span class="error-message" v-if="!feeIsValid">Please enter a valid amount or zero</span>
 
-            <select v-model="currency">
+            <div class="select-style">
+              <label>Currency</label>
+              <select v-model="currency">
                 <option v-for="currency in availableCurrencies" :key="currency">{{ currency }}</option>
               </select>
+            </div>
 
           </div>
 
@@ -153,12 +158,19 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-input {
+input, #date-purchased {
   border: 1px solid #DFE3E9;
   padding: 10px 15px;
   border-radius: 6px;
   font-family: 'Source Code Pro', monospace;
   font-size: 16px;
+  box-shadow: 0 0 0px 0 rgba(0,68,102,0);
+  transition: all 0.24s var(--ease-out-cubic);
+}
+
+input:focus {
+  border: 1px solid #00FFA2;
+  box-shadow: 0 0 4px 0 rgba(0,68,102,0.14);
 }
 
 select {
@@ -251,4 +263,35 @@ select {
   transform-origin: 50% 200%;
   transition: all .25s var(--ease-out-cubic);
 }
+
+.select-style {
+    width: auto;
+    margin-bottom: 16px;
+    margin-left:16px;
+    margin-right: 16px;
+    border-radius: 3px;
+    overflow: hidden;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.select-style select {
+    width: 50%;
+    background-image: none;
+    -webkit-appearance: none;
+    border: 1px solid #DFE3E9;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 16px;
+    box-shadow: 0 0 0px 0 rgba(0,68,102,0);
+    transition: all 0.24s var(--ease-out-cubic);
+}
+
+.select-style select:focus {
+  border: 1px solid #00FFA2;
+  box-shadow: 0 0 4px 0 rgba(0,68,102,0.14);
+}
+
 </style>

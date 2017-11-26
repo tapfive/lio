@@ -7,16 +7,21 @@
   outline: none;
   background-color: #fff;
   border-radius: 6px;
-  box-shadow: 0 0 2px 0 rgba(0,68,102,0.14);
+  box-shadow: 0 0 0px 0 rgba(0,68,102,0);
+  transition: all 0.24s var(--ease-out-cubic);
+}
+.v-autocomplete-input:focus {
+  border: 1px solid #00FFA2;
+  box-shadow: 0 0 4px 0 rgba(0,68,102,0.14);
 }
 
 .v-autocomplete-list {
   font-family: 'Source Code Pro', monospace;
   width: calc(100% - 34px);
   text-align: left;
-  border-left: 1px solid #DFE3E9;
-  border-right: 1px solid #DFE3E9;
-  border-bottom: 1px solid #DFE3E9;
+  border-left: 1px solid #00FFA2;
+  border-right: 1px solid #00FFA2;
+  border-bottom: 1px solid #00FFA2;
   border-radius: 0 0 6px 6px;
   border-top: none;
   background-color: #fff;
@@ -25,12 +30,14 @@
   margin-left: 16px;
   overflow-y: auto;
   box-shadow: 0 0 2px 0 rgba(0,68,102,0.14);
+  transition: all 0.24s var(--ease-out-cubic);
 }
 
 .v-autocomplete-list-item {
   cursor: pointer;
   background-color: #fff;
   padding: 8px;
+  transition: all 0.24s var(--ease-out-cubic);
 }
 
 .v-autocomplete-list-item:hover {

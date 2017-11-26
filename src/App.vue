@@ -40,15 +40,15 @@ export default {
 
 <style>
 #app {
+  color: var(--dark-blue);
+  text-align: center;
   font-family: 'Source Sans Pro','Avenir', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: var(--dark-blue);
 }
 body {
-  margin: 0;
   --bg-theme-color: #F7F7FA;
+  margin: 0;
   transition: --bg-theme-color 1s ease-in-out;
 }
 body.dark-theme {
@@ -70,8 +70,43 @@ button {
 }
 
 button:hover{
-    box-shadow: 0 3px 8px 0 rgba(22,46,58,0.16);
-    transform: translateY(-1px);
-    background: var(--light-green);
+  background: var(--light-green);
+  box-shadow: 0 3px 8px 0 rgba(22,46,58,0.16);
+  transform: translateY(-1px);
+}
+
+/*
+ * vue-datetime picker style overrides
+ */
+ .vdatetime-popup {
+     color: var(--dark-blue) !important;
+     font-family: 'Source Sans Pro','Avenir', system-ui, sans-serif !important;
+     font-weight: 400 !important;
+     border-radius: 6px !important;
+ }
+
+ .vdatetime-popup__year, .vdatetime-popup__date-picker__item {
+   font-weight: 400 !important;
+ }
+
+ .vdatetime-popup__month-selector {
+   /*to fix broken width with default styles*/
+   width: auto !important;
+ }
+
+.vdatetime-popup__header,
+.vdatetime-popup__date-picker__item--selected > span > span,
+.vdatetime-popup__date-picker__item--selected:hover > span > span {
+    background: var(--dark-blue) !important;
+     color: var(--green) !important;
+}
+
+.vdatetime-popup__list-picker__item--selected,
+.vdatetime-popup__actions__button {
+    color: var(--dark-blue) !important;
+}
+
+.vdatetime-popup__actions{
+  text-transform: uppercase !important;
 }
 </style>
