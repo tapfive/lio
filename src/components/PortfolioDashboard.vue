@@ -1,9 +1,13 @@
 <template>
   <div class="portfolio-dashboard">
-    <div v-if="loadedStorage">
+
+    <div class="dashboard-content" v-if="loadedStorage">
+      <div class="time-range-picker">time range picker</div>
       <portfolio-total :total-balance="totalBalance"></portfolio-total>
 
-      <div v-for="balance in balanceData" :key="balance.coin.symbol">
+      <div class="column-labels">labels labels lebals</div>
+
+      <div class="balance-wrapper" v-for="balance in balanceData" :key="balance.coin.symbol">
         <portfolio-balance
           :coin-name="balance.coin.symbol"
           :coin-price="balance.getPriceInCurrency(selectedCurrency)"
@@ -129,13 +133,47 @@ export default Vue.extend({
 
 <style scoped>
 .portfolio-dashboard {
-  display: flex;
-  flex-grow: 4;
   background: #F7F7FA;
   background-image: linear-gradient(-180deg, #FFFFFF 0%, #F7F7FA 100%);
   box-shadow: 30px 0 74px 0 rgba(22,46,58,0.15);
-  grid-row: 1 / 4;
-  grid-column: 2 / 5;
-  flex-direction: column;
+  grid-area: dashboard;
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
+  grid-template-rows: 96px 220px 62px 96px;
+  grid-auto-rows: 96px;
+  grid-gap: 16px;
+  grid-template-areas:
+    ". time-picker     time-picker     time-picker     time-picker    ."
+    ". total           total           total           total          ."
+    ". balance-labels  balance-labels  balance-labels  balance-labels ."
+    ". balance         balance         balance         balance        .";
+}
+
+.time-range-picker {
+  height: 24px;
+  border-radius: 100px;
+  box-shadow: 0 2px 8px 0 rgba(22, 46, 58, 0.15);
+  grid-row: 1 / 2;
+  grid-column: 2 / 6;
+  grid-area: time-picker;
+  align-self: center;
+  justify-self: center;
+  backround-color: white;
+}
+
+.column-labels {
+  border-radius: 100px;
+  box-shadow: 0 2px 8px 0 rgba(22, 46, 58, 0.15);
+  /* grid-row: 3 / 4;
+  grid-column: 2 / 6; */
+  grid-area: balance-labels;
+  backround-color: white;
+}
+
+.balance-wrapper {
+    grid-area: balance;
 }
 </style>

@@ -20,13 +20,16 @@ export default {
 <style scoped>
 .portfolio-total {
   display: block;
-  margin: 16px;
-  height: 230px;
+  /* margin: 16px;
+  height: 230px; */
   border-radius: 11.2px;
   background: #FFFFFF;
   box-shadow: 0 3px 76px -16px rgba(22,46,58,0.16);
   color: #004466;
   text-align: center;
   font-size: 26px;
+  /* grid-column: 2 / 6;
+  grid-row: 2 /3; */
+  grid-area: total;
 }
 </style>

@@ -63,7 +63,11 @@ export default {
   min-height: 100vh;
   width: 100vw;
   grid-template-columns: 220px 1fr 1fr 1fr;
-  grid-template-rows: repeat(3, 1fr);
-  /* grid-gap: 1rem; */
+  grid-template-rows: repeat(autofill, 1fr);
+  grid-template-areas:
+    "sidebar dashboard dashboard dashboard"
+    "sidebar dashboard dashboard dashboard"
+    "sidebar dashboard dashboard dashboard";
 }
+
 </style>

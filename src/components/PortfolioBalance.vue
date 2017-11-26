@@ -55,13 +55,13 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  margin: 16px;
-  height: 95px;
+  height: 96px;
   border-radius: 6px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px 0 rgba(22, 46, 58, 0.15);
   transition: all .25s var(--ease-out-cubic);
   transform: translateY(0px);
+  /* grid-column: 1 / 4; */
 }
 
 .portfolio-balance:hover {
