@@ -1,6 +1,7 @@
 <template>
   <div class="portfolio-balance">
     <div class="coin-logo">
+      <i :class="coinName" class="cc"></i>
     </div>
     <div class="coin-name">
       {{ coinName }}
