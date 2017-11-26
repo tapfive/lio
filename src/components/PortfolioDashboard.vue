@@ -175,5 +175,6 @@ export default Vue.extend({
 
 .balance-wrapper {
     grid-area: balance;
+    grid-row: auto;
 }
 </style>
