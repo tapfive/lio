@@ -9,11 +9,11 @@
       </div>
     </div>
     <div class="coin-balance">
-      {{ coinBalance.toFixed(6) }}
+      {{ coinAmount.toFixed(6) }}
     </div>
     <div class="coin-price">
       <div v-if="coinPrice !== 0">
-        ${{ coinPrice }}
+        ${{ coinPrice.toFixed(2) }}
       </div>
       <div v-else>-</div>
     </div>
@@ -23,30 +23,37 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+import { Balance } from '../ts/models';
+
+export default Vue.extend({
   name: 'portfolio-balance',
   props: {
-    coinName: {
-      type: String,
-      required: true
+    balance: {
+      required: true,
+      type: Balance
     },
-    coinPrice: {
-      type: Number,
-      required: true
-    },
-    coinBalance: {
-      type: Number,
-      required: true
+    selectedCurrency: {
+      required: true,
+      type: String
     }
   },
 
+  data () {
+    return {
+      coinAmount: this.balance.amount,
+      coinName: this.balance.coin.symbol,
+      coinPrice: this.balance.price[this.selectedCurrency]
+    };
+  },
+
   computed: {
-    coinValue: function () {
-      return (this.coinPrice * this.coinBalance).toFixed(2)
+    coinValue: function (): string {
+      return (this.coinPrice * this.coinAmount).toFixed(2);
     }
   }
-}
+});
 </script>
 
 <style scoped>

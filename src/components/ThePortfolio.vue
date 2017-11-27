@@ -2,13 +2,28 @@
   <div class="portfolio container">
     <portfolio-sidebar
       @show-modal="showModal = true"
+      @update:current-component="val => currentComponent = val"
       :user="user">
     </portfolio-sidebar>
 
-    <portfolio-dashboard
-      :reload-data="reloadData"
-      @update:reload-data="val => reloadData = val">
-    </portfolio-dashboard>
+    <div v-if="currentComponent === 'overview'" class="component-container">
+      <portfolio-overview
+        :reload-data="reloadData"
+        @update:reload-data="val => reloadData = val">
+      </portfolio-overview>
+    </div>
+
+    <div v-else-if="currentComponent === 'graph'" class="component-container">
+      <portfolio-graph></portfolio-graph>
+    </div>
+
+    <div v-else-if="currentComponent === 'history'" class="component-container">
+      <portfolio-history></portfolio-history>
+    </div>
+
+    <div v-else-if="currentComponent === 'settings'" class="component-container">
+      <portfolio-settings></portfolio-settings>
+    </div>
 
     <investment-add-modal
       v-if="showModal"
@@ -18,12 +33,16 @@
   </div>
 </template>
 
-<script>
-import PortfolioSidebar from './PortfolioSidebar'
-import PortfolioDashboard from './PortfolioDashboard'
-import InvestmentAddModal from './InvestmentAddModal'
+<script lang="ts">
+import Vue from 'vue';
+import PortfolioSidebar from './PortfolioSidebar.vue';
+import PortfolioOverview from './PortfolioOverview.vue';
+import PortfolioGraph from './PortfolioGraph.vue';
+import PortfolioHistory from './PortfolioHistory.vue';
+import PortfolioSettings from './PortfolioSettings.vue';
+import InvestmentAddModal from './InvestmentAddModal.vue';
 
-export default {
+export default Vue.extend({
   name: 'portfolio',
   props: {
     user: {
@@ -32,26 +51,30 @@ export default {
   },
 
   components: {
-    PortfolioSidebar,
-    PortfolioDashboard,
-    InvestmentAddModal
+    InvestmentAddModal,
+    PortfolioGraph,
+    PortfolioHistory,
+    PortfolioOverview,
+    PortfolioSettings,
+    PortfolioSidebar
   },
 
   data () {
     return {
       blockstack: window.blockstack,
-      showModal: false,
-      reloadData: false
-    }
+      currentComponent: 'overview',
+      reloadData: false,
+      showModal: false
+    };
   },
 
   methods: {
     handleDataAdded: function () {
-      this.showModal = false
-      this.reloadData = true
+      this.showModal = false;
+      this.reloadData = true;
     }
   }
-}
+});
 </script>
 
 <style scoped>
@@ -68,6 +91,10 @@ export default {
   /* grid-template-rows: 1fr; */
   /* grid-template-areas:
     "sidebar dashboard dashboard dashboard"; */
+}
+
+.component-container {
+    grid-column: 2 / 3;
 }
 
 </style>

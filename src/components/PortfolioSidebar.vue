@@ -8,12 +8,19 @@
     <h3>{{ user.name }}</h3>
     <a href="#" @click.prevent="signOut">Sign Out</a>
 
+    <a :class="{ selected : isSelected('overview') }" href="#" @click.prevent="changeComponent('overview')">Overview</a>
+    <a :class="{ selected : isSelected('graph') }" href="#" @click.prevent="changeComponent('graph')">Graph</a>
+    <a :class="{ selected : isSelected('history') }" href="#" @click.prevent="changeComponent('history')">History</a>
+    <a :class="{ selected : isSelected('settings') }" href="#" @click.prevent="changeComponent('settings')">Settings</a>
+
     <button class="add-investment-button" @click="showModal">+ Add Balance</button>
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'portfolio-sidebar',
 
   props: {
@@ -24,20 +31,30 @@ export default {
 
   data () {
     return {
-      blockstack: window.blockstack
-    }
+      blockstack: window.blockstack,
+      currentComponent: 'overview'
+    };
   },
 
   methods: {
     signOut () {
-      this.blockstack.signUserOut(window.location.href)
+      this.blockstack.signUserOut(window.location.href);
+    },
+
+    changeComponent (component: string) {
+      this.currentComponent = component;
+      this.$emit('update:current-component', component);
+    },
+
+    isSelected (component: string) {
+      return this.currentComponent === component;
     },
 
     showModal: function () {
-      this.$emit('show-modal')
+      this.$emit('show-modal');
     }
   }
-}
+});
 </script>
 
 <style scoped>
@@ -74,6 +91,10 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.selected {
+  color: #FF0000;
 }
 
 .add-investment-button {

@@ -1,8 +1,12 @@
 <template>
-  <div class="portfolio-dashboard">
+  <div class="portfolio-overview">
 
     <div class="dashboard-content" v-if="loadedStorage">
-      <div class="time-range-picker">time range picker</div>
+      <div class="time-range-picker">
+        <time-interval-picker
+          @update:selected-interval="val => selectedInterval = val">
+        </time-interval-picker>
+      </div>
       <portfolio-total :total-balance="totalBalance"></portfolio-total>
 
       <div class="column-labels">
@@ -16,11 +20,13 @@
 
       <div class="balance-wrapper" v-for="balance in balanceData" :key="balance.coin.symbol">
         <portfolio-balance
-          :coin-name="balance.coin.symbol"
-          :coin-price="balance.getPriceInCurrency(selectedCurrency)"
-          :coin-balance="balance.amount">
+          :balance="balance"
+          :selected-currency="selectedCurrency">
         </portfolio-balance>
       </div>
+    </div>
+    <div v-else>
+      LOADING
     </div>
   </div>
 </template>
@@ -29,17 +35,19 @@
 import Vue from 'vue';
 import PortfolioTotal from './PortfolioTotal.vue';
 import PortfolioBalance from './PortfolioBalance.vue';
+import TimeIntervalPicker from './TimeIntervalPicker.vue';
 import Storage from '../ts/storage';
 import CoinApi from '../ts/api/coin-api';
 import * as Models from '../ts/models';
 import { StringMap } from '../ts/string-map';
 
 export default Vue.extend({
-  name: 'portfolio-dashboard',
+  name: 'portfolio-overview',
 
   components: {
     PortfolioBalance,
-    PortfolioTotal
+    PortfolioTotal,
+    TimeIntervalPicker
   },
 
   props: {
@@ -55,7 +63,8 @@ export default Vue.extend({
       errors: [],
       loadedApi: false,
       loadedStorage: false,
-      selectedCurrency: 'USD'
+      selectedCurrency: 'USD',
+      selectedInterval: '1d'
     };
   },
 
@@ -109,13 +118,17 @@ export default Vue.extend({
   },
 
   watch: {
-    reloadData: function (reload) {
+    reloadData: function (reload: boolean) {
       if (reload) {
         this.$emit('update:reload-data', false);
         this.loadedStorage = false;
         this.loadedApi = false;
         this.loadBalances();
       }
+    },
+
+    selectedInterval: function (interval: string) {
+      console.log(interval);
     }
   },
 
@@ -139,12 +152,10 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.portfolio-dashboard {
+.portfolio-overview {
   background: #F7F7FA;
   background-image: linear-gradient(-180deg, #FFFFFF 0%, #F7F7FA 100%);
   box-shadow: 30px 0 74px 0 rgba(22,46,58,0.15);
-  /* grid-area: dashboard; */
-  grid-column: 2 / 3;
 }
 
 .dashboard-content {
@@ -194,7 +205,7 @@ export default Vue.extend({
 }
 
 .balance-wrapper {
-    grid-area: balance;
-    grid-row: auto;
+  grid-area: balance;
+  grid-row: auto;
 }
 </style>

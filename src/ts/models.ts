@@ -38,7 +38,6 @@ export class Balance {
   public coin: Coin;
   public amount: number;
   public price: StringMap<number>;
-  public loaded: boolean;
 
   constructor(coin: Coin, amount: number, price: StringMap<number>) {
     this.coin = coin;
