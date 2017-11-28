@@ -61,14 +61,14 @@ export default Vue.extend({
   height: 96px;
   border-radius: 6px;
   background-color: var(--card-bg-theme-color);
-  box-shadow: 0 2px 8px 0 rgba(22, 46, 58, 0.15);
+  box-shadow: 0 2px 8px 0 var(--shadow-theme-color);
   transition: all .25s var(--ease-out-cubic);
   transform: translateY(0px);
   /* grid-column: 1 / 4; */
 }
 
 .portfolio-balance:hover {
-  box-shadow: 0 4px 20px -4px rgba(22, 46, 58, 0.15);
+  box-shadow: 0 4px 20px -4px var(--shadow-theme-color);
   transform: translateY(-4px);
 }
 

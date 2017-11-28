@@ -9,6 +9,7 @@ import KonamiCode from 'vue-konami-code';
 
 import './css/easings.css';
 import './css/colors.css';
+import './css/shadows.css';
 import './css/cryptocoins.css';
 import './css/cryptocoins-colors.css';
 import './css/fonts.css';

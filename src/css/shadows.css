@@ -1,0 +1,6 @@
+:root {
+  --shadow-lvl-0: 0 1px 4px 0 var(--shadow-theme-color);
+  --shadow-lvl-1: 0 2px 8px 0 var(--shadow-theme-color);
+  --shadow-lvl-2: 0 3px 12px 0 var(--shadow-theme-color);
+  --shadow-lvl-3: 0 3px 12px 0 var(--shadow-theme-color);
+}

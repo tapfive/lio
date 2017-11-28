@@ -87,7 +87,7 @@ export default Vue.extend({
   /* display: flex;
   flex-direction: row; */
   /* align-items: stretch; */
-  background: var(--view-bg-theme-color);
+  background-color: var(--view-bg-theme-color);
   background-image: var(--view-bg-theme-gradient);
   grid-template-columns: 220px 1fr;
   /* grid-template-rows: 1fr; */
@@ -96,6 +96,8 @@ export default Vue.extend({
 }
 
 .component-container {
+    z-index: 1;
+    box-shadow: 30px 0 74px 0 var(--shadow-theme-color);
     grid-column: 2 / 3;
 }
 

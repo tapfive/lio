@@ -47,10 +47,11 @@ export default {
 body {
   --bg-theme-color: #F7F7FA;
   --view-bg-theme-color: #F7F7FA;
-  --view-bg-theme-color: var(--light-gradient);
+  --view-bg-theme-gradient: var(--light-gradient);
   --card-bg-theme-color: #FFFFFF;
   --font-theme-color: var(--dark-blue);
   --icon-theme-color: var(--dark-blue);
+  --shadow-theme-color: rgba(22,46,58,0.16);
   overflow-x: hidden;
   margin: 0;
   max-width: 100vw;
@@ -64,14 +65,15 @@ body.dark-theme {
   --card-bg-theme-color: var(--darkest-blue);
   --font-theme-color: #FFFFFF;
   --icon-theme-color: #FFFFFF;
+  --shadow-theme-color: rgba(22,46,58,1);
 }
 
 button {
   padding: 8px 8px;
   border: none;
   border-radius: 6px;
-  background: var(--green);
-  box-shadow: 0 3px 8px 0 rgba(22,46,58,0.16);
+  background-color: var(--green);
+  box-shadow: 0 3px 8px 0 var(--shadow-theme-color);
   color: #002A3F;
   text-transform: uppercase;
   font-weight: 500;
@@ -81,14 +83,14 @@ button {
 }
 
 button:hover{
-  background: var(--light-green);
-  box-shadow: 0 3px 12px 0 rgba(22,46,58,0.16);
+  background-color: var(--light-green);
+  box-shadow: 0 3px 12px 0 var(--shadow-theme-color);
   transform: translateY(-1px);
 }
 
 button:active{
-  background: var(--light-green);
-  box-shadow: 0 3px 4px 0 rgba(22,46,58,0.24);
+  background-color: var(--light-green);
+  box-shadow: 0 3px 4px 0 var(--shadow-theme-color);
   transform: translateY(1px);
 }
 

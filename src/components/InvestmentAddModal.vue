@@ -221,8 +221,8 @@ select {
   padding: 20px 30px;
   width: 375px;
   border-radius: 12px;
-  background-color: #ffffff;
-  box-shadow: 0 3px 6px 0 rgba(22, 46, 58, 0.15);
+  background-color: var(--card-bg-theme-color);
+  box-shadow: 0 3px 6px 0 var(--shadow-theme-color);
   transition: all .25s ease;
 }
 

@@ -57,7 +57,12 @@ export default Vue.extend({
   border-radius: 100px;
   background-color: var(--card-bg-theme-color);
   /* height: 24px; */
-  box-shadow: 0 6px 16px 0 rgba(22,46,58,0.08);
+  box-shadow: 0 6px 16px 0 var(--shadow-theme-color);
+}
+
+h5 {
+  margin-top:0;
+  margin-bottom: 8px;
 }
 
 button {
@@ -78,6 +83,7 @@ button:hover {
   border-radius: 100px;
   background-color: var(--green);
   /* border: 1px solid #00FFA2; */
-  box-shadow: 0 0 8px 0 rgba(22,46,58,0.27);
+  box-shadow: 0 0 8px 0 var(--shadow-theme-color);
+  color: var(--dark-blue);
 }
 </style>

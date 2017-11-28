@@ -11,7 +11,7 @@
 
       <div class="column-labels">
         <ul>
-          <li>Coin</li>
+          <li>Cryptocurrency</li>
           <li>Holdings</li>
           <li>Value</li>
           <li>Balance</li>
@@ -161,14 +161,15 @@ export default Vue.extend({
 
 <style scoped>
 .portfolio-overview {
-  box-shadow: 30px 0 74px 0 rgba(22,46,58,0.15);
   min-height: 100vh;
+  background-color: var(--view-bg-theme-color);
+  background-image: var(--view-bg-theme-gradient);
 }
 
 .dashboard-content {
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 220px 62px 96px;
+  grid-template-rows: 96px 242px 62px 96px;
   grid-auto-rows: 96px;
   grid-gap: 16px;
   grid-template-areas:
@@ -189,7 +190,7 @@ export default Vue.extend({
   grid-column: 2 / 6;
   grid-area: time-picker;
   align-self: center;
-  justify-self: center;
+  /* justify-self: center; */
 }
 
 .column-labels {
