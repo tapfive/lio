@@ -161,8 +161,6 @@ export default Vue.extend({
 
 <style scoped>
 .portfolio-overview {
-  background: #F7F7FA;
-  background-image: linear-gradient(-180deg, #FFFFFF 0%, #F7F7FA 100%);
   box-shadow: 30px 0 74px 0 rgba(22,46,58,0.15);
   min-height: 100vh;
 }
@@ -187,15 +185,11 @@ export default Vue.extend({
 }
 
 .time-range-picker {
-  height: 24px;
-  border-radius: 100px;
-  box-shadow: 0 2px 8px 0 rgba(22, 46, 58, 0.15);
   grid-row: 1 / 2;
   grid-column: 2 / 6;
   grid-area: time-picker;
   align-self: center;
   justify-self: center;
-  backround-color: white;
 }
 
 .column-labels {

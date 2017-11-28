@@ -103,13 +103,31 @@ export default Vue.extend({
 }
 
 h1, h3 {
-  color: #004466;
+  color: var(--font-theme-color);
+}
+
+.sidebar-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & .nc-icon-wrapper > path {
+    fill: var(--icon-theme-color);
+  }
+
+  & .nc-icon-wrapper > ellipse {
+    fill: var(--icon-theme-color);
+  }
+
+  & .nc-icon-wrapper > polygon {
+    fill: var(--icon-theme-color);
+  }
 }
 
 a {
-  color: #004466;
   display: flex;
   align-items: center;
+  color: var(--font-theme-color);
   text-decoration: none;
 
   & span {
@@ -125,6 +143,18 @@ a {
   & a {
     padding-top: 16px;
     padding-bottom:16px;
+  }
+
+  & .nc-icon-wrapper > path {
+    fill: var(--icon-theme-color);
+  }
+
+  & .nc-icon-wrapper > ellipse {
+    fill: var(--icon-theme-color);
+  }
+
+  & .nc-icon-wrapper > polygon {
+    fill: var(--icon-theme-color);
   }
 }
 
@@ -153,6 +183,9 @@ a {
 }
 
 .add-investment-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 80%;
   height: 62px;
   border-radius: 6px;
@@ -160,8 +193,5 @@ a {
   font-weight: 700;
   font-size: 18px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>

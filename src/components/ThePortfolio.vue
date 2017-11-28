@@ -79,14 +79,16 @@ export default Vue.extend({
 
 <style scoped>
 .container {
+  display: grid;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  min-height: 100vh;
+  width: 100vw;
   /* display: flex;
   flex-direction: row; */
   /* align-items: stretch; */
-  display: grid;
-  min-height: 100vh;
-  width: 100vw;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  background: var(--view-bg-theme-color);
+  background-image: var(--view-bg-theme-gradient);
   grid-template-columns: 220px 1fr;
   /* grid-template-rows: 1fr; */
   /* grid-template-areas:

@@ -1,6 +1,11 @@
 :root {
   --dark-blue: #004466;
+  --darker-blue: #00334C;
+  --darkest-blue: #002A3F;
   --green: #00FFA2;
   --light-green: #4dffbe;
   --red: #FF005D;
+
+  --light-gradient: linear-gradient(-180deg, #FFFFFF 0%, #F7F7FA 100%);
+  /* --dark-gradient: #004466; */
 }

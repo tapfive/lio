@@ -40,21 +40,30 @@ export default {
 
 <style>
 #app {
-  color: var(--dark-blue);
-  text-align: center;
   font-family: 'Source Sans Pro','Avenir', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 body {
   --bg-theme-color: #F7F7FA;
+  --view-bg-theme-color: #F7F7FA;
+  --view-bg-theme-color: var(--light-gradient);
+  --card-bg-theme-color: #FFFFFF;
+  --font-theme-color: var(--dark-blue);
+  --icon-theme-color: var(--dark-blue);
+  overflow-x: hidden;
   margin: 0;
   max-width: 100vw;
-  overflow-x: hidden;
-  transition: --bg-theme-color 1s ease;
+  color: var(--font-theme-color);
+  transition: --bg-theme-color --view-bg-theme-color --view-bg-theme-gradient --card-bg-theme-color --icon-theme-color --font-theme-color 3s var(--ease-in-out-circ);
 }
 body.dark-theme {
-  --bg-theme-color: #00334C;
+  --bg-theme-color: var(--darker-blue);
+  --view-bg-theme-color: var(--dark-blue);
+  --view-bg-theme-gradient: transparent;
+  --card-bg-theme-color: var(--darkest-blue);
+  --font-theme-color: #FFFFFF;
+  --icon-theme-color: #FFFFFF;
 }
 
 button {
