@@ -73,8 +73,14 @@ button {
 
 button:hover{
   background: var(--light-green);
-  box-shadow: 0 3px 8px 0 rgba(22,46,58,0.16);
+  box-shadow: 0 3px 12px 0 rgba(22,46,58,0.16);
   transform: translateY(-1px);
+}
+
+button:active{
+  background: var(--light-green);
+  box-shadow: 0 3px 4px 0 rgba(22,46,58,0.24);
+  transform: translateY(1px);
 }
 
 /*

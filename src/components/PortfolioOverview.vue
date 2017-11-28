@@ -27,7 +27,9 @@
       </div>
     </div>
     <div v-else>
-      LOADING
+      Loading
+        <loading-spinner>
+        </loading-spinner>
     </div>
   </div>
 </template>
@@ -37,6 +39,7 @@ import Vue from 'vue';
 import PortfolioTotal from './PortfolioTotal.vue';
 import PortfolioBalance from './PortfolioBalance.vue';
 import TimeIntervalPicker from './TimeIntervalPicker.vue';
+import LoadingSpinner from './LoadingSpinner.vue';
 import Storage from '../ts/storage';
 import CoinApi from '../ts/api/coin-api';
 import { Balance } from '../ts/models/balance';
@@ -47,6 +50,7 @@ export default Vue.extend({
   name: 'portfolio-overview',
 
   components: {
+    LoadingSpinner,
     PortfolioBalance,
     PortfolioTotal,
     TimeIntervalPicker
@@ -160,6 +164,7 @@ export default Vue.extend({
   background: #F7F7FA;
   background-image: linear-gradient(-180deg, #FFFFFF 0%, #F7F7FA 100%);
   box-shadow: 30px 0 74px 0 rgba(22,46,58,0.15);
+  min-height: 100vh;
 }
 
 .dashboard-content {
@@ -212,4 +217,9 @@ export default Vue.extend({
   grid-area: balance;
   grid-row: auto;
 }
+
+/* loading-spinner {
+  width:64px;
+  height:64px;
+} */
 </style>
