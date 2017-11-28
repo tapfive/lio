@@ -5,6 +5,7 @@ import App from './App.vue';
 import Autocomplete from 'v-autocomplete';
 import Datetime from 'vue-datetime';
 import * as blockstack from 'blockstack';
+import KonamiCode from 'vue-konami-code';
 
 import './css/easings.css';
 import './css/colors.css';
@@ -16,6 +17,9 @@ import 'v-autocomplete/dist/v-autocomplete.css';
 
 Vue.use(Autocomplete);
 Vue.use(Datetime);
+Vue.use(KonamiCode, {callback: function () {
+ document.body.classList.toggle("dark-theme");
+}});
 
 declare global {
   interface Window {

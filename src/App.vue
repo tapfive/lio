@@ -51,7 +51,7 @@ body {
   margin: 0;
   max-width: 100vw;
   overflow-x: hidden;
-  transition: --bg-theme-color 1s ease-in-out;
+  transition: --bg-theme-color 1s ease;
 }
 body.dark-theme {
   --bg-theme-color: #00334C;

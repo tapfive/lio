@@ -18,7 +18,8 @@
     "v-autocomplete": "^1.8.0",
     "vue": "^2.5.9",
     "vue-chartjs": "^3.0.2",
-    "vue-datetime": "^0.6.0"
+    "vue-datetime": "^0.6.0",
+    "vue-konami-code": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.6",
