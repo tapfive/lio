@@ -6,7 +6,7 @@ import { StringMap } from './string-map';
 import { DateTime } from 'luxon';
 
 const INVESTMENTS_FILE = 'investments_dev.json';
-const INVESTMENTS_VERSION = 15;
+const INVESTMENTS_VERSION = 16;
 
 export default {
   storeInvestment: async function (coin: Coin, amount: number, price: number, fees: number, feeCurrency: string,

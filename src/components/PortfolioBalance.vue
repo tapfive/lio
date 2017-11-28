@@ -30,22 +30,18 @@ import { Balance } from '../ts/models';
 export default Vue.extend({
   name: 'portfolio-balance',
   props: {
-    balance: {
+    coinAmount: {
       required: true,
-      type: Balance
+      type: Number
     },
-    selectedCurrency: {
+    coinName: {
       required: true,
       type: String
+    },
+    coinPrice: {
+      required: true,
+      type: Number
     }
-  },
-
-  data () {
-    return {
-      coinAmount: this.balance.amount,
-      coinName: this.balance.coin.symbol,
-      coinPrice: this.balance.price[this.selectedCurrency]
-    };
   },
 
   computed: {

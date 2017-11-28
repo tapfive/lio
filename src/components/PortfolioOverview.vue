@@ -20,8 +20,9 @@
 
       <div class="balance-wrapper" v-for="balance in balanceData" :key="balance.coin.symbol">
         <portfolio-balance
-          :balance="balance"
-          :selected-currency="selectedCurrency">
+          :coin-amount="balance.amount"
+          :coin-name="balance.coin.symbol"
+          :coin-price="balance.getPriceInCurrency(selectedCurrency)">
         </portfolio-balance>
       </div>
     </div>
