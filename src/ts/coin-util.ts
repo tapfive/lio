@@ -1,9 +1,12 @@
-export class Coin {
-  public symbol: string;
-  public name: string;
+import { Coin } from './models/coin';
 
-  public static fromSymbol(symbol: string): Coin {
-    for (let item of Coin.getAvailable()) {
+export default {
+  getAvailable: function (): Coin[] {
+    return COINS;
+  },
+
+  getCoinFromSymbol: function (symbol: string) {
+    for (let item of this.getAvailable()) {
       if (item.symbol === symbol) {
         return item;
       }
@@ -12,18 +15,9 @@ export class Coin {
     // TODO: return undefined
     return new Coin('', '');
   }
+};
 
-  public static getAvailable(): Coin[] {
-    return coins;
-  }
-
-  constructor(symbol: string, name: string) {
-    this.symbol = symbol;
-    this.name = name;
-  }
-}
-
-let coins = [
+const COINS = [
   new Coin('ADA', 'Cardano'),
   new Coin('ADC', 'AudioCoin'),
   new Coin('AEON', 'Aeon'),

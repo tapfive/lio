@@ -72,8 +72,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import InvestmentAddItem from './InvestmentAddItem.vue';
+import CoinUtil from '../ts/coin-util';
 import Storage from '../ts/storage';
-import { Coin } from '../ts/coin';
+import { Coin } from '../ts/models/coin';
 
 export default Vue.extend({
   name: 'investment-add-modal',
@@ -143,7 +144,7 @@ export default Vue.extend({
     },
 
     updateItems (text: string) {
-      this.items = Coin.getAvailable().filter((item) => {
+      this.items = CoinUtil.getAvailable().filter((item) => {
         return (new RegExp(text.toLowerCase())).test(item.symbol.toLowerCase() + item.name.toLowerCase());
       });
     },

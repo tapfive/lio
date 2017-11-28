@@ -13,7 +13,8 @@
 import Vue from 'vue';
 import LineChart from './LineChart.vue';
 import TimeIntervalPicker from './TimeIntervalPicker.vue';
-import { ChartData } from '../ts/chart-data';
+import { ChartData } from '../ts/models/chart-data';
+import { AppData } from '../ts/app-data';
 
 export default Vue.extend({
   name: 'portfolio-graph',
@@ -25,9 +26,14 @@ export default Vue.extend({
 
   data () {
     return {
+      appData: AppData.getInstance(),
       chartData: new ChartData(),
       selectedInterval: '1d'
     };
+  },
+
+  mounted () {
+    this.selectedInterval = this.appData.timeInterval;
   },
 
   watch: {

@@ -39,8 +39,9 @@ import PortfolioBalance from './PortfolioBalance.vue';
 import TimeIntervalPicker from './TimeIntervalPicker.vue';
 import Storage from '../ts/storage';
 import CoinApi from '../ts/api/coin-api';
-import * as Models from '../ts/models';
+import { Balance } from '../ts/models/balance';
 import { StringMap } from '../ts/string-map';
+import { AppData } from '../ts/app-data';
 
 export default Vue.extend({
   name: 'portfolio-overview',
@@ -60,7 +61,8 @@ export default Vue.extend({
 
   data () {
     return {
-      balanceData: <StringMap<Models.Balance>> {},
+      appData: AppData.getInstance(),
+      balanceData: <StringMap<Balance>> {},
       errors: [],
       loadedApi: false,
       loadedStorage: false,
@@ -70,6 +72,7 @@ export default Vue.extend({
   },
 
   mounted () {
+    this.selectedInterval = this.appData.timeInterval;
     this.loadBalances();
   },
 
