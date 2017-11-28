@@ -18,7 +18,7 @@ import 'v-autocomplete/dist/v-autocomplete.css';
 Vue.use(Autocomplete);
 Vue.use(Datetime);
 Vue.use(KonamiCode, {callback: function () {
- document.body.classList.toggle("dark-theme");
+ document.body.classList.toggle('dark-theme');
 }});
 
 declare global {
