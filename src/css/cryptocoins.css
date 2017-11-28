@@ -825,14 +825,6 @@
   content: "\E0C9";
 }
 
-.cc.STORJ-alt::before {
-  content: "\E0CA";
-}
-
-.cc.STORJ::before {
-  content: "\E0CB";
-}
-
 .cc.SLG-alt::before {
   content: "\E0CC";
 }
@@ -871,6 +863,14 @@
 
 .cc.STEEM::before {
   content: "\E0D5";
+}
+
+.cc.STORJ-alt::before {
+  content: "\E0CA";
+}
+
+.cc.STORJ::before {
+  content: "\E0CB";
 }
 
 .cc.STR-alt::before {
