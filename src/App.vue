@@ -56,7 +56,8 @@ body {
   margin: 0;
   max-width: 100vw;
   color: var(--font-theme-color);
-  transition: --bg-theme-color --view-bg-theme-color --view-bg-theme-gradient --card-bg-theme-color --icon-theme-color --font-theme-color 3s var(--ease-in-out-circ);
+  /* transition: --bg-theme-color --view-bg-theme-color --view-bg-theme-gradient --card-bg-theme-color --icon-theme-color --font-theme-color 3s var(--ease-in-out-circ); */
+  transition: all 2s var(--ease-out-circ);
 }
 body.dark-theme {
   --bg-theme-color: var(--darker-blue);

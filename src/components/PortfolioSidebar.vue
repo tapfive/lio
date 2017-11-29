@@ -35,8 +35,10 @@
       </a>
 
     </div>
-
-    <button class="add-investment-button" @click="showModal">+ Add Balance</button>
+    <div class="action-buttons">
+      <button class="add-investment-button" @click="showModal">+ Add Balance</button>
+      <button class="subtract-value-button" @click="showModal">- Subtract</button>
+    </div>
   </div>
 </template>
 
@@ -182,16 +184,44 @@ a {
 
 }
 
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .add-investment-button {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 80%;
   height: 62px;
+  margin-bottom:16px;
   border-radius: 6px;
   text-align: center;
   font-weight: 700;
   font-size: 18px;
   cursor: pointer;
+}
+
+.subtract-value-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  height: 36px;
+  border-radius: 6px;
+  text-align: center;
+  background-color: var(--dark-blue);
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.subtract-value-button:hover {
+    background-color: var(--red);
+    color: var(--dark-blue);
 }
 </style>
