@@ -23,6 +23,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /* justify-self: center; */
   margin-top: 24px;
   border-radius: 11.2px;
   background-color: var(--card-bg-theme-color);
@@ -32,5 +33,11 @@ export default {
   /* grid-column: 2 / 6;
   grid-row: 2 /3; */
   grid-area: total;
+}
+
+@media screen and (min-width: 2000px) {
+  .dashboard-content {
+      grid-area: total;
+  }
 }
 </style>

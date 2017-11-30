@@ -77,7 +77,7 @@ button {
 }
 
 button:hover {
-  border: 1px solid var(--dark-blue);
+  border: 1px solid var(--green);
   border-radius: 100px;
 }
 

@@ -183,7 +183,13 @@ export default Vue.extend({
 
 @media screen and (max-width: 1100px) {
   .dashboard-content {
-    grid-template-columns: 0.5fr minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) 0.5fr
+    grid-template-columns: 0.5fr minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) 0.5fr;
+  }
+}
+
+@media screen and (min-width: 2000px) {
+  .dashboard-content {
+    grid-template-columns: 1fr 360px 360px 360px 360px 1fr;
   }
 }
 

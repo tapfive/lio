@@ -33,7 +33,16 @@ export class ChartData {
     }
 
     dataSets.push({
-      backgroundColor: '#F24AD1',
+      defaultFontColor: '#00334C',
+      defaultFontFamily: '"Source Sans Pro","Avenir", system-ui, sans-serif;',
+      backgroundColor: 'RGBA(0,255,162,0.4)',
+      borderColor: 'RGBA(0,255,162,1.00)',
+      pointBackgroundColor: 'RGBA(0,255,162,1.00)',
+      pointBorderColor: 'RGBA(0,255,162,0.2)',
+      pointHoverBorderColor: 'RGBA(251,252,255,1.00)',
+      pointHoverBackgroundColor: 'RGBA(0,255,162,1.00)',
+      // pointHoverRadius: "[40/40]",
+      lineTension: '0.4',
       data: dataArray,
       label: coinSymbol
     });
@@ -43,7 +52,16 @@ export class ChartData {
 }
 
 interface DataSet {
-  label: string;
   backgroundColor: string;
+  borderColor: string;
   data: number[];
+  defaultFontColor: string;
+  defaultFontFamily: string;
+  label: string;
+  lineTension: string;
+  pointBackgroundColor: string;
+  pointBorderColor: string;
+  pointHoverBackgroundColor: string;
+  pointHoverBorderColor: string;
+  // pointHoverRadius: string;
 }

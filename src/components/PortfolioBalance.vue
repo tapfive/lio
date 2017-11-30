@@ -71,8 +71,8 @@ export default Vue.extend({
   transform: translateY(0px);
 }
 
-.portfolio-balance:hover {t
-  box-shadow: 0 4px 20px -4px var(--shadow-theme-color);
+.portfolio-balance:hover {
+  box-shadow: 0 4px 20px -4px var(--shadow-theme-color), 0 8px 40px -32px var(--default-coin-color);
   transform: translateY(-4px);
 }
 
