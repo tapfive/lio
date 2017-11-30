@@ -1,11 +1,15 @@
 <template>
   <div class="portfolio-graph">
-    <time-interval-picker
-      @update:selected-interval="val => selectedInterval = val">
-    </time-interval-picker>
-    <line-chart
-      :data="this.chartData">
-    </line-chart>
+    <div class="time-range-picker">
+      <time-interval-picker
+        @update:selected-interval="val => selectedInterval = val">
+      </time-interval-picker>
+    </div>
+    <div class="line-chart">
+      <line-chart
+        :data="this.chartData">
+      </line-chart>
+    </div>
   </div>
 </template>
 
@@ -45,5 +49,31 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.portfolio-graph {
+  min-height: 100vh;
+  background-color: var(--view-bg-theme-color);
+  background-image: var(--view-bg-theme-gradient);
+  display: grid;
+  grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
+  grid-template-rows: 96px 220px 1fr;
+  grid-auto-rows: 96px;
+  grid-gap: 16px;
+  grid-template-areas:
+    ". time-picker     time-picker     time-picker     time-picker    ."
+    ". graph           graph           graph           graph          ."
+    ". options         options         options         options        .";
+}
 
+.time-range-picker {
+  grid-row: 1 / 2;
+  grid-column: 2 / 6;
+  grid-area: time-picker;
+  align-self: center;
+}
+
+.line-chart {
+    grid-area: graph;
+    height: 220px;
+    width: 100%;
+}
 </style>

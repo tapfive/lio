@@ -68,6 +68,7 @@ h5 {
 button {
   padding-right: 16px;
   padding-left: 16px;
+  border: 1px solid transparent;
   border-radius: 0px;
   background-color: var(--card-bg-theme-color);
   box-shadow: 0 0 1px 0 rgba(22,46,58,0);
@@ -76,10 +77,12 @@ button {
 }
 
 button:hover {
+  border: 1px solid var(--dark-blue);
   border-radius: 100px;
 }
 
 .selected {
+  border: 1px solid transparent;
   border-radius: 100px;
   background-color: var(--green);
   /* border: 1px solid #00FFA2; */

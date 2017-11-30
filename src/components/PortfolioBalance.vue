@@ -4,22 +4,27 @@
       <div class="coin-logo">
         <i :class="coinName" class="cc"></i>
       </div>
+
       <div class="coin-name">
         {{ coinName }}
       </div>
     </div>
+
     <div class="coin-balance">
       {{ coinAmount.toFixed(6) }}
     </div>
+
     <div class="coin-price">
       <div v-if="coinPrice !== 0">
         ${{ coinPrice.toFixed(2) }}
       </div>
       <div v-else>-</div>
     </div>
+
     <div class="coin-value">
       ${{ coinValue }}
     </div>
+
   </div>
 </template>
 
@@ -95,7 +100,7 @@ export default Vue.extend({
 
 .coin-value {
   font-weight: 900;
-  font-size: 36px;
+  font-size: 24px;
 }
 
 .coin-balance {

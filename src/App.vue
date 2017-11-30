@@ -95,6 +95,16 @@ button:active{
   transform: translateY(1px);
 }
 
+button:disabled{
+  background-color: #c9ced1;
+  color: #626d73;
+  box-shadow: 0 0px 0px 0 var(--shadow-theme-color);
+}
+
+button:disabled:hover{
+  transform: translateY(0px);
+}
+
 /*
  * vue-datetime picker style overrides
  */
