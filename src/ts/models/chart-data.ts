@@ -2,6 +2,36 @@ import { CoinData } from './coin-data';
 import { DateTime } from 'luxon';
 import { NumberMap } from '../number-map';
 
+///////
+
+// grab canvas element and canvas context
+// var canvas = <HTMLCanvasElement> document.getElementById("line-chart");
+// var ctx = canvas.getContext("2d");
+//
+// // Apply multiply blend when drawing datasets
+// var multiply = {
+//
+//   beforeDatasetsDraw: function(chart:any, options:any, el:any) {
+//     chart.ctx.globalCompositeOperation = 'multiply';
+//   },
+//   afterDatasetsDraw: function(chart:any, options:any) {
+//     chart.ctx.globalCompositeOperation = 'source-over';
+//   },
+// };
+//
+// // TODO: FIX
+// // Gradient color one
+// var gradientOne = ctx.createLinearGradient(0, 0, 0, 150);
+// gradientOne.addColorStop(0, '#5555FF');
+// gradientOne.addColorStop(1, '#9787FF');
+//
+// // Gradient color two
+// var gradientTwo = ctx.createLinearGradient(0, 0, 0, 150);
+// gradientTwo.addColorStop(0, '#FF55B8');
+// gradientTwo.addColorStop(1, '#FF8787');
+// 
+
+////////
 export class ChartData {
 
   public labels: string[];

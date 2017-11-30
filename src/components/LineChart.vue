@@ -31,20 +31,6 @@ export default {
     this.renderChart(this.chartData, this.options)
   }
 };
-
-// const ctx = document.getElementById('line-chart').getContext("2d");
-//
-// const gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-//
-// gradientStroke.addColorStop(0, "#80b6f4");
-//
-// gradientStroke.addColorStop(1, "#f49080");
-//
-// const gradientFill = ctx.createLinearGradient(500, 0, 100, 0);
-//
-// gradientFill.addColorStop(0, "rgba(128, 182, 244, 0.6)");
-//
-// gradientFill.addColorStop(1, "rgba(244, 144, 128, 0.6)");
 </script>
 
 <style scoped>
