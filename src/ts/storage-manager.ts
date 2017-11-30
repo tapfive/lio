@@ -4,6 +4,7 @@ import CoinUtil from '../ts/coin-util';
 import { Coin } from './models/coin';
 import { CoinData } from '../ts/models/coin-data';
 import { Balance } from '../ts/models/balance';
+import { HistoricalPrice } from '../ts/models/historical-price';
 import { Investment } from '../ts/models/investment';
 import { StorageData } from '../ts/models/storage-data';
 import { StringMap } from './string-map';
@@ -13,7 +14,7 @@ export class StorageManager {
   private static instance: StorageManager = new StorageManager();
 
   private INVESTMENTS_FILE = 'investments_dev.json';
-  private INVESTMENTS_VERSION = 16;
+  private INVESTMENTS_VERSION = 18;
 
   private storageData: StorageData;
   private waitingForStorage = false;
@@ -92,15 +93,77 @@ export class StorageManager {
   public async getInvestment(coinSymbol: string): Promise<Investment[]> {
     try {
       let storage = await (this.loadStorage());
+      let coinData = await (this.getCoinData(storage, coinSymbol));
+      return coinData.investments;
+    } catch (error) {
+      throw error;
+    }
+  }
 
-      for (let item of storage.coins) {
-        if (item.coin === CoinUtil.getCoinFromSymbol(coinSymbol)) {
-          return item.investments;
-        }
+  public async getHistoricalPriceMinutes(coinSymbol: string): Promise<HistoricalPrice> {
+    try {
+      let storage = await (this.loadStorage());
+      let coinData = await (this.getCoinData(storage, coinSymbol));
+
+      let now = DateTime.local().toUTC();
+      let lastTime = DateTime.fromMillis(coinData.historicalPriceMinutes.lastTimeStamp * 1000);
+
+      if (now.diff(lastTime, 'minutes').toObject().minutes >= 1) {
+        // Prices out of date, get updated prices
+        let updatedPrices = await (CoinApi.getHistoricalPriceMinutes(coinSymbol));
+        coinData.historicalPriceMinutes = updatedPrices;
+
+        // Save new prices
+        this.putStorage(storage);
       }
 
-      // Not found
-      throw ('Investment not found');
+      return coinData.historicalPriceMinutes;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getHistoricalPriceHours(coinSymbol: string): Promise<HistoricalPrice> {
+    try {
+      let storage = await (this.loadStorage());
+      let coinData = await (this.getCoinData(storage, coinSymbol));
+
+      let now = DateTime.local().toUTC();
+      let lastTime = DateTime.fromMillis(coinData.historicalPriceHours.lastTimeStamp * 1000);
+
+      if (now.diff(lastTime, 'hours').toObject().hours >= 1) {
+        // Prices out of date, get updated prices
+        let updatedPrices = await (CoinApi.getHistoricalPriceHours(coinSymbol));
+        coinData.historicalPriceHours = updatedPrices;
+
+        // Save new prices
+        this.putStorage(storage);
+      }
+
+      return coinData.historicalPriceHours;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getHistoricalPriceDays(coinSymbol: string): Promise<HistoricalPrice> {
+    try {
+      let storage = await (this.loadStorage());
+      let coinData = await (this.getCoinData(storage, coinSymbol));
+
+      let now = DateTime.local().toUTC();
+      let lastTime = DateTime.fromMillis(coinData.historicalPriceDays.lastTimeStamp * 1000);
+
+      if (now.diff(lastTime, 'days').toObject().days >= 1) {
+        // Prices out of date, get updated prices
+        let updatedPrices = await (CoinApi.getHistoricalPriceDays(coinSymbol));
+        coinData.historicalPriceDays = updatedPrices;
+
+        // Save new prices
+        this.putStorage(storage);
+      }
+
+      return coinData.historicalPriceDays;
     } catch (error) {
       throw error;
     }
@@ -169,6 +232,21 @@ export class StorageManager {
     }
 
     return investmentText !== null;
+  }
+
+  private async getCoinData(storage: StorageData, coinSymbol: string): Promise<CoinData> {
+    try {
+      for (let item of storage.coins) {
+        if (item.coin.symbol === coinSymbol) {
+          return item;
+        }
+      }
+
+      // Not found
+      throw ('CoinData not found');
+    } catch (error) {
+      throw error;
+    }
   }
 
   private addData(storage: StorageData, coin: Coin, investment: Investment) {

@@ -7,7 +7,7 @@
     </div>
     <div class="line-chart">
       <line-chart
-        :data="this.chartData">
+        :chart-data="chartData">
       </line-chart>
     </div>
   </div>
@@ -38,6 +38,15 @@ export default Vue.extend({
 
   mounted () {
     this.selectedInterval = this.appData.getTimeInterval();
+
+    // TEMPORARY
+    this.appData.storageManager.getHistoricalPriceMinutes('BTC')
+    .then(response => {
+      let data = new ChartData();
+      data.setLabels(response.prices);
+      data.addDataSet('BTC', response.prices);
+      this.chartData = data;
+    });
   },
 
   watch: {
