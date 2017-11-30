@@ -171,7 +171,7 @@ export default Vue.extend({
 .dashboard-content {
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 242px 62px 96px;
+  grid-template-rows: 96px 242px 48px 96px;
   grid-auto-rows: 96px;
   grid-gap: 16px;
   grid-template-areas:
@@ -192,21 +192,20 @@ export default Vue.extend({
   grid-column: 2 / 6;
   grid-area: time-picker;
   align-self: center;
-  /* justify-self: center; */
 }
 
 .column-labels {
-  /* grid-row: 3 / 4;
-  grid-column: 2 / 6; */
   grid-area: balance-labels;
+  align-self: end;
+  margin-top: 12px;
 
   & ul {
     display: grid;
-    padding:0;
     list-style: none;
     text-align: left;
     font-weight: 600;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 0px 32px;
   }
 }
 

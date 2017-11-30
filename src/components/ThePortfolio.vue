@@ -97,8 +97,10 @@ export default Vue.extend({
 
 .component-container {
     z-index: 1;
+    padding-bottom: 62px;
     box-shadow: 30px 0 74px 0 var(--shadow-theme-color);
     grid-column: 2 / 3;
 }
+
 
 </style>

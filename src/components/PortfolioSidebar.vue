@@ -90,7 +90,7 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 
   box-sizing: border-box;
   padding-top: 24px;

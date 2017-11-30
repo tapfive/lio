@@ -54,20 +54,19 @@ export default Vue.extend({
 
 <style scoped>
 .portfolio-balance {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 0px 32px;
   align-items: center;
-  justify-content: space-around;
   height: 96px;
   border-radius: 6px;
   background-color: var(--card-bg-theme-color);
   box-shadow: 0 2px 8px 0 var(--shadow-theme-color);
   transition: all .25s var(--ease-out-cubic);
   transform: translateY(0px);
-  /* grid-column: 1 / 4; */
 }
 
-.portfolio-balance:hover {
+.portfolio-balance:hover {t
   box-shadow: 0 4px 20px -4px var(--shadow-theme-color);
   transform: translateY(-4px);
 }
