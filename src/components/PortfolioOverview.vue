@@ -40,7 +40,6 @@ import PortfolioTotal from './PortfolioTotal.vue';
 import PortfolioBalance from './PortfolioBalance.vue';
 import TimeIntervalPicker from './TimeIntervalPicker.vue';
 import LoadingSpinner from './LoadingSpinner.vue';
-import Storage from '../ts/storage';
 import CoinApi from '../ts/api/coin-api';
 import { Balance } from '../ts/models/balance';
 import { StringMap } from '../ts/string-map';
@@ -76,20 +75,22 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.selectedInterval = this.appData.timeInterval;
-    this.loadBalances();
+    this.selectedInterval = this.appData.getTimeInterval();
+    this.loadBalances(false);
   },
 
   methods: {
-    loadBalances() {
-      Storage.getAllBalances()
+    loadBalances(ignoreTimer: boolean) {
+      this.appData.storageManager.getAllBalances()
       .then((balanceData) => {
         this.balanceData = balanceData;
         this.loadedStorage = true;
 
         console.log('loadedStorage');
 
-        this.refreshPrices();
+        if (ignoreTimer || this.appData.readyForPriceSync()) {
+          this.refreshPrices();
+        }
       })
       .catch ((error) => {
         console.log(error);
@@ -107,7 +108,7 @@ export default Vue.extend({
         CoinApi.getPriceMultiple(coins)
         .then(response => {
           // Cache data for later
-          Storage.storeLatestPrice(response);
+          this.appData.storageManager.storeLatestPrice(response);
 
           for (let key in response) {
             let value = response[key];
@@ -116,6 +117,7 @@ export default Vue.extend({
 
           console.log('loadedApi');
 
+          this.appData.updateLastPriceSync();
           this.loadedApi = true;
         })
         .catch((error: string) => {
@@ -131,7 +133,7 @@ export default Vue.extend({
         this.$emit('update:reload-data', false);
         this.loadedStorage = false;
         this.loadedApi = false;
-        this.loadBalances();
+        this.loadBalances(true);
       }
     },
 

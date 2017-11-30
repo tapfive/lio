@@ -33,7 +33,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.selectedInterval = this.appData.timeInterval;
+    this.selectedInterval = this.appData.getTimeInterval();
   },
 
   watch: {
