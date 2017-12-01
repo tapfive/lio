@@ -8,7 +8,7 @@
       <div class="hero-logo">
         <svg width="226" height="83" viewBox="0 0 226 83" xmlns="http://www.w3.org/2000/svg"><title>logo</title><g fill="#00FFA2" fill-rule="evenodd"><text font-family="SourceSansPro-Semibold, Source Sans Pro" font-size="108" font-weight="500" transform="translate(2 -28)"><tspan x="87" y="106">Lio</tspan></text><path fill-opacity=".33" d="M33.5 50L62 66.502 33.503 83 5 66.502z"/><path stroke="#046" stroke-width="3" d="M33 73L2 55.252V19.751L33 2l31 17.75v35.502z"/></g></svg>
       </div>
-      <h2>Simple Portfolio Tracking</h2>
+      <h2>A Simple, Decentralized Cryptocurrency Portfolio</h2>
       <button class="btn btn-default" @click.prevent="signIn">Sign In With Blockstack</button>
     </div>
   </div>

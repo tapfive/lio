@@ -1,7 +1,8 @@
 <template>
   <div class="portfolio container">
     <portfolio-sidebar
-      @show-modal="showModal = true"
+      @show-add-modal="showAddModal = true"
+      @show-subtract-modal="showSubtractModal = true"
       @update:current-component="val => currentComponent = val"
       :user="user">
     </portfolio-sidebar>
@@ -25,11 +26,12 @@
       <portfolio-settings></portfolio-settings>
     </div>
 
-    <investment-add-modal
-      v-if="showModal"
-      @close="showModal = false"
+    <transaction-modal
+      v-if="showAddModal || showSubtractModal"
+      :adding-balance="showAddModal"
+      @close="closeModal()"
       @reload="handleDataAdded()">
-    </investment-add-modal>
+    </transaction-modal>
   </div>
 </template>
 
@@ -40,7 +42,7 @@ import PortfolioOverview from './PortfolioOverview.vue';
 import PortfolioGraph from './PortfolioGraph.vue';
 import PortfolioHistory from './PortfolioHistory.vue';
 import PortfolioSettings from './PortfolioSettings.vue';
-import InvestmentAddModal from './InvestmentAddModal.vue';
+import TransactionModal from './TransactionModal.vue';
 
 export default Vue.extend({
   name: 'portfolio',
@@ -51,12 +53,12 @@ export default Vue.extend({
   },
 
   components: {
-    InvestmentAddModal,
     PortfolioGraph,
     PortfolioHistory,
     PortfolioOverview,
     PortfolioSettings,
-    PortfolioSidebar
+    PortfolioSidebar,
+    TransactionModal
   },
 
   data () {
@@ -64,14 +66,20 @@ export default Vue.extend({
       blockstack: window.blockstack,
       currentComponent: 'overview',
       reloadData: false,
-      showModal: false
+      showAddModal: false,
+      showSubtractModal: false
     };
   },
 
   methods: {
     handleDataAdded: function () {
-      this.showModal = false;
+      this.closeModal();
       this.reloadData = true;
+    },
+
+    closeModal: function () {
+      this.showAddModal = false;
+      this.showSubtractModal = false;
     }
   }
 });

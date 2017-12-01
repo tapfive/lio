@@ -40,8 +40,8 @@
     </div>
 
     <div class="action-buttons">
-      <button class="add-investment-button" @click="showModal">+ Add Balance</button>
-      <button class="subtract-value-button" @click="showModal">- Subtract</button>
+      <button class="add-value-button" @click="showAddModal()">+ Add Balance</button>
+      <button class="subtract-value-button" @click="showSubtractModal()">- Subtract</button>
     </div>
   </div>
 </template>
@@ -79,8 +79,12 @@ export default Vue.extend({
       return this.currentComponent === component;
     },
 
-    showModal: function () {
-      this.$emit('show-modal');
+    showAddModal: function () {
+      this.$emit('show-add-modal');
+    },
+
+    showSubtractModal: function () {
+      this.$emit('show-subtract-modal');
     }
   }
 });
@@ -210,7 +214,7 @@ a {
   width: 100%;
 }
 
-.add-investment-button {
+.add-value-button {
   display: flex;
   align-items: center;
   justify-content: center;

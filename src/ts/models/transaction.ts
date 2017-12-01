@@ -1,6 +1,6 @@
 import { StringMap } from '../string-map';
 
-export class Investment {
+export class Transaction {
   public id?: number;
   public amount: number;
   public price: number;

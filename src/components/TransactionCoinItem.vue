@@ -1,5 +1,5 @@
 <template>
-  <div class="investment-add-item">
+  <div class="transaction-coin-item">
     <div>{{ item.symbol }}</div>
     <div>{{ item.name }}</div>
   </div>
@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'investment-add-item',
+  name: 'transaction-coin-item',
   props: {
     item: {required: true}
   }

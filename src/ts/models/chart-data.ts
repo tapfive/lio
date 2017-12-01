@@ -29,7 +29,7 @@ import { NumberMap } from '../number-map';
 // var gradientTwo = ctx.createLinearGradient(0, 0, 0, 150);
 // gradientTwo.addColorStop(0, '#FF55B8');
 // gradientTwo.addColorStop(1, '#FF8787');
-// 
+//
 
 ////////
 export class ChartData {

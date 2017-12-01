@@ -1,5 +1,5 @@
 <template>
-  <div class="portfolio-balance">
+  <div :style="shadowStyle" class="portfolio-balance" @mouseenter="updateHoverState(true)" @mouseleave="updateHoverState(false)">
     <div class="coin-info">
       <div class="coin-logo">
         <i :class="coinName" class="cc"></i>
@@ -49,9 +49,31 @@ export default Vue.extend({
     }
   },
 
+  data () {
+    return {
+      isHovering: false
+    };
+  },
+
   computed: {
     coinValue: function (): string {
       return (this.coinPrice * this.coinAmount).toFixed(2);
+    },
+
+    shadowStyle: function(): any {
+      if (this.isHovering) {
+        return {
+          boxShadow: '0 4px 20px -4px var(--shadow-theme-color), 0 8px 40px -32px var(--' + this.coinName + ')'
+        };
+      } else {
+        return {};
+      }
+    }
+  },
+
+  methods: {
+    updateHoverState(isHovering: boolean) {
+      this.isHovering = isHovering;
     }
   }
 });
@@ -72,7 +94,6 @@ export default Vue.extend({
 }
 
 .portfolio-balance:hover {
-  box-shadow: 0 4px 20px -4px var(--shadow-theme-color), 0 8px 40px -32px var(--default-coin-color);
   transform: translateY(-4px);
 }
 

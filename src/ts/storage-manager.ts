@@ -5,7 +5,7 @@ import { Coin } from './models/coin';
 import { CoinData } from '../ts/models/coin-data';
 import { Balance } from '../ts/models/balance';
 import { HistoricalPrice } from '../ts/models/historical-price';
-import { Investment } from '../ts/models/investment';
+import { Transaction } from '../ts/models/transaction';
 import { StorageData } from '../ts/models/storage-data';
 import { StringMap } from './string-map';
 import { DateTime } from 'luxon';
@@ -13,8 +13,8 @@ import { DateTime } from 'luxon';
 export class StorageManager {
   private static instance: StorageManager = new StorageManager();
 
-  private INVESTMENTS_FILE = 'investments_dev.json';
-  private INVESTMENTS_VERSION = 18;
+  private STORAGE_FILE = 'investments_dev.json';
+  private STORAGE_VERSION = 19;
 
   private storageData: StorageData;
   private waitingForStorage = false;
@@ -30,7 +30,7 @@ export class StorageManager {
     StorageManager.instance = this;
   }
 
-  public async storeInvestment(coin: Coin, amount: number, price: number, fees: number, feeCurrency: string,
+  public async storeTransaction(coin: Coin, amount: number, price: number, fees: number, feeCurrency: string,
     date: string): Promise<string> {
 
     this.waitingForStorage = true;
@@ -43,8 +43,8 @@ export class StorageManager {
       let storage = await (this.loadStorage());
       exchangeRates[feeCurrency] = 1;
 
-      let investment = new Investment(amount, price, fees, exchangeRates, date);
-      this.addData(storage, coin, investment);
+      let transaction = new Transaction(amount, price, fees, exchangeRates, date);
+      this.addData(storage, coin, transaction);
 
       return await (this.putStorage(storage));
     } catch (error) {
@@ -77,11 +77,13 @@ export class StorageManager {
 
       for (let coinData of storage.coins) {
         let coinAmount = 0;
-        for (let investment of coinData.investments) {
-          coinAmount += Number(investment.amount);
+        for (let transaction of coinData.transactions) {
+          coinAmount += Number(transaction.amount);
         }
 
-        balanceData[coinData.coin.symbol] = new Balance(coinData.coin, coinAmount, coinData.latestPrice);
+        if (coinAmount > 0) {
+          balanceData[coinData.coin.symbol] = new Balance(coinData.coin, coinAmount, coinData.latestPrice);
+        }
       }
 
       return balanceData;
@@ -90,11 +92,11 @@ export class StorageManager {
     }
   }
 
-  public async getInvestment(coinSymbol: string): Promise<Investment[]> {
+  public async getTransaction(coinSymbol: string): Promise<Transaction[]> {
     try {
       let storage = await (this.loadStorage());
       let coinData = await (this.getCoinData(storage, coinSymbol));
-      return coinData.investments;
+      return coinData.transactions;
     } catch (error) {
       throw error;
     }
@@ -174,7 +176,7 @@ export class StorageManager {
     let promise = null;
 
     try {
-      promise = window.blockstack.putFile(this.INVESTMENTS_FILE, JSON.stringify(storage), true);
+      promise = window.blockstack.putFile(this.STORAGE_FILE, JSON.stringify(storage), true);
     } catch (error) {
       throw error;
     }
@@ -194,13 +196,13 @@ export class StorageManager {
     let storageText = null;
 
     try {
-      storageText = await (window.blockstack.getFile(this.INVESTMENTS_FILE, true));
+      storageText = await (window.blockstack.getFile(this.STORAGE_FILE, true));
     } catch (error) {
       let dataExists = await (this.checkForExistingData());
 
       if (!dataExists) {
         // If error was caused by trying to decrypt an empty file, create a new one
-        await (window.blockstack.putFile(this.INVESTMENTS_FILE, JSON.stringify(new StorageData(this.INVESTMENTS_VERSION)), true));
+        await (window.blockstack.putFile(this.STORAGE_FILE, JSON.stringify(new StorageData(this.STORAGE_VERSION)), true));
       } else {
         throw error;
       }
@@ -209,29 +211,29 @@ export class StorageManager {
     if (storageText) {
       let storage: StorageData = JSON.parse(storageText);
 
-      if (storage.version !== this.INVESTMENTS_VERSION) {
+      if (storage.version !== this.STORAGE_VERSION) {
         // Future migrations, just recreate for now
-        storage = new StorageData(this.INVESTMENTS_VERSION);
+        storage = new StorageData(this.STORAGE_VERSION);
       }
 
       return storage;
     } else {
       // No data yet, create new object
-      return new StorageData(this.INVESTMENTS_VERSION);
+      return new StorageData(this.STORAGE_VERSION);
     }
   }
 
   private async checkForExistingData(): Promise<boolean> {
-    let investmentText = null;
+    let storageText = null;
 
     try {
       // Get data unencrypted just to see if it exists
-      investmentText = await (window.blockstack.getFile(this.INVESTMENTS_FILE, false));
+      storageText = await (window.blockstack.getFile(this.STORAGE_FILE, false));
     } catch (error) {
       throw error;
     }
 
-    return investmentText !== null;
+    return storageText !== null;
   }
 
   private async getCoinData(storage: StorageData, coinSymbol: string): Promise<CoinData> {
@@ -249,20 +251,20 @@ export class StorageManager {
     }
   }
 
-  private addData(storage: StorageData, coin: Coin, investment: Investment) {
-    // Check if coin has previous investments
+  private addData(storage: StorageData, coin: Coin, transaction: Transaction) {
+    // Check if coin has previous transactions
     for (let item of storage.coins) {
       if (coin.symbol === item.coin.symbol) {
         // Add data to existing object
-        investment.id = ++item.lastInvestmentId;
-        item.investments.push(investment);
+        transaction.id = ++item.lastTransactionId;
+        item.transactions.push(transaction);
 
         return;
       }
     }
 
     // If no previous data, add coin as well
-    storage.coins.push(new CoinData(coin, investment));
+    storage.coins.push(new CoinData(coin, transaction));
   }
 
 }

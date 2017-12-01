@@ -5,7 +5,8 @@
         <div class="modal-container" @click.stop>
 
           <div class="modal-header">
-            <h3>ADD BALANCE</h3>
+            <h3 v-if="addingBalance">ADD BALANCE</h3>
+            <h3 v-else>SUBTRACT BALANCE</h3>
           </div>
 
           <div class="modal-body">
@@ -27,18 +28,19 @@
             </div>
 
             <div class="modal-input">
-              <label for="date-purchased">Date Purchased</label>
+              <label v-if="addingBalance" for="date">Date Purchased</label>
+              <label v-else for="date">Date Sold</label>
               <datetime
-                id="date-purchased"
-                input-class="date-purchased-input"
-                v-model="datePurchased"
+                id="date"
+                input-class="date-input"
+                v-model="date"
                 type="date"
                 input-format="MMMM DD, YYYY"
                 :placeholder="'mm/dd/yyy'">
               </datetime>
             </div>
 
-            <div class="modal-input" :class="{'input-error': !priceIsValid}">
+            <div v-if="addingBalance" class="modal-input" :class="{'input-error': !priceIsValid}">
               <label for="price">Price</label>
               <input id="price" v-model="price">
               <span class="error-message" v-if="!priceIsValid">Please enter a valid price</span>
@@ -60,7 +62,8 @@
           </div>
 
           <div class="modal-footer" >
-            <button class="modal-default-button" :disabled="!inputIsValid" @click="addInvestment">+ Add</button>
+            <button v-if="addingBalance" class="modal-default-button" :disabled="!inputIsValid" @click="addTransaction()">+ Add</button>
+            <button v-else class="modal-default-button" :disabled="!inputIsValid" @click="addTransaction()">- Subtract</button>
           </div>
 
         </div>
@@ -71,13 +74,23 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import InvestmentAddItem from './InvestmentAddItem.vue';
+import TransactionCoinItem from './TransactionCoinItem.vue';
 import CoinUtil from '../ts/coin-util';
 import { AppData } from '../ts/app-data';
+import { Balance } from '../ts/models/balance';
 import { Coin } from '../ts/models/coin';
+import { DateTime } from 'luxon';
+import { StringMap } from '../ts/string-map';
 
 export default Vue.extend({
-  name: 'investment-add-modal',
+  name: 'transaction-modal',
+
+  props: {
+    addingBalance: {
+      required: true,
+      type: Boolean
+    }
+  },
 
   data () {
     return {
@@ -86,27 +99,52 @@ export default Vue.extend({
       amountIsValid: true,
       appData: AppData.getInstance(),
       availableCurrencies: ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'ZAR', 'CNY'],
+      currentBalances: <StringMap<number>>{},
+      currentCoins: <Coin[]>[],
       coinIsValid: false,
       currency: 'USD',
-      datePurchased: '',
+      date: this.addingBalance ? '' : DateTime.local().toISODate(),
       feeIsValid: true,
       fees: 0,
       items: <Coin[]>[],
       price: '',
+      priceChecked: false,
       priceIsValid: true,
       selectedItem: new Coin('', ''),
-      template: InvestmentAddItem
+      template: TransactionCoinItem
     };
+  },
+
+  mounted() {
+    this.appData.storageManager.getAllBalances()
+      .then((balanceData) => {
+        for (let key in balanceData) {
+          let value = balanceData[key];
+          this.currentCoins.push(value.coin);
+          this.currentBalances[value.coin.symbol] = value.amount;
+        }
+      })
+      .catch ((error) => {
+        console.log(error);
+      });
   },
 
   watch: {
     amount: function (val) {
-      this.amountIsValid = this.isValidNumberInput(val);
+      if (this.addingBalance) {
+        this.amountIsValid = this.isValidNumberInput(val);
+      } else {
+        let validNumber = this.isValidNumberInput(val);
+        let amountAvailable = this.currentBalances[this.selectedItem.symbol] - val >= 0;
+        this.amountIsValid = validNumber && amountAvailable;
+      }
+
       this.amountChecked = true;
     },
 
     price: function (val) {
       this.priceIsValid = this.isValidNumberInput(val);
+      this.priceChecked = true;
     },
 
     fees: function (val) {
@@ -114,13 +152,26 @@ export default Vue.extend({
     },
 
     selectedItem: function (val) {
-      this.coinIsValid = val instanceof Coin;
+      // Fix this later
+      this.coinIsValid = val instanceof Coin || val instanceof Object;
     }
   },
 
   computed: {
     inputIsValid: function (): boolean {
-      return this.coinIsValid && this.amountIsValid && this.priceIsValid && this.feeIsValid && this.amountChecked;
+      if (this.addingBalance) {
+        return this.coinIsValid
+          && this.amountIsValid
+          && this.priceIsValid
+          && this.feeIsValid
+          && this.amountChecked
+          && this.priceChecked;
+      } else {
+        return this.coinIsValid
+          && this.amountIsValid
+          && this.feeIsValid
+          && this.amountChecked;
+      }
     }
   },
 
@@ -129,9 +180,10 @@ export default Vue.extend({
       this.$emit('close');
     },
 
-    addInvestment: function () {
-      this.appData.storageManager.storeInvestment(this.selectedItem, Number(this.amount), Number(this.price),
-        this.fees, 'USD', this.datePurchased)
+    addTransaction: function () {
+      let multiplier = this.addingBalance ? 1 : -1;
+      this.appData.storageManager.storeTransaction(this.selectedItem, Number(this.amount) * multiplier, Number(this.price),
+        this.fees, 'USD', this.date)
       .then((response) => {
         this.$emit('reload');
       })
@@ -146,9 +198,15 @@ export default Vue.extend({
     },
 
     updateItems (text: string) {
-      this.items = CoinUtil.getAvailable().filter((item) => {
-        return (new RegExp(text.toLowerCase())).test(item.symbol.toLowerCase() + item.name.toLowerCase());
-      });
+      if (this.addingBalance) {
+        this.items = CoinUtil.getAvailable().filter((item) => {
+          return (new RegExp(text.toLowerCase())).test(item.symbol.toLowerCase() + item.name.toLowerCase());
+        });
+      } else {
+        this.items = this.currentCoins.filter((item) => {
+          return (new RegExp(text.toLowerCase())).test(item.symbol.toLowerCase() + item.name.toLowerCase());
+        });
+      }
     },
 
     isValidNumberInput: function (val: string): boolean {
