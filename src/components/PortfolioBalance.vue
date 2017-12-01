@@ -11,7 +11,7 @@
     </div>
 
     <div class="coin-balance">
-      {{ coinAmount.toFixed(6) }}
+      {{ coinAmount.toFixed(8) }}
     </div>
 
     <div class="coin-price">

@@ -45,7 +45,7 @@ export class ChartData {
       data: priceArray,
       defaultFontColor: '#00334C',
       defaultFontFamily: '"Source Sans Pro","Avenir", system-ui, sans-serif;',
-      label: coinAmount.toFixed(6) + ' ' + coinSymbol,
+      label: coinAmount.toFixed(8) + ' ' + coinSymbol,
       lineTension: '0.4',
       pointBackgroundColor: 'RGBA(0,255,162,1.00)',
       pointBorderColor: 'RGBA(0,255,162,0.2)',

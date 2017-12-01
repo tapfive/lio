@@ -16,7 +16,7 @@ export class StorageManager {
   private static instance: StorageManager = new StorageManager();
 
   private STORAGE_FILE = 'storage.json';
-  private STORAGE_VERSION = 1;
+  private STORAGE_VERSION = 2;
 
   private storageData: StorageData;
   private waitingForStorage = false;
@@ -144,7 +144,7 @@ export class StorageManager {
     }
   }
 
-  public async getHistoricalPriceMinutes(coinSymbol: string): Promise<HistoricalPrice> {
+  public async getHistoricalPriceMinutes(coinSymbol: string, currency: string): Promise<HistoricalPrice> {
     try {
       let storage = await (this.loadStorage());
       let coinData = await (this.getCoinData(storage, coinSymbol));
@@ -152,9 +152,9 @@ export class StorageManager {
       let now = DateTime.local().toUTC();
       let lastTime = DateTime.fromMillis(coinData.historicalPriceMinutes.lastTimeStamp * 1000);
 
-      if (now.diff(lastTime, 'minutes').toObject().minutes >= 1) {
+      if (now.diff(lastTime, 'minutes').toObject().minutes >= 1 || coinData.historicalPriceMinutes.currency !== currency) {
         // Prices out of date, get updated prices
-        let updatedPrices = await (CoinApi.getHistoricalPriceMinutes(coinSymbol));
+        let updatedPrices = await (CoinApi.getHistoricalPriceMinutes(coinSymbol, currency));
         coinData.historicalPriceMinutes = updatedPrices;
 
         // Save new prices
@@ -167,7 +167,7 @@ export class StorageManager {
     }
   }
 
-  public async getHistoricalPriceHours(coinSymbol: string, amount: number): Promise<HistoricalPrice> {
+  public async getHistoricalPriceHours(coinSymbol: string, amount: number, currency: string): Promise<HistoricalPrice> {
     try {
       let storage = await (this.loadStorage());
       let coinData = await (this.getCoinData(storage, coinSymbol));
@@ -175,9 +175,9 @@ export class StorageManager {
       let now = DateTime.local().toUTC();
       let lastTime = DateTime.fromMillis(coinData.historicalPriceHours.lastTimeStamp * 1000);
 
-      if (now.diff(lastTime, 'hours').toObject().hours >= 1) {
+      if (now.diff(lastTime, 'hours').toObject().hours >= 1 || coinData.historicalPriceMinutes.currency !== currency) {
         // Prices out of date, get updated prices
-        let updatedPrices = await (CoinApi.getHistoricalPriceHours(coinSymbol));
+        let updatedPrices = await (CoinApi.getHistoricalPriceHours(coinSymbol, currency));
         coinData.historicalPriceHours = updatedPrices;
 
         // Save new prices
@@ -187,7 +187,7 @@ export class StorageManager {
       // Only get the amount needed
       let startingIndex = Object.keys(coinData.historicalPriceHours.prices).length - amount;
       let counter = 0;
-      let historicalPrice = new HistoricalPrice(coinData.historicalPriceHours.lastTimeStamp);
+      let historicalPrice = new HistoricalPrice(coinData.historicalPriceHours.lastTimeStamp, currency);
       for (let key in coinData.historicalPriceHours.prices) {
         counter++;
         if (counter >= startingIndex) {
@@ -202,7 +202,7 @@ export class StorageManager {
     }
   }
 
-  public async getHistoricalPriceDays(coinSymbol: string, amount: number): Promise<HistoricalPrice> {
+  public async getHistoricalPriceDays(coinSymbol: string, amount: number, currency: string): Promise<HistoricalPrice> {
     try {
       let storage = await (this.loadStorage());
       let coinData = await (this.getCoinData(storage, coinSymbol));
@@ -210,9 +210,9 @@ export class StorageManager {
       let now = DateTime.local().toUTC();
       let lastTime = DateTime.fromMillis(coinData.historicalPriceDays.lastTimeStamp * 1000);
 
-      if (now.diff(lastTime, 'days').toObject().days >= 1) {
+      if (now.diff(lastTime, 'days').toObject().days >= 1 || coinData.historicalPriceMinutes.currency !== currency) {
         // Prices out of date, get updated prices
-        let updatedPrices = await (CoinApi.getHistoricalPriceDays(coinSymbol));
+        let updatedPrices = await (CoinApi.getHistoricalPriceDays(coinSymbol, currency));
         coinData.historicalPriceDays = updatedPrices;
 
         // Save new prices
@@ -222,7 +222,7 @@ export class StorageManager {
       // Only get the amount needed
       let startingIndex = Object.keys(coinData.historicalPriceDays.prices).length - amount;
       let counter = 0;
-      let historicalPrice = new HistoricalPrice(coinData.historicalPriceDays.lastTimeStamp);
+      let historicalPrice = new HistoricalPrice(coinData.historicalPriceDays.lastTimeStamp, currency);
       for (let key in coinData.historicalPriceDays.prices) {
         counter++;
         if (counter >= startingIndex) {
