@@ -175,7 +175,7 @@ export class StorageManager {
       let now = DateTime.local().toUTC();
       let lastTime = DateTime.fromMillis(coinData.historicalPriceHours.lastTimeStamp * 1000);
 
-      if (now.diff(lastTime, 'hours').toObject().hours >= 1 || coinData.historicalPriceMinutes.currency !== currency) {
+      if (now.diff(lastTime, 'hours').toObject().hours >= 1 || coinData.historicalPriceHours.currency !== currency) {
         // Prices out of date, get updated prices
         let updatedPrices = await (CoinApi.getHistoricalPriceHours(coinSymbol, currency));
         coinData.historicalPriceHours = updatedPrices;
@@ -210,7 +210,7 @@ export class StorageManager {
       let now = DateTime.local().toUTC();
       let lastTime = DateTime.fromMillis(coinData.historicalPriceDays.lastTimeStamp * 1000);
 
-      if (now.diff(lastTime, 'days').toObject().days >= 1 || coinData.historicalPriceMinutes.currency !== currency) {
+      if (now.diff(lastTime, 'days').toObject().days >= 1 || coinData.historicalPriceDays.currency !== currency) {
         // Prices out of date, get updated prices
         let updatedPrices = await (CoinApi.getHistoricalPriceDays(coinSymbol, currency));
         coinData.historicalPriceDays = updatedPrices;
