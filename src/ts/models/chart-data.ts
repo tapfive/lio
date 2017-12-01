@@ -36,9 +36,8 @@ export class ChartData {
     }
 
     let gradient = this.canvas.getContext('2d').createLinearGradient(0, 0, 0, 150);
-    gradient.addColorStop(0, '#5555FF');
-    gradient.addColorStop(0.5, '#5500FF');
-    gradient.addColorStop(1, '#9787FF');
+    gradient.addColorStop(0, 'rgba(102,255,199,1)');
+    gradient.addColorStop(1, 'rgba(102,255,199,0.24)');
 
     this.datasets.push({
       backgroundColor: gradient,

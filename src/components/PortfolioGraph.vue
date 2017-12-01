@@ -11,8 +11,10 @@
         :chart-data="chartData">
       </line-chart>
     </div>
-    <div class="options" v-for="balance in balanceData" :key="balance.coin.symbol">
-      <button @click="selectCoin(balance)">{{ balance.coin.symbol }}</button>
+    <div class="options-wrapper">
+      <div class="options" v-for="balance in balanceData" :key="balance.coin.symbol">
+        <button @click="selectCoin(balance)">{{ balance.coin.symbol }}</button>
+      </div>
     </div>
   </div>
 </template>
@@ -144,7 +146,7 @@ export default Vue.extend({
   background-image: var(--view-bg-theme-gradient);
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 220px 1fr;
+  grid-template-rows: 96px 0.75fr 220px;
   grid-auto-rows: 96px;
   grid-gap: 16px;
   grid-template-areas:
@@ -166,8 +168,29 @@ export default Vue.extend({
     width: 100%;
 }
 
-.options {
+.options-wrapper {
   grid-area: options;
   grid-row: auto;
+  grid-row: 3 / 4;
+  grid-column: 2 / -2;
+  display: grid;
+  grid-template-columns: 96px 96px 96px 96px 96px 96px 96px 96px;
+  grid-template-rows: 96px;
+  grid-auto-rows: 96px;
+  grid-gap: 16px;
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  align-self:center;
+  justify-self: center;
+
+  & button {
+    width: 72px;
+    height: 72px;
+    border-radius: 100px;
+    font-size: 18px;
+  }
 }
 </style>
