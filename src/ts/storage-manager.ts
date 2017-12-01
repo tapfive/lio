@@ -7,6 +7,7 @@ import { Balance } from '../ts/models/balance';
 import { HistoricalPrice } from '../ts/models/historical-price';
 import { Transaction } from '../ts/models/transaction';
 import { StorageData } from '../ts/models/storage-data';
+import { NumberMap } from './number-map';
 import { StringMap } from './string-map';
 import { DateTime } from 'luxon';
 
@@ -125,7 +126,7 @@ export class StorageManager {
     }
   }
 
-  public async getHistoricalPriceHours(coinSymbol: string): Promise<HistoricalPrice> {
+  public async getHistoricalPriceHours(coinSymbol: string, amount: number): Promise<HistoricalPrice> {
     try {
       let storage = await (this.loadStorage());
       let coinData = await (this.getCoinData(storage, coinSymbol));
@@ -142,13 +143,25 @@ export class StorageManager {
         this.putStorage(storage);
       }
 
-      return coinData.historicalPriceHours;
+      // Only get the amount needed
+      let startingIndex = Object.keys(coinData.historicalPriceHours.prices).length - amount;
+      let counter = 0;
+      let historicalPrice = new HistoricalPrice(coinData.historicalPriceHours.lastTimeStamp);
+      for (let key in coinData.historicalPriceHours.prices) {
+        counter++;
+        if (counter >= startingIndex) {
+          let value = coinData.historicalPriceHours.prices[key];
+          historicalPrice.prices[key] = value;
+        }
+      }
+
+      return historicalPrice;
     } catch (error) {
       throw error;
     }
   }
 
-  public async getHistoricalPriceDays(coinSymbol: string): Promise<HistoricalPrice> {
+  public async getHistoricalPriceDays(coinSymbol: string, amount: number): Promise<HistoricalPrice> {
     try {
       let storage = await (this.loadStorage());
       let coinData = await (this.getCoinData(storage, coinSymbol));
@@ -165,7 +178,19 @@ export class StorageManager {
         this.putStorage(storage);
       }
 
-      return coinData.historicalPriceDays;
+      // Only get the amount needed
+      let startingIndex = Object.keys(coinData.historicalPriceDays.prices).length - amount;
+      let counter = 0;
+      let historicalPrice = new HistoricalPrice(coinData.historicalPriceDays.lastTimeStamp);
+      for (let key in coinData.historicalPriceDays.prices) {
+        counter++;
+        if (counter >= startingIndex) {
+          let value = coinData.historicalPriceDays.prices[key];
+          historicalPrice.prices[key] = value;
+        }
+      }
+
+      return historicalPrice;
     } catch (error) {
       throw error;
     }

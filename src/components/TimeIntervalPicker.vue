@@ -19,7 +19,7 @@ export default Vue.extend({
   data () {
     return {
       appData: AppData.getInstance(),
-      intervals: ['1h', '12h', '1d', '1w', '1m', '3m', '6m', '1y', 'All'],
+      intervals: ['1h', '12h', '1d', '1w', '1m', '3m', '6m', '1y'],
       selectedInterval: '1d'
     };
   },

@@ -41,7 +41,7 @@ export default Vue.extend({
 
   data () {
     return {
-
+      coinName: 'BTC'
     };
   }
 });

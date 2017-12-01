@@ -40,6 +40,4 @@ export class AppData {
     // Only update prices every 60 seconds
     return -this.lastPriceSync.diffNow('seconds').toObject().seconds >= 60;
   }
-
-
 }
