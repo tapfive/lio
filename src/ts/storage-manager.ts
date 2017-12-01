@@ -6,6 +6,7 @@ import { CoinData } from '../ts/models/coin-data';
 import { Balance } from '../ts/models/balance';
 import { HistoricalPrice } from '../ts/models/historical-price';
 import { Transaction } from '../ts/models/transaction';
+import { TransactionHistory } from '../ts/models/transaction-history';
 import { StorageData } from '../ts/models/storage-data';
 import { NumberMap } from './number-map';
 import { StringMap } from './string-map';
@@ -14,8 +15,8 @@ import { DateTime } from 'luxon';
 export class StorageManager {
   private static instance: StorageManager = new StorageManager();
 
-  private STORAGE_FILE = 'investments_dev.json';
-  private STORAGE_VERSION = 19;
+  private STORAGE_FILE = 'storage.json';
+  private STORAGE_VERSION = 1;
 
   private storageData: StorageData;
   private waitingForStorage = false;
@@ -88,6 +89,46 @@ export class StorageManager {
       }
 
       return balanceData;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getAllTransactions(): Promise<TransactionHistory[]> {
+    try {
+      let storage = await (this.loadStorage());
+
+      let transactionData: TransactionHistory[] = [];
+
+      let index = 0;
+      for (let coinData of storage.coins) {
+        for (let transaction of coinData.transactions) {
+          transactionData.push(new TransactionHistory(index, coinData.coin, transaction));
+          index++;
+        }
+      }
+
+      // Sort by date
+      transactionData.sort((firstItem, secondItem) =>  {
+        if (firstItem.transaction.date === '') {
+          return 1;
+        } else if (secondItem.transaction.date === '') {
+          return -1;
+        }
+
+        let firstDate = DateTime.fromISO(firstItem.transaction.date).valueOf();
+        let secondDate = DateTime.fromISO(secondItem.transaction.date).valueOf();
+
+        if (firstDate > secondDate) {
+          return -1;
+        } else if (secondDate > firstDate) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      return transactionData;
     } catch (error) {
       throw error;
     }

@@ -1,33 +1,30 @@
 <template>
   <div class="portfolio-history">
     <h1 class="history-title">Transaction History</h1>
-    <div class="history-toggles">TogglyTogglyToggle</div>
+    <div class="history-toggles" v-for="historyItem in transactionHistory" :key="historyItem.coin.symbol">
+      <button :class="{ selected: isSelected(historyItem.coin) }" @click="selectCoin(historyItem.coin)">{{ historyItem.coin.symbol }}</button>
+    </div>
     <div class="column-labels">
       <ul>
         <li>Coin</li>
-        <li>Holdings</li>
+        <li>Transaction</li>
         <li>Date</li>
         <li>Price</li>
         <li>Fees</li>
-        <li>Adjustment</li>
       </ul>
     </div>
     <div class="history-container">
-      <div class="history-item">
+      <div class="history-item" v-for="historyItem in transactionHistory" :key="historyItem.index" v-if="showCoin(historyItem.coin)">
         <div class="coin-info">
-          <div class="coin-logo">
-            <i :class="coinName" class="cc"></i>
-          </div>
-
           <div class="coin-name">
-            {{ coinName }}
+            <i :class="historyItem.coin.symbol" class="cc"></i>
+            {{ historyItem.coin.symbol }}
           </div>
         </div>
-        <h4>Item</h4>
-        <h4>Item</h4>
-        <h4>Item</h4>
-        <h4>Item</h4>
-        <h4>Item</h4>
+        <h4>{{ formatAmount(historyItem.transaction.amount) }}</h4>
+        <h4>{{ formatDate(historyItem.transaction.date) }}</h4>
+        <h4>{{ formatPrice(historyItem.transaction.price, historyItem.transaction.amount) }}</h4>
+        <h4>{{ formatFees(historyItem.transaction.fees) }}</h4>
       </div>
     </div>
   </div>
@@ -35,14 +32,92 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { AppData } from '../ts/app-data';
+import { Coin } from '../ts/models/coin';
+import { DateTime } from 'luxon';
+import { TransactionHistory } from '../ts/models/transaction-history';
 
 export default Vue.extend({
   name: 'portfolio-history',
 
   data () {
     return {
-      coinName: 'BTC'
+      appData: AppData.getInstance(),
+      transactionHistory: <TransactionHistory[]> [],
+      currencySymbol: '$',
+      selectedCoins: <Coin[]>[]
     };
+  },
+
+  mounted () {
+    this.currencySymbol = this.appData.getSelectedCurrencySymbol(),
+    this.getTransactionHistory();
+  },
+
+  methods: {
+    getTransactionHistory: function () {
+      this.appData.storageManager.getAllTransactions()
+      .then (response => {
+        this.transactionHistory = response;
+      })
+      .catch (error => {
+        console.log(error);
+      });
+    },
+
+    selectCoin: function (coin: Coin) {
+      let index = this.selectedCoins.indexOf(coin)
+      if (index > -1) {
+        this.selectedCoins.splice(index, 1);
+      } else {
+        this.selectedCoins.push(coin);
+      }
+    },
+
+    showCoin: function (coin: Coin) {
+      if (this.selectedCoins.length === 0) {
+        return true;
+      } else {
+        return this.isSelected(coin);
+      }
+    },
+
+    isSelected: function (coin: Coin) {
+      let index = this.selectedCoins.indexOf(coin)
+      if (index > -1) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    formatAmount: function (amount: number): string {
+      if (amount > 0) {
+        return '+' + amount.toString();
+      } else {
+        return amount.toString();
+      }
+    },
+
+    formatDate: function (date: string): string {
+      if (date == '') {
+        return '';
+      }
+
+      return DateTime.fromISO(date).toLocaleString(DateTime.DATE_MED);
+    },
+
+    formatPrice: function (price: number, amount: number): string {
+      if (amount > 0) {
+        return this.currencySymbol + price.toFixed(2);
+      } else {
+        return '-';
+      }
+    },
+
+    formatFees: function (fees: number): string {
+      return this.currencySymbol + fees.toFixed(2);
+    }
   }
 });
 </script>
@@ -96,6 +171,10 @@ export default Vue.extend({
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
       padding: 0px 4px;
     }
+}
+
+.selected {
+  background-color: #FFFFFF;
 }
 
 .history-container {

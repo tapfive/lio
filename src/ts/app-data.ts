@@ -11,6 +11,7 @@ export class AppData {
   public storageManager = StorageManager.getInstance();
 
   private timeInterval = '1d';
+  private selectedCurrency = 'USD';
   private lastPriceSync = DateTime.local().minus({ minutes: 1 });
 
   public static getInstance(): AppData {
@@ -39,5 +40,13 @@ export class AppData {
   public readyForPriceSync(): boolean {
     // Only update prices every 60 seconds
     return -this.lastPriceSync.diffNow('seconds').toObject().seconds >= 60;
+  }
+
+  public getSelectedCurrency(): string {
+     return this.selectedCurrency;
+  }
+
+  public getSelectedCurrencySymbol(): string {
+    return '$';
   }
 }

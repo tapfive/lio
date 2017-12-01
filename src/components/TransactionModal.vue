@@ -183,7 +183,7 @@ export default Vue.extend({
     addTransaction: function () {
       let multiplier = this.addingBalance ? 1 : -1;
       this.appData.storageManager.storeTransaction(this.selectedItem, Number(this.amount) * multiplier, Number(this.price),
-        this.fees, 'USD', this.date)
+        Number(this.fees), 'USD', this.date)
       .then((response) => {
         this.$emit('reload');
       })
