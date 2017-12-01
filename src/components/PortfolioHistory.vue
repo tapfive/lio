@@ -43,9 +43,9 @@ export default Vue.extend({
   data () {
     return {
       appData: AppData.getInstance(),
-      transactionHistory: <TransactionHistory[]> [],
       currencySymbol: '$',
-      selectedCoins: <Coin[]>[]
+      selectedCoins: <Coin[]>[],
+      transactionHistory: <TransactionHistory[]> []
     };
   },
 
@@ -66,7 +66,7 @@ export default Vue.extend({
     },
 
     selectCoin: function (coin: Coin) {
-      let index = this.selectedCoins.indexOf(coin)
+      let index = this.selectedCoins.indexOf(coin);
       if (index > -1) {
         this.selectedCoins.splice(index, 1);
       } else {
@@ -83,7 +83,7 @@ export default Vue.extend({
     },
 
     isSelected: function (coin: Coin) {
-      let index = this.selectedCoins.indexOf(coin)
+      let index = this.selectedCoins.indexOf(coin);
       if (index > -1) {
         return true;
       } else {
@@ -100,7 +100,7 @@ export default Vue.extend({
     },
 
     formatDate: function (date: string): string {
-      if (date == '') {
+      if (date === '') {
         return '';
       }
 

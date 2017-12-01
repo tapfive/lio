@@ -13,7 +13,7 @@
     </div>
     <div class="options-wrapper">
       <div class="options" v-for="balance in balanceData" :key="balance.coin.symbol">
-        <button @click="selectCoin(balance)">{{ balance.coin.symbol }}</button>
+        <button :class="{ selected: isSelected(balance) }" @click="selectCoin(balance)">{{ balance.coin.symbol }}</button>
       </div>
     </div>
   </div>
@@ -134,6 +134,10 @@ export default Vue.extend({
         this.selectedBalance = balance;
         this.loadGraphData(balance);
       }
+    },
+
+    isSelected: function (balance: Balance) {
+      return this.selectedBalance === balance;
     }
   }
 });
@@ -155,6 +159,10 @@ export default Vue.extend({
     ". options         options         options         options        .";
 }
 
+button {
+  background-color: #FFFFFF;
+}
+
 .time-range-picker {
   grid-row: 1 / 2;
   grid-column: 2 / 6;
@@ -166,6 +174,10 @@ export default Vue.extend({
     grid-area: graph;
     height: 220px;
     width: 100%;
+}
+
+.selected {
+  border: 3px  solid var(--green)
 }
 
 .options-wrapper {
