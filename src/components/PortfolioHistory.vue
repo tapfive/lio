@@ -122,7 +122,7 @@ export default Vue.extend({
 
     formatPrice: function (transaction: Transaction): string {
       if (transaction.amount > 0) {
-        let adjustedPrice = transaction.amount * transaction.exchangeRates[this.selectedCurrency];
+        let adjustedPrice = transaction.price * transaction.exchangeRates[this.selectedCurrency];
         return this.currencySymbol + adjustedPrice.toFixed(2);
       } else {
         return '-';
