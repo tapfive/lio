@@ -150,7 +150,7 @@ export default Vue.extend({
   background-image: var(--view-bg-theme-gradient);
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 0.75fr 220px;
+  grid-template-rows: 96px 400px min-content;
   grid-auto-rows: 96px;
   grid-gap: 16px;
   grid-template-areas:

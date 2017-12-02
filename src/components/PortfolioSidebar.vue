@@ -131,8 +131,8 @@ h1, h3 {
 
 .sidebar-user {
   display: flex;
-  flex-direction: row;
-   align-items: center;
+  flex-direction: column;
+   /*align-items: center;*/
   margin-bottom: 32px;
   margin-left: 32px;
   font-size: 14px;

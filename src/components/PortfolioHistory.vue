@@ -1,8 +1,11 @@
 <template>
   <div class="portfolio-history">
     <h1 class="history-title">Transaction History</h1>
-    <div class="history-toggles" v-for="historyItem in transactionHistory" :key="historyItem.coin.symbol">
-      <button :class="{ selected: isSelected(historyItem.coin) }" @click="selectCoin(historyItem.coin)">{{ historyItem.coin.symbol }}</button>
+    <h3 class="toggles-label">Toggle Coins</h3>
+    <div class="history-toggles-wrap">
+      <div class="history-toggles" v-for="historyItem in transactionHistory" :key="historyItem.coin.symbol">
+        <button :class="{ selected: isSelected(historyItem.coin) }" @click="selectCoin(historyItem.coin)">{{ historyItem.coin.symbol }}</button>
+      </div>
     </div>
     <div class="column-labels">
       <ul>
@@ -134,10 +137,11 @@ export default Vue.extend({
   background-image: var(--view-bg-theme-gradient);
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 120px 48px 1fr;
+  grid-template-rows: 96px 32px 96px 48px min-content;
   grid-gap: 16px;
   grid-template-areas:
     ". history-title     history-title     history-title     history-title   ."
+    ". history-toggle-label . . . ."
     ". history-toggles   history-toggles   history-toggles   history-toggles ."
     ". history-labels    history-labels    history-labels    history-labels  ."
     ". transactions      transactions      transactions      transactions    .";
@@ -159,8 +163,31 @@ export default Vue.extend({
   grid-area: history-title;
 }
 
-.history-toggles {
+.toggles-label {
+  grid-area: history-toggle-label;
+}
+
+.history-toggles-wrap {
   grid-area: history-toggles;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-row: auto;
+  display: grid;
+}
+
+.history-toggles {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self:center;
+  justify-self: center;
+
+  & button {
+    width: 72px;
+    height: 72px;
+    border-radius: 100px;
+    font-size: 18px;
+    background-color: #FFFFFF;
+  }
 }
 
 .column-labels {
@@ -173,18 +200,18 @@ export default Vue.extend({
       list-style: none;
       text-align: left;
       font-weight: 600;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
       padding: 0px 4px;
     }
 }
 
 .selected {
-  background-color: #FFFFFF;
+  border: 3px  solid var(--green);
 }
 
 .history-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-auto-rows: 54px;
   align-items: center;
   border-radius: 6px;
@@ -192,13 +219,16 @@ export default Vue.extend({
   background-color: var(--card-bg-theme-color);
   box-shadow: 0 2px 8px 0 var(--shadow-theme-color);
   grid-area: transactions;
+  padding-bottom: 4px;
+  overflow: hidden;
 }
 
 .history-item {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   height: 54px;
   border-bottom: 1px solid rgba(0,69,102,0.1);
+  padding: 4px 16px;
   align-items: center;
   text-align: left;
   grid-column: 1 / -1;
