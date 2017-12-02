@@ -9,7 +9,7 @@
         </time-interval-picker>
         -->
       </div>
-      <portfolio-total 
+      <portfolio-total
         :total-balance="totalBalance"
         :currency-symbol="selectedCurrencySymbol">
       </portfolio-total>
@@ -177,7 +177,7 @@ export default Vue.extend({
 .dashboard-content {
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 242px 48px 96px;
+  grid-template-rows: 24px 242px 48px 96px;
   grid-auto-rows: 96px;
   grid-gap: 16px;
   grid-template-areas:
