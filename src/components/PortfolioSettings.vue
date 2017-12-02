@@ -33,10 +33,9 @@ export default Vue.extend({
   background-image: var(--view-bg-theme-gradient);
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 96px 120px  120px;
+  grid-template-rows: 96px 120px  120px;
   grid-gap: 16px;
   grid-template-areas:
-   ". . . . . ."
     ". settings-title     settings-title     settings-title     settings-title   ."
     ". currency-selector   .   clear-options  . ."
     ". .    .    .    .  .";
