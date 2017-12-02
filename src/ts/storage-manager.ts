@@ -16,8 +16,8 @@ import { DateTime } from 'luxon';
 export class StorageManager {
   private static instance: StorageManager = new StorageManager();
 
-  private STORAGE_FILE = 'storage.json';
-  private STORAGE_VERSION = 4;
+  private STORAGE_FILE = 'lio-storage.json';
+  private STORAGE_VERSION = 1;
 
   private storageData: StorageData;
   private waitingForStorage = false;

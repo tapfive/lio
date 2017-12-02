@@ -1,5 +1,12 @@
 {
   "hosting": {
-    "public": "./dist"
+    "public": "./dist",
+    "headers": [{
+      "source": "**",
+      "headers": [{
+        "key": "Access-Control-Allow-Origin",
+        "value": "*"
+      }]
+    }]
   }
 }
