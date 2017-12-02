@@ -1,14 +1,13 @@
 {
   "name": "lio",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "A simple, decentralized cryptocurrency portfolio",
   "author": "Tap Five <dev@tapfive.io>",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
-    "build": "node build/build.js",
-    "lint": "eslint --ext .js,.vue src"
+    "build": "node build/build.js"
   },
   "dependencies": {
     "axios": "^0.16.2",

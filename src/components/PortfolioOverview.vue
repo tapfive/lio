@@ -3,11 +3,16 @@
 
     <div class="dashboard-content" v-if="loadedStorage">
       <div class="time-range-picker">
+        <!--
         <time-interval-picker
           @update:selected-interval="val => selectedInterval = val">
         </time-interval-picker>
+        -->
       </div>
-      <portfolio-total :total-balance="totalBalance"></portfolio-total>
+      <portfolio-total 
+        :total-balance="totalBalance"
+        :currency-symbol="selectedCurrencySymbol">
+      </portfolio-total>
 
       <div class="column-labels">
         <ul>
@@ -22,7 +27,8 @@
         <portfolio-balance
           :coin-amount="balance.amount"
           :coin-name="balance.coin.symbol"
-          :coin-price="balance.getPriceInCurrency(selectedCurrency)">
+          :coin-price="balance.getPriceInCurrency(selectedCurrency)"
+          :currency-symbol="selectedCurrencySymbol">
         </portfolio-balance>
       </div>
     </div>
@@ -68,11 +74,17 @@ export default Vue.extend({
       loadedApi: false,
       loadedStorage: false,
       selectedCurrency: 'USD',
+      selectedCurrencySymbol: '$',
       selectedInterval: '1d'
     };
   },
 
   mounted () {
+    this.appData.loadSettings()
+    .then (response => {
+      this.selectedCurrency = this.appData.getSelectedCurrency();
+      this.selectedCurrencySymbol = this.appData.getSelectedCurrencySymbol();
+    });
     this.selectedInterval = this.appData.getTimeInterval();
     this.loadBalances(false);
   },
@@ -83,8 +95,6 @@ export default Vue.extend({
       .then((balanceData) => {
         this.balanceData = balanceData;
         this.loadedStorage = true;
-
-        console.log('loadedStorage');
 
         if (ignoreTimer || this.appData.readyForPriceSync()) {
           this.refreshPrices();
@@ -112,8 +122,6 @@ export default Vue.extend({
             let value = response[key];
             this.balanceData[key].price = value;
           }
-
-          console.log('loadedApi');
 
           this.appData.updateLastPriceSync();
           this.loadedApi = true;

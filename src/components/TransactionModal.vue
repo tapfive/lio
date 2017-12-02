@@ -62,8 +62,14 @@
           </div>
 
           <div class="modal-footer" >
-            <button v-if="addingBalance" class="modal-default-button" :disabled="!inputIsValid" @click="addTransaction()">+ Add</button>
-            <button v-else class="modal-default-button" :disabled="!inputIsValid" @click="addTransaction()">- Subtract</button>
+            <button v-if="addingBalance" class="modal-default-button" :disabled="!inputIsValid" @click="addTransaction()">
+              <div v-if="!loading">+ Add</div>
+              <div v-else><spinner line-fg-color="#004466" line-bg-color="#00000000" size="small"></spinner></div>
+            </button>
+            <button v-else class="modal-default-button" :disabled="!inputIsValid" @click="addTransaction()">
+              <div v-if="!loading">- Subtract</div>
+              <div v-else><spinner line-fg-color="#004466" line-bg-color="#00000000" size="small"></spinner></div>
+            </button>
           </div>
 
         </div>
@@ -75,6 +81,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import TransactionCoinItem from './TransactionCoinItem.vue';
+import Spinner from 'vue-simple-spinner';
 import CoinUtil from '../ts/coin-util';
 import { AppData } from '../ts/app-data';
 import { Balance } from '../ts/models/balance';
@@ -84,6 +91,10 @@ import { StringMap } from '../ts/string-map';
 
 export default Vue.extend({
   name: 'transaction-modal',
+
+  components: {
+    Spinner
+  },
 
   props: {
     addingBalance: {
@@ -107,6 +118,7 @@ export default Vue.extend({
       feeIsValid: true,
       fees: 0,
       items: <Coin[]>[],
+      loading: false,
       price: '',
       priceChecked: false,
       priceIsValid: true,
@@ -181,6 +193,7 @@ export default Vue.extend({
     },
 
     addTransaction: function () {
+      this.loading = true;
       let multiplier = this.addingBalance ? 1 : -1;
       this.appData.storageManager.storeTransaction(this.selectedItem, Number(this.amount) * multiplier, Number(this.price),
         Number(this.fees), 'USD', this.date)

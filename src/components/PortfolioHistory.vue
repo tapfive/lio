@@ -26,8 +26,8 @@
         </div>
         <h4>{{ formatAmount(historyItem.transaction.amount) }}</h4>
         <h4>{{ formatDate(historyItem.transaction.date) }}</h4>
-        <h4>{{ formatPrice(historyItem.transaction.price, historyItem.transaction.amount) }}</h4>
-        <h4>{{ formatFees(historyItem.transaction.fees) }}</h4>
+        <h4 v-html="formatPrice(historyItem.transaction)"></h4>
+        <h4 v-html="formatFees(historyItem.transaction)"></h4>
       </div>
     </div>
   </div>
@@ -38,6 +38,7 @@ import Vue from 'vue';
 import { AppData } from '../ts/app-data';
 import { Coin } from '../ts/models/coin';
 import { DateTime } from 'luxon';
+import { Transaction } from '../ts/models/transaction';
 import { TransactionHistory } from '../ts/models/transaction-history';
 
 export default Vue.extend({
@@ -48,12 +49,14 @@ export default Vue.extend({
       appData: AppData.getInstance(),
       currencySymbol: '$',
       selectedCoins: <Coin[]>[],
+      selectedCurrency: 'USD',
       transactionHistory: <TransactionHistory[]> []
     };
   },
 
   mounted () {
-    this.currencySymbol = this.appData.getSelectedCurrencySymbol(),
+    this.currencySymbol = this.appData.getSelectedCurrencySymbol();
+    this.selectedCurrency = this.appData.getSelectedCurrency();
     this.getTransactionHistory();
   },
 
@@ -110,16 +113,18 @@ export default Vue.extend({
       return DateTime.fromISO(date).toLocaleString(DateTime.DATE_MED);
     },
 
-    formatPrice: function (price: number, amount: number): string {
-      if (amount > 0) {
-        return this.currencySymbol + price.toFixed(2);
+    formatPrice: function (transaction: Transaction): string {
+      if (transaction.amount > 0) {
+        let adjustedPrice = transaction.amount * transaction.exchangeRates[this.selectedCurrency];
+        return this.currencySymbol + adjustedPrice.toFixed(2);
       } else {
         return '-';
       }
     },
 
-    formatFees: function (fees: number): string {
-      return this.currencySymbol + fees.toFixed(2);
+    formatFees: function (transaction: Transaction): string {
+      let adjustedFees = transaction.fees * transaction.exchangeRates[this.selectedCurrency];
+      return this.currencySymbol + adjustedFees.toFixed(2);
     }
   }
 });
