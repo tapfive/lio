@@ -1,9 +1,9 @@
 {
   "name": "Lio",
   "start_url": "http://localhost:8080",
-  "description": "A cryptocurrency portfolio",
+  "description": "A simple, decentralized cryptocurrency portfolio",
   "icons": [{
-    "src": "https://vuejs.org/images/logo.png",
+    "src": "./logo.png",
     "sizes": "400x400",
     "type": "image/png"
   }]
