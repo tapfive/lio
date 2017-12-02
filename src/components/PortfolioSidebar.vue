@@ -120,9 +120,9 @@ h1, h3 {
 .sidebar-logo {
   display: flex;
   align-items: center;
-  /* justify-content: center; */
+   justify-content: center;
   margin-bottom: 32px;
-  margin-left: 32px;
+  /*margin-left: 32px;*/
 
   & > h1 {
     margin-left: 8px;
@@ -132,9 +132,9 @@ h1, h3 {
 .sidebar-user {
   display: flex;
   flex-direction: column;
-   /*align-items: center;*/
+   align-items: center;
   margin-bottom: 32px;
-  margin-left: 32px;
+  /*margin-left: 32px;*/
   font-size: 14px;
 
   & .nc-icon-wrapper > path {
