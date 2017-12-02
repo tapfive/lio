@@ -16,13 +16,13 @@
 
     <div class="coin-price">
       <div v-if="coinPrice !== 0">
-        ${{ coinPrice.toFixed(2) }}
+        <span v-html="currencySymbol"></span>{{ coinPrice.toFixed(2) }}
       </div>
       <div v-else>-</div>
     </div>
 
     <div class="coin-value">
-      ${{ coinValue }}
+      <span v-html="currencySymbol"></span>{{ coinValue }}
     </div>
 
   </div>
@@ -46,6 +46,10 @@ export default Vue.extend({
     coinPrice: {
       required: true,
       type: Number
+    },
+    currencySymbol: {
+      required: true,
+      type: String
     }
   },
 

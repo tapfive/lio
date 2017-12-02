@@ -4,6 +4,20 @@ import { Coin } from './models/coin';
 import { DateTime } from 'luxon';
 import { StorageData } from './models/storage-data';
 import { StorageManager } from './storage-manager';
+import { StringMap } from './string-map';
+
+const CURRENCY_SYMBOLS: StringMap<string> = {
+  'AUD': '$',
+  'CAD': '$',
+  'CHF': 'CHF ',
+  'CNY': '&#20803;',
+  'EUR': '&#128;',
+  'GBP': '&#163;',
+  'JPY': '&#165;',
+  'NZD': '$',
+  'USD': '$',
+  'ZAR': 'ZAR '
+};
 
 export class AppData {
   private static instance: AppData = new AppData();
@@ -25,6 +39,12 @@ export class AppData {
     AppData.instance = this;
   }
 
+  public async loadSettings(): Promise<boolean> {
+    let settings = await (this.storageManager.getSettings());
+    this.selectedCurrency = settings.currency;
+    return true;
+  }
+
   public setTimeInterval(timeInterval: string) {
     this.timeInterval = timeInterval;
   }
@@ -43,10 +63,15 @@ export class AppData {
   }
 
   public getSelectedCurrency(): string {
-     return this.selectedCurrency;
+    return this.selectedCurrency;
+  }
+
+  public setSelectedCurrency(currency: string) {
+    this.selectedCurrency = currency;
+    this.storageManager.storeSettings(currency);
   }
 
   public getSelectedCurrencySymbol(): string {
-    return '$';
+    return CURRENCY_SYMBOLS[this.selectedCurrency];
   }
 }

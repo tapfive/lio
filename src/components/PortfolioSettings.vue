@@ -2,26 +2,60 @@
   <div class="portfolio-settings">
     <h1 class="settings-title">Settings</h1>
     <div class="currency-selector">
-      <h3>FIAT</h3>
-      <select name="${2}" id="${4}" class="currency-options">fiat</select>
+      <h3>Fiat Currency</h3>
+      <select class="currency-options" v-model="currency">
+        <option v-for="currency in availableCurrencies" :key="currency">{{ currency }}</option>
+      </select>
     </div>
     <div class="clear-option">
       <h3>Clear All Data</h3>
-      <button>Clear Data</button>
+      <button @click.prevent="clearData()">
+        <div v-if="!loading">Clear Data</div>
+        <div v-else><spinner line-fg-color="#004466" line-bg-color="#00000000" size="small"></spinner></div>
+      </button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import Spinner from 'vue-simple-spinner';
+import { AppData } from '../ts/app-data';
 
 export default Vue.extend({
   name: 'portfolio-settings',
 
+  components: {
+    Spinner
+  },
+
   data () {
     return {
-
+      appData: AppData.getInstance(),
+      availableCurrencies: ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'ZAR', 'CNY'],
+      currency: 'USD',
+      loading: false
     };
+  },
+
+  mounted () {
+    this.currency = this.appData.getSelectedCurrency();
+  },
+
+  watch: {
+    currency: function(selectedCurrency) {
+      this.appData.setSelectedCurrency(selectedCurrency);
+    }
+  },
+
+  methods: {
+    clearData: function() {
+      this.loading = true;
+      this.appData.storageManager.clearData()
+      .then (response => {
+        this.loading = false;
+      });
+    }
   }
 });
 </script>
@@ -51,6 +85,10 @@ export default Vue.extend({
   .portfolio-settings {
     grid-template-columns: 1fr 360px 360px 360px 360px 1fr;
   }
+}
+
+button {
+  width: 120px;
 }
 
 .settings-title {

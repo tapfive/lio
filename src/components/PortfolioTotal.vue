@@ -1,7 +1,7 @@
 <template>
   <div class="portfolio-total">
     <div>Your Portfolio</div>
-    <h2>${{ totalBalance }}</h2>
+    <h2><span v-html="currencySymbol"></span> {{ totalBalance }}</h2>
   </div>
 </template>
 
@@ -12,6 +12,10 @@ export default {
     totalBalance: {
       type: String,
       required: true
+    },
+    currencySymbol: {
+      required: true,
+      type: String
     }
   }
 }

@@ -1,13 +1,14 @@
 import CoinApi from './api/coin-api';
 import CurrencyApi from './api/currency-api';
-import CoinUtil from '../ts/coin-util';
+import CoinUtil from './coin-util';
 import { Coin } from './models/coin';
-import { CoinData } from '../ts/models/coin-data';
-import { Balance } from '../ts/models/balance';
-import { HistoricalPrice } from '../ts/models/historical-price';
-import { Transaction } from '../ts/models/transaction';
-import { TransactionHistory } from '../ts/models/transaction-history';
-import { StorageData } from '../ts/models/storage-data';
+import { CoinData } from './models/coin-data';
+import { Balance } from './models/balance';
+import { HistoricalPrice } from './models/historical-price';
+import { Transaction } from './models/transaction';
+import { TransactionHistory } from './models/transaction-history';
+import { StorageData } from './models/storage-data';
+import { Settings } from './models/settings';
 import { NumberMap } from './number-map';
 import { StringMap } from './string-map';
 import { DateTime } from 'luxon';
@@ -16,7 +17,7 @@ export class StorageManager {
   private static instance: StorageManager = new StorageManager();
 
   private STORAGE_FILE = 'storage.json';
-  private STORAGE_VERSION = 2;
+  private STORAGE_VERSION = 4;
 
   private storageData: StorageData;
   private waitingForStorage = false;
@@ -30,6 +31,14 @@ export class StorageManager {
       throw new Error('Error: Instantiation failed: Use StorageManager.getInstance() instead of new.');
     }
     StorageManager.instance = this;
+  }
+
+  public async clearData(): Promise<boolean> {
+    // Create a new storage file, removing the old one
+    let newStorage = new StorageData(this.STORAGE_VERSION);
+    await (window.blockstack.putFile(this.STORAGE_FILE, JSON.stringify(newStorage), true));
+    this.storageData = newStorage;
+    return true;
   }
 
   public async storeTransaction(coin: Coin, amount: number, price: number, fees: number, feeCurrency: string,
@@ -66,6 +75,27 @@ export class StorageManager {
       }
 
       this.putStorage(storage);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async storeSettings(currency: string) {
+    this.waitingForStorage = true;
+
+    try {
+      let storage = await (this.loadStorage());
+      storage.settings.currency = currency;
+      this.putStorage(storage);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getSettings(): Promise<Settings> {
+    try {
+      let storage = await (this.loadStorage());
+      return storage.settings;
     } catch (error) {
       throw error;
     }
@@ -109,7 +139,7 @@ export class StorageManager {
       }
 
       // Sort by date
-      transactionData.sort((firstItem, secondItem) =>  {
+      transactionData.sort((firstItem, secondItem) => {
         if (firstItem.transaction.date === '') {
           return 1;
         } else if (secondItem.transaction.date === '') {
