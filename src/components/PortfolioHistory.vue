@@ -3,8 +3,8 @@
     <h1 class="history-title">Transaction History</h1>
     <h3 class="toggles-label">Toggle Coins</h3>
     <div class="history-toggles-wrap">
-      <div class="history-toggles" v-for="historyItem in transactionHistory" :key="historyItem.coin.symbol">
-        <button :class="{ selected: isSelected(historyItem.coin) }" @click="selectCoin(historyItem.coin)">{{ historyItem.coin.symbol }}</button>
+      <div class="history-toggles" v-for="coin in availableCoins" :key="coin.symbol">
+        <button :class="{ selected: isSelected(coin) }" @click="selectCoin(coin)">{{ coin.symbol }}</button>
       </div>
     </div>
     <div class="column-labels">
@@ -47,6 +47,7 @@ export default Vue.extend({
   data () {
     return {
       appData: AppData.getInstance(),
+      availableCoins: <Coin[]>[],
       currencySymbol: '$',
       selectedCoins: <Coin[]>[],
       selectedCurrency: 'USD',
@@ -65,6 +66,12 @@ export default Vue.extend({
       this.appData.storageManager.getAllTransactions()
       .then (response => {
         this.transactionHistory = response;
+
+        for (let historyItem of response) {
+          if (this.availableCoins.indexOf(historyItem.coin) < 0) {
+            this.availableCoins.push(historyItem.coin);
+          }
+        }
       })
       .catch (error => {
         console.log(error);
