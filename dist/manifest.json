@@ -1,0 +1,10 @@
+{
+  "name": "Lio",
+  "start_url": "https://lio.link",
+  "description": "A simple, decentralized cryptocurrency portfolio",
+  "icons": [{
+    "src": "https://lio.link/logo.png",
+    "sizes": "400x400",
+    "type": "image/png"
+  }]
+}
