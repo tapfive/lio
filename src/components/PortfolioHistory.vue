@@ -232,5 +232,13 @@ export default Vue.extend({
   align-items: center;
   text-align: left;
   grid-column: 1 / -1;
+
+  & > h4 {
+    font-weight: 400;
+  }
+}
+
+.coin-name > i {
+  margin-right: 4px;
 }
 </style>
