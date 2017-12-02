@@ -26,10 +26,8 @@
         </portfolio-balance>
       </div>
     </div>
-    <div v-else>
-      Loading
-        <loading-spinner>
-        </loading-spinner>
+    <div class="loading-container" v-else>
+      <spinner size="large" message="Loading..."></spinner>
     </div>
   </div>
 </template>
@@ -39,7 +37,7 @@ import Vue from 'vue';
 import PortfolioTotal from './PortfolioTotal.vue';
 import PortfolioBalance from './PortfolioBalance.vue';
 import TimeIntervalPicker from './TimeIntervalPicker.vue';
-import LoadingSpinner from './LoadingSpinner.vue';
+import Spinner from 'vue-simple-spinner';
 import CoinApi from '../ts/api/coin-api';
 import { Balance } from '../ts/models/balance';
 import { StringMap } from '../ts/string-map';
@@ -49,9 +47,9 @@ export default Vue.extend({
   name: 'portfolio-overview',
 
   components: {
-    LoadingSpinner,
     PortfolioBalance,
     PortfolioTotal,
+    Spinner,
     TimeIntervalPicker
   },
 
@@ -220,8 +218,9 @@ export default Vue.extend({
   grid-row: auto;
 }
 
-/* loading-spinner {
-  width:64px;
-  height:64px;
-} */
+.loading-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
 </style>
