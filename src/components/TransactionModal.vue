@@ -128,7 +128,7 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.appData.storageManager.getAllBalances()
+    this.appData.transactionManager.getAllBalances()
       .then((balanceData) => {
         for (let key in balanceData) {
           let value = balanceData[key];
@@ -195,7 +195,7 @@ export default Vue.extend({
     addTransaction: function () {
       this.loading = true;
       let multiplier = this.addingBalance ? 1 : -1;
-      this.appData.storageManager.storeTransaction(this.selectedItem, Number(this.amount) * multiplier, Number(this.price),
+      this.appData.transactionManager.storeTransaction(this.selectedItem, Number(this.amount) * multiplier, Number(this.price),
         Number(this.fees), 'USD', this.date)
       .then((response) => {
         this.$emit('reload');

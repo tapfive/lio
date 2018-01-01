@@ -1,31 +1,17 @@
-import CoinApi from './api/coin-api';
-import CurrencyApi from './api/currency-api';
-import { Coin } from './models/coin';
 import { DateTime } from 'luxon';
-import { StorageData } from './models/storage-data';
-import { StorageManager } from './storage-manager';
-import { StringMap } from './string-map';
-
-const CURRENCY_SYMBOLS: StringMap<string> = {
-  'AUD': '$',
-  'CAD': '$',
-  'CHF': 'CHF ',
-  'CNY': '&#20803;',
-  'EUR': '&#128;',
-  'GBP': '&#163;',
-  'JPY': '&#165;',
-  'NZD': '$',
-  'USD': '$',
-  'ZAR': 'ZAR '
-};
+import { StorageManager } from './managers/storage-manager';
+import { PriceManager } from './managers/price-manager';
+import { TransactionManager } from './managers/transaction-manager';
+import { SettingsManager } from './managers/settings-manager';
 
 export class AppData {
   private static instance: AppData = new AppData();
 
   public storageManager = StorageManager.getInstance();
+  public priceManager = PriceManager.getInstance();
+  public transactionManager = TransactionManager.getInstance();
+  public settingsManager = SettingsManager.getInstance();
 
-  private timeInterval = '1d';
-  private selectedCurrency = 'USD';
   private lastPriceSync = DateTime.local().minus({ minutes: 1 });
 
   public static getInstance(): AppData {
@@ -40,17 +26,8 @@ export class AppData {
   }
 
   public async loadSettings(): Promise<boolean> {
-    let settings = await (this.storageManager.getSettings());
-    this.selectedCurrency = settings.currency;
+    await (this.settingsManager.loadSettings());
     return true;
-  }
-
-  public setTimeInterval(timeInterval: string) {
-    this.timeInterval = timeInterval;
-  }
-
-  public getTimeInterval(): string {
-    return this.timeInterval;
   }
 
   public updateLastPriceSync() {
@@ -60,18 +37,5 @@ export class AppData {
   public readyForPriceSync(): boolean {
     // Only update prices every 60 seconds
     return -this.lastPriceSync.diffNow('seconds').toObject().seconds >= 60;
-  }
-
-  public getSelectedCurrency(): string {
-    return this.selectedCurrency;
-  }
-
-  public setSelectedCurrency(currency: string) {
-    this.selectedCurrency = currency;
-    this.storageManager.storeSettings(currency);
-  }
-
-  public getSelectedCurrencySymbol(): string {
-    return CURRENCY_SYMBOLS[this.selectedCurrency];
   }
 }

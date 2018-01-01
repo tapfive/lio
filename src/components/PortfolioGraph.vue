@@ -49,7 +49,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.selectedInterval = this.appData.getTimeInterval();
+    this.selectedInterval = this.appData.settingsManager.getTimeInterval();
     this.chartData = new ChartData((this.$refs.chart as any).$refs.canvas);
     this.loadCoins();
   },
@@ -64,7 +64,7 @@ export default Vue.extend({
 
   methods: {
     loadCoins: function() {
-      this.appData.storageManager.getAllBalances()
+      this.appData.transactionManager.getAllBalances()
       .then((balanceData) => {
         this.balanceData = balanceData;
         for (let key in balanceData) {
@@ -78,43 +78,45 @@ export default Vue.extend({
     },
 
     loadGraphData: function(balance: Balance) {
+      let selectedCurrency = this.appData.settingsManager.getSelectedCurrency();
+
       if (this.selectedInterval === '1h') {
-          this.appData.storageManager.getHistoricalPriceMinutes(balance.coin.symbol, this.appData.getSelectedCurrency())
+          this.appData.priceManager.getHistoricalPriceMinutes(balance.coin.symbol, selectedCurrency)
           .then(response => {
             this.addToChartData(response, balance, false);
           });
         } else if (this.selectedInterval === '12h') {
-          this.appData.storageManager.getHistoricalPriceHours(balance.coin.symbol, 12, this.appData.getSelectedCurrency())
+          this.appData.priceManager.getHistoricalPriceHours(balance.coin.symbol, 12, selectedCurrency)
           .then(response => {
             this.addToChartData(response, balance, false);
           });
         } else if (this.selectedInterval === '1d') {
-          this.appData.storageManager.getHistoricalPriceHours(balance.coin.symbol, 24, this.appData.getSelectedCurrency())
+          this.appData.priceManager.getHistoricalPriceHours(balance.coin.symbol, 24, selectedCurrency)
           .then(response => {
             this.addToChartData(response, balance, false);
           });
         } else if (this.selectedInterval === '1w') {
-          this.appData.storageManager.getHistoricalPriceDays(balance.coin.symbol, 7, this.appData.getSelectedCurrency())
+          this.appData.priceManager.getHistoricalPriceDays(balance.coin.symbol, 7, selectedCurrency)
           .then(response => {
             this.addToChartData(response, balance, true);
           });
         } else if (this.selectedInterval === '1m') {
-          this.appData.storageManager.getHistoricalPriceDays(balance.coin.symbol, 30, this.appData.getSelectedCurrency())
+          this.appData.priceManager.getHistoricalPriceDays(balance.coin.symbol, 30, selectedCurrency)
           .then(response => {
             this.addToChartData(response, balance, true);
           });
         } else if (this.selectedInterval === '3m') {
-          this.appData.storageManager.getHistoricalPriceDays(balance.coin.symbol, 90, this.appData.getSelectedCurrency())
+          this.appData.priceManager.getHistoricalPriceDays(balance.coin.symbol, 90, selectedCurrency)
           .then(response => {
             this.addToChartData(response, balance, true);
           });
         } else if (this.selectedInterval === '6m') {
-          this.appData.storageManager.getHistoricalPriceDays(balance.coin.symbol, 180, this.appData.getSelectedCurrency())
+          this.appData.priceManager.getHistoricalPriceDays(balance.coin.symbol, 180, selectedCurrency)
           .then(response => {
             this.addToChartData(response, balance, true);
           });
         } else if (this.selectedInterval === '1y') {
-          this.appData.storageManager.getHistoricalPriceDays(balance.coin.symbol, 365, this.appData.getSelectedCurrency())
+          this.appData.priceManager.getHistoricalPriceDays(balance.coin.symbol, 365, selectedCurrency)
           .then(response => {
             this.addToChartData(response, balance, true);
           });

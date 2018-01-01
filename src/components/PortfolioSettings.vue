@@ -39,12 +39,12 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.currency = this.appData.getSelectedCurrency();
+    this.currency = this.appData.settingsManager.getSelectedCurrency();
   },
 
   watch: {
     currency: function(selectedCurrency) {
-      this.appData.setSelectedCurrency(selectedCurrency);
+      this.appData.settingsManager.setSelectedCurrency(selectedCurrency);
     }
   },
 

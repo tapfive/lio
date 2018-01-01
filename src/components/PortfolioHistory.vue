@@ -56,14 +56,14 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.currencySymbol = this.appData.getSelectedCurrencySymbol();
-    this.selectedCurrency = this.appData.getSelectedCurrency();
+    this.currencySymbol = this.appData.settingsManager.getSelectedCurrencySymbol();
+    this.selectedCurrency = this.appData.settingsManager.getSelectedCurrency();
     this.getTransactionHistory();
   },
 
   methods: {
     getTransactionHistory: function () {
-      this.appData.storageManager.getAllTransactions()
+      this.appData.transactionManager.getAllTransactions()
       .then (response => {
         this.transactionHistory = response;
 

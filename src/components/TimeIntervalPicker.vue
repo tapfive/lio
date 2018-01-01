@@ -25,13 +25,13 @@ export default Vue.extend({
   },
 
   created () {
-    this.selectedInterval = this.appData.getTimeInterval();
+    this.selectedInterval = this.appData.settingsManager.getTimeInterval();
   },
 
   methods: {
     changeInterval(interval: string) {
       this.selectedInterval = interval;
-      this.appData.setTimeInterval(interval);
+      this.appData.settingsManager.setTimeInterval(interval);
       this.$emit('update:selected-interval', interval);
     },
 

@@ -82,16 +82,16 @@ export default Vue.extend({
   mounted () {
     this.appData.loadSettings()
     .then (response => {
-      this.selectedCurrency = this.appData.getSelectedCurrency();
-      this.selectedCurrencySymbol = this.appData.getSelectedCurrencySymbol();
+      this.selectedCurrency = this.appData.settingsManager.getSelectedCurrency();
+      this.selectedCurrencySymbol = this.appData.settingsManager.getSelectedCurrencySymbol();
+      this.selectedInterval = this.appData.settingsManager.getTimeInterval();
     });
-    this.selectedInterval = this.appData.getTimeInterval();
     this.loadBalances(false);
   },
 
   methods: {
     loadBalances(ignoreTimer: boolean) {
-      this.appData.storageManager.getAllBalances()
+      this.appData.transactionManager.getAllBalances()
       .then((balanceData) => {
         this.balanceData = balanceData;
         this.loadedStorage = true;
@@ -116,7 +116,7 @@ export default Vue.extend({
         CoinApi.getPriceMultiple(coins)
         .then(response => {
           // Cache data for later
-          this.appData.storageManager.storeLatestPrice(response);
+          this.appData.priceManager.storeLatestPrice(response);
 
           for (let key in response) {
             let value = response[key];
