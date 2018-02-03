@@ -17,6 +17,8 @@ export class CoinData {
     this.lastTransactionId = 1;
     this.transactions = <Transaction[]>[];
 
+    this.latestPrice = {};
+
     this.historicalPriceMinutes = new HistoricalPrice(1, 'USD');
     this.historicalPriceHours = new HistoricalPrice(1, 'USD');
     this.historicalPriceDays = new HistoricalPrice(1, 'USD');

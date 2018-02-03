@@ -30,6 +30,7 @@ export class SettingsManager {
       throw new Error('Error: Instantiation failed: Use SettingsManager.getInstance() instead of new.');
     }
     SettingsManager.instance = this;
+    this.settings = new Settings();
   }
 
   public setTimeInterval(timeInterval: string) {
