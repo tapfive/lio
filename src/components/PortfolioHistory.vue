@@ -28,6 +28,17 @@
         <h4>{{ formatDate(historyItem.transaction.date) }}</h4>
         <h4 v-html="formatPrice(historyItem.transaction)"></h4>
         <h4 v-html="formatFees(historyItem.transaction)"></h4>
+        <svg width="16px" height="4px" viewBox="0 0 16 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <g id="History---Light" stroke="none" stroke-width="1" fill="none" transform="translate(-1177.000000, -593.000000)" fill-opacity="0.24">
+                <g id="Edit-Menu" transform="translate(1119.000000, 578.000000)" fill="#004466">
+                    <g id="menu-dots" transform="translate(58.000000, 15.000000)">
+                        <circle id="Oval" cx="8" cy="2" r="2"></circle>
+                        <circle id="Oval" cx="2" cy="2" r="2"></circle>
+                        <circle id="Oval" cx="14" cy="2" r="2"></circle>
+                    </g>
+                </g>
+            </g>
+        </svg>
       </div>
     </div>
   </div>
@@ -176,7 +187,7 @@ export default Vue.extend({
 
 .history-toggles-wrap {
   grid-area: history-toggles;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 24px;
   grid-row: auto;
   display: grid;
 }
@@ -207,7 +218,7 @@ export default Vue.extend({
       list-style: none;
       text-align: left;
       font-weight: 600;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 24px;
       padding: 0px 4px;
     }
 }
@@ -218,7 +229,7 @@ export default Vue.extend({
 
 .history-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 24px;
   grid-auto-rows: 54px;
   align-items: center;
   border-radius: 6px;
@@ -232,7 +243,7 @@ export default Vue.extend({
 
 .history-item {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 24px;
   height: 54px;
   border-bottom: 1px solid rgba(0,69,102,0.1);
   padding: 4px 16px;
