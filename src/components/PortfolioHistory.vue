@@ -1,51 +1,70 @@
 <template>
   <div class="portfolio-history">
-    <h1 class="history-title">Transaction History</h1>
-    <h3 class="toggles-label">Toggle Coins</h3>
-    <div class="history-toggles-wrap">
-      <div class="history-toggles" v-for="coin in availableCoins" :key="coin.symbol">
-        <button :class="{ selected: isSelected(coin) }" @click="selectCoin(coin)">{{ coin.symbol }}</button>
+
+    <div v-if="loadedStorage">
+
+      <div class="empty-state" v-if="isEmpty">
+        <h1>EMPTY</h1>
       </div>
-    </div>
-    <div class="column-labels">
-      <ul>
-        <li>Coin</li>
-        <li>Transaction</li>
-        <li>Date</li>
-        <li>Price</li>
-        <li>Fees</li>
-      </ul>
-    </div>
-    <div class="history-container">
-      <div class="history-item" v-for="historyItem in transactionHistory" :key="historyItem.index" v-if="showCoin(historyItem.coin)">
-        <div class="coin-info">
-          <div class="coin-name">
-            <i :class="historyItem.coin.symbol" class="cc"></i>
-            {{ historyItem.coin.symbol }}
+
+      <div class="history-content" v-else>
+
+        <h1 class="history-title">Transaction History</h1>
+        <h3 class="toggles-label">Toggle Coins</h3>
+        <div class="history-toggles-wrap">
+          <div class="history-toggles" v-for="coin in availableCoins" :key="coin.symbol">
+            <button :class="{ selected: isSelected(coin) }" @click="selectCoin(coin)">{{ coin.symbol }}</button>
           </div>
         </div>
-        <h4>{{ formatAmount(historyItem.transaction.amount) }}</h4>
-        <h4>{{ formatDate(historyItem.transaction.date) }}</h4>
-        <h4 v-html="formatPrice(historyItem.transaction)"></h4>
-        <h4 v-html="formatFees(historyItem.transaction)"></h4>
-        <svg width="16px" height="4px" viewBox="0 0 16 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <g id="History---Light" stroke="none" stroke-width="1" fill="none" transform="translate(-1177.000000, -593.000000)" fill-opacity="0.24">
-                <g id="Edit-Menu" transform="translate(1119.000000, 578.000000)" fill="#004466">
-                    <g id="menu-dots" transform="translate(58.000000, 15.000000)">
-                        <circle id="Oval" cx="8" cy="2" r="2"></circle>
-                        <circle id="Oval" cx="2" cy="2" r="2"></circle>
-                        <circle id="Oval" cx="14" cy="2" r="2"></circle>
+        <div class="column-labels">
+          <ul>
+            <li>Coin</li>
+            <li>Transaction</li>
+            <li>Date</li>
+            <li>Price</li>
+            <li>Fees</li>
+          </ul>
+        </div>
+        <div class="history-container">
+          <div class="history-item" v-for="historyItem in transactionHistory" :key="historyItem.index" v-if="showCoin(historyItem.coin)">
+            <div class="coin-info">
+              <div class="coin-name">
+                <i :class="historyItem.coin.symbol" class="cc"></i>
+                {{ historyItem.coin.symbol }}
+              </div>
+            </div>
+            <h4>{{ formatAmount(historyItem.transaction.amount) }}</h4>
+            <h4>{{ formatDate(historyItem.transaction.date) }}</h4>
+            <h4 v-html="formatPrice(historyItem.transaction)"></h4>
+            <h4 v-html="formatFees(historyItem.transaction)"></h4>
+            <svg width="16px" height="4px" viewBox="0 0 16 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="History---Light" stroke="none" stroke-width="1" fill="none" transform="translate(-1177.000000, -593.000000)" fill-opacity="0.24">
+                    <g id="Edit-Menu" transform="translate(1119.000000, 578.000000)" fill="#004466">
+                        <g id="menu-dots" transform="translate(58.000000, 15.000000)">
+                            <circle id="Oval" cx="8" cy="2" r="2"></circle>
+                            <circle id="Oval" cx="2" cy="2" r="2"></circle>
+                            <circle id="Oval" cx="14" cy="2" r="2"></circle>
+                        </g>
                     </g>
                 </g>
-            </g>
-        </svg>
+            </svg>
+          </div>
+        </div>
+
       </div>
+
     </div>
+
+    <div class="loading-container" v-else>
+      <spinner size="large" message="Loading..."></spinner>
+    </div>
+
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import Spinner from 'vue-simple-spinner';
 import { AppData } from '../ts/app-data';
 import { Coin } from '../ts/models/coin';
 import { DateTime } from 'luxon';
@@ -55,11 +74,23 @@ import { TransactionHistory } from '../ts/models/transaction-history';
 export default Vue.extend({
   name: 'portfolio-history',
 
+  components: {
+    Spinner
+  },
+
+  props: {
+    reloadData: {
+      required: true,
+      type: Boolean
+    }
+  },
+
   data () {
     return {
       appData: AppData.getInstance(),
       availableCoins: <Coin[]>[],
       currencySymbol: '$',
+      loadedStorage: false,
       selectedCoins: <Coin[]>[],
       selectedCurrency: 'USD',
       transactionHistory: <TransactionHistory[]> []
@@ -72,11 +103,28 @@ export default Vue.extend({
     this.getTransactionHistory();
   },
 
+  watch: {
+    reloadData: function (reload: boolean) {
+      if (reload) {
+        this.$emit('update:reload-data', false);
+        this.loadedStorage = false;
+        this.getTransactionHistory();
+      }
+    }
+  },
+
+  computed: {
+    isEmpty: function(): Boolean {
+      return this.transactionHistory.length === 0;
+    }
+  },
+
   methods: {
     getTransactionHistory: function () {
       this.appData.transactionManager.getAllTransactions()
       .then (response => {
         this.transactionHistory = response;
+        this.loadedStorage = true;
 
         for (let historyItem of response) {
           if (this.availableCoins.indexOf(historyItem.coin) < 0) {
@@ -149,7 +197,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.portfolio-history {
+.history-content {
   min-height: 100vh;
   background-color: var(--view-bg-theme-color);
   background-image: var(--view-bg-theme-gradient);
@@ -258,5 +306,11 @@ export default Vue.extend({
 
 .coin-name > i {
   margin-right: 4px;
+}
+
+.loading-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
 }
 </style>

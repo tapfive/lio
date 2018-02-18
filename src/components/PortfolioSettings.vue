@@ -20,6 +20,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Spinner from 'vue-simple-spinner';
+import CurrencyUtil from '../ts/currency-util';
 import { AppData } from '../ts/app-data';
 
 export default Vue.extend({
@@ -32,7 +33,7 @@ export default Vue.extend({
   data () {
     return {
       appData: AppData.getInstance(),
-      availableCurrencies: ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'ZAR', 'CNY'],
+      availableCurrencies: CurrencyUtil.getAll(),
       currency: 'USD',
       loading: false
     };

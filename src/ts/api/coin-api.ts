@@ -1,13 +1,13 @@
 import axios from 'axios';
+import CurrencyUtil from '../currency-util';
 import { StringMap } from '../string-map';
 import { HistoricalPrice } from '../models/historical-price';
 
 const BASE_URL = 'https://min-api.cryptocompare.com';
-const ALL_CURRENCIES = ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'ZAR', 'CNY'];
 
 export default {
   getPriceMultiple: async function (coinSymbols: string[]): Promise<StringMap<StringMap<number>>> {
-    let requestUrl = BASE_URL + '/data/pricemulti?fsyms=' + coinSymbols + '&tsyms=' + ALL_CURRENCIES;
+    let requestUrl = BASE_URL + '/data/pricemulti?fsyms=' + coinSymbols + '&tsyms=' + CurrencyUtil.getAll();
     let axiosResult = await (axios.get(requestUrl));
 
     return axiosResult.data;

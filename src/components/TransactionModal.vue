@@ -83,6 +83,7 @@ import Vue from 'vue';
 import TransactionCoinItem from './TransactionCoinItem.vue';
 import Spinner from 'vue-simple-spinner';
 import CoinUtil from '../ts/coin-util';
+import CurrencyUtil from '../ts/currency-util';
 import { AppData } from '../ts/app-data';
 import { Balance } from '../ts/models/balance';
 import { Coin } from '../ts/models/coin';
@@ -109,7 +110,7 @@ export default Vue.extend({
       amountChecked: false,
       amountIsValid: true,
       appData: AppData.getInstance(),
-      availableCurrencies: ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'ZAR', 'CNY'],
+      availableCurrencies: CurrencyUtil.getAll(),
       coinIsValid: false,
       currency: 'USD',
       currentBalances: <StringMap<number>>{},

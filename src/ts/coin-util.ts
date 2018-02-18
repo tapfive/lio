@@ -5,7 +5,7 @@ export default {
     return COINS;
   },
 
-  getCoinFromSymbol: function (symbol: string) {
+  getCoinFromSymbol: function (symbol: string): Coin {
     for (let item of this.getAvailable()) {
       if (item.symbol === symbol) {
         return item;

@@ -1,19 +1,7 @@
+import CurrencyUtil from '../currency-util';
 import { StorageManager } from './storage-manager';
 import { Settings } from '../models/settings';
 import { StringMap } from '../string-map';
-
-const CURRENCY_SYMBOLS: StringMap<string> = {
-  'AUD': '$',
-  'CAD': '$',
-  'CHF': 'CHF ',
-  'CNY': '&#20803;',
-  'EUR': '&#128;',
-  'GBP': '&#163;',
-  'JPY': '&#165;',
-  'NZD': '$',
-  'USD': '$',
-  'ZAR': 'ZAR '
-};
 
 export class SettingsManager {
   private static instance: SettingsManager = new SettingsManager();
@@ -56,7 +44,7 @@ export class SettingsManager {
   }
 
   public getSelectedCurrencySymbol(): string {
-    return CURRENCY_SYMBOLS[this.settings.currency];
+    return CurrencyUtil.getSymbol(this.settings.currency);
   }
 
   public async loadSettings() {

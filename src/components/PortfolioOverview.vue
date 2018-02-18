@@ -1,37 +1,46 @@
 <template>
   <div class="portfolio-overview">
 
-    <div class="dashboard-content" v-if="loadedStorage">
-      <div class="time-range-picker">
-        <!--
-        <time-interval-picker
-          @update:selected-interval="val => selectedInterval = val">
-        </time-interval-picker>
-        -->
-      </div>
-      <portfolio-total
-        :total-balance="totalBalance"
-        :currency-symbol="selectedCurrencySymbol">
-      </portfolio-total>
+    <div v-if="loadedStorage">
 
-      <div class="column-labels">
-        <ul>
-          <li>Cryptocurrency</li>
-          <li>Holdings</li>
-          <li>Value</li>
-          <li>Balance</li>
-        </ul>
+      <div class="empty-state" v-if="isEmpty">
+        <h1>EMPTY</h1>
       </div>
 
-      <div class="balance-wrapper" v-for="balance in balanceData" :key="balance.coin.symbol">
-        <portfolio-balance
-          :coin-amount="balance.amount"
-          :coin-name="balance.coin.symbol"
-          :coin-price="balance.getPriceInCurrency(selectedCurrency)"
+      <div class="dashboard-content" v-else>
+        <div class="time-range-picker">
+          <!--
+          <time-interval-picker
+            @update:selected-interval="val => selectedInterval = val">
+          </time-interval-picker>
+          -->
+        </div>
+        <portfolio-total
+          :total-balance="totalBalance"
           :currency-symbol="selectedCurrencySymbol">
-        </portfolio-balance>
+        </portfolio-total>
+
+        <div class="column-labels">
+          <ul>
+            <li>Cryptocurrency</li>
+            <li>Holdings</li>
+            <li>Value</li>
+            <li>Balance</li>
+          </ul>
+        </div>
+
+        <div class="balance-wrapper" v-for="balance in balanceData" :key="balance.coin.symbol">
+          <portfolio-balance
+            :coin-amount="balance.amount"
+            :coin-name="balance.coin.symbol"
+            :coin-price="balance.getPriceInCurrency(selectedCurrency)"
+            :currency-symbol="selectedCurrencySymbol">
+          </portfolio-balance>
+        </div>
       </div>
+
     </div>
+    
     <div class="loading-container" v-else>
       <spinner size="large" message="Loading..."></spinner>
     </div>
@@ -162,6 +171,10 @@ export default Vue.extend({
       }
 
       return balance.toFixed(2);
+    },
+
+    isEmpty: function(): Boolean {
+      return Object.keys(this.balanceData).length === 0;
     }
   }
 });

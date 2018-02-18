@@ -15,11 +15,17 @@
     </div>
 
     <div v-else-if="currentComponent === 'graph'" class="component-container">
-      <portfolio-graph></portfolio-graph>
+      <portfolio-graph
+        :reload-data="reloadData"
+        @update:reload-data="val => reloadData = val">
+      </portfolio-graph>
     </div>
 
     <div v-else-if="currentComponent === 'history'" class="component-container">
-      <portfolio-history></portfolio-history>
+      <portfolio-history
+        :reload-data="reloadData"
+        @update:reload-data="val => reloadData = val">
+      </portfolio-history>
     </div>
 
     <div v-else-if="currentComponent === 'settings'" class="component-container">

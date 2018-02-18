@@ -1,21 +1,37 @@
 <template>
   <div class="portfolio-graph">
-    <div class="time-range-picker">
-      <time-interval-picker
-        @update:selected-interval="val => selectedInterval = val">
-      </time-interval-picker>
-    </div>
-    <div class="line-chart">
-      <line-chart
-        ref="chart"
-        :chart-data="chartData">
-      </line-chart>
-    </div>
-    <div class="options-wrapper">
-      <div class="options" v-for="balance in balanceData" :key="balance.coin.symbol">
-        <button :class="{ selected: isSelected(balance) }" @click="selectCoin(balance)">{{ balance.coin.symbol }}</button>
+
+    <div v-if="loadedStorage">
+
+      <div class="empty-state" v-if="isEmpty">
+        <h1>EMPTY</h1>
       </div>
+
+      <div class="graph-content" v-else>
+        <div class="time-range-picker">
+          <time-interval-picker
+            @update:selected-interval="val => selectedInterval = val">
+          </time-interval-picker>
+        </div>
+        <div class="line-chart">
+          <line-chart
+            ref="chart"
+            :chart-data="chartData">
+          </line-chart>
+        </div>
+        <div class="options-wrapper">
+          <div class="options" v-for="balance in balanceData" :key="balance.coin.symbol">
+            <button :class="{ selected: isSelected(balance) }" @click="selectCoin(balance)">{{ balance.coin.symbol }}</button>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+    <div class="loading-container" v-else>
+      <spinner size="large" message="Loading..."></spinner>
+    </div>
+    
   </div>
 </template>
 
@@ -23,6 +39,7 @@
 import Vue from 'vue';
 import LineChart from './LineChart.vue';
 import TimeIntervalPicker from './TimeIntervalPicker.vue';
+import Spinner from 'vue-simple-spinner';
 import { Balance } from '../ts/models/balance';
 import { ChartData } from '../ts/models/chart-data';
 import { Coin } from '../ts/models/coin';
@@ -35,7 +52,15 @@ export default Vue.extend({
 
   components: {
     LineChart,
+    Spinner,
     TimeIntervalPicker
+  },
+
+  props: {
+    reloadData: {
+      required: true,
+      type: Boolean
+    }
   },
 
   data () {
@@ -43,6 +68,8 @@ export default Vue.extend({
       appData: AppData.getInstance(),
       balanceData: <StringMap<Balance>> {},
       chartData: new ChartData(null),
+      chartRef: this.$refs.chart as any,
+      loadedStorage: false,
       selectedBalance: <Balance>{},
       selectedCurrency: 'USD',
       selectedInterval: '1d'
@@ -52,7 +79,6 @@ export default Vue.extend({
   mounted () {
     this.selectedInterval = this.appData.settingsManager.getTimeInterval();
     this.selectedCurrency = this.appData.settingsManager.getSelectedCurrency();
-    this.chartData = new ChartData((this.$refs.chart as any).$refs.canvas);
     this.loadCoins();
   },
 
@@ -61,6 +87,33 @@ export default Vue.extend({
       if (this.selectedBalance.coin != null) {
         this.loadGraphData(this.selectedBalance);
       }
+    },
+
+    reloadData: function (reload: boolean) {
+      if (reload) {
+        this.$emit('update:reload-data', false);
+        this.loadedStorage = false;
+        this.loadCoins();
+      }
+    },
+
+    chartRef: function() {
+      if (this.chartRef) {
+        // Select first coin
+        for (let key in this.balanceData) {
+          this.selectCoin(this.balanceData[key]);
+          break;
+        }
+      }
+    
+    }
+  },
+
+  computed: {
+    isEmpty: function(): Boolean {
+      console.log("EMPTY" + Object.keys(this.balanceData).length);
+      return Object.keys(this.balanceData).length === 0;
+      //return false;
     }
   },
 
@@ -69,10 +122,9 @@ export default Vue.extend({
       this.appData.transactionManager.getAllBalances()
       .then((balanceData) => {
         this.balanceData = balanceData;
-        for (let key in balanceData) {
-          this.selectCoin(balanceData[key]);
-          break;
-        }
+        this.loadedStorage = true;
+
+        this.chartData = new ChartData((this.$refs.chart as any).$refs.canvas);
       })
       .catch ((error) => {
         console.log(error);
@@ -146,7 +198,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.portfolio-graph {
+.graph-content {
   min-height: 100vh;
   background-color: var(--view-bg-theme-color);
   background-image: var(--view-bg-theme-gradient);
@@ -206,5 +258,11 @@ button {
     border-radius: 100px;
     font-size: 18px;
   }
+}
+
+.loading-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
 }
 </style>
