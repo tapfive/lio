@@ -29,6 +29,7 @@ export default {
 
   mounted () {
     this.renderChart(this.chartData, this.options)
+    this.$emit('update:chart-loaded', true);
   }
 };
 </script>

@@ -16,7 +16,8 @@
         <div class="line-chart">
           <line-chart
             ref="chart"
-            :chart-data="chartData">
+            :chart-data="chartData"
+            @update:chart-loaded="val => selectFirstCoin(val)">>
           </line-chart>
         </div>
         <div class="options-wrapper">
@@ -68,7 +69,6 @@ export default Vue.extend({
       appData: AppData.getInstance(),
       balanceData: <StringMap<Balance>> {},
       chartData: new ChartData(null),
-      chartRef: this.$refs.chart as any,
       loadedStorage: false,
       selectedBalance: <Balance>{},
       selectedCurrency: 'USD',
@@ -95,25 +95,12 @@ export default Vue.extend({
         this.loadedStorage = false;
         this.loadCoins();
       }
-    },
-
-    chartRef: function() {
-      if (this.chartRef) {
-        // Select first coin
-        for (let key in this.balanceData) {
-          this.selectCoin(this.balanceData[key]);
-          break;
-        }
-      }
-    
     }
   },
 
   computed: {
     isEmpty: function(): Boolean {
-      console.log("EMPTY" + Object.keys(this.balanceData).length);
       return Object.keys(this.balanceData).length === 0;
-      //return false;
     }
   },
 
@@ -123,8 +110,6 @@ export default Vue.extend({
       .then((balanceData) => {
         this.balanceData = balanceData;
         this.loadedStorage = true;
-
-        this.chartData = new ChartData((this.$refs.chart as any).$refs.canvas);
       })
       .catch ((error) => {
         console.log(error);
@@ -181,6 +166,16 @@ export default Vue.extend({
       newChart.addDataSet(balance.coin.symbol, balance.amount, historicalPrice.prices);
 
       this.chartData = newChart;
+    },
+
+    selectFirstCoin: function(chartLoaded: boolean) {
+      if (chartLoaded) {
+        // Select first coin
+        for (let key in this.balanceData) {
+          this.selectCoin(this.balanceData[key]);
+          break;
+        }
+      }
     },
 
     selectCoin: function (balance: Balance) {

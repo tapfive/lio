@@ -29,13 +29,4 @@ export class AppData {
     await (this.settingsManager.loadSettings());
     return true;
   }
-
-  public updateLastPriceSync() {
-    this.lastPriceSync = DateTime.local();
-  }
-
-  public readyForPriceSync(): boolean {
-    // Only update prices every 60 seconds
-    return -this.lastPriceSync.diffNow('seconds').toObject().seconds >= 60;
-  }
 }

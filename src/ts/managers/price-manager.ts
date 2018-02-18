@@ -1,5 +1,6 @@
 import CoinApi from '../api/coin-api';
 import { HistoricalPrice } from '../models/historical-price';
+import { PriceResult } from '../models/price-result';
 import { StorageManager } from './storage-manager';
 import { StringMap } from '../string-map';
 import { DateTime } from 'luxon';
@@ -8,6 +9,7 @@ export class PriceManager {
   private static instance: PriceManager = new PriceManager();
 
   private storageManager = StorageManager.getInstance();
+  private lastPriceSync = DateTime.local().minus({ minutes: 1 });
 
   public static getInstance(): PriceManager {
     return PriceManager.instance;
@@ -20,18 +22,26 @@ export class PriceManager {
     PriceManager.instance = this;
   }
 
-  public async storeLatestPrice(prices: StringMap<StringMap<number>>) {
-    try {
-      let storage = await (this.storageManager.loadStorage());
+  public async refreshPrices(coinSymbols: string[], ignoreTimer: boolean): Promise<PriceResult> {
+    // Check if an update is needed
+    if (this.isPriceSyncNeeded() || ignoreTimer) {
+      try {
+        let apiResult = await (CoinApi.getPriceMultiple(coinSymbols));
 
-      for (let item of storage.coins) {
-        item.latestPrice = prices[item.coin.symbol];
+        // Store data for later
+        this.storeLatestPrice(apiResult);
+
+        // Update last sync time
+        this.lastPriceSync = DateTime.local();
+
+        return new PriceResult(true, apiResult);
+      } catch (error) {
+        console.log(error);
+        return new PriceResult(false, undefined);
       }
-
-      this.storageManager.putStorage(storage);
-    } catch (error) {
-      throw error;
     }
+
+    return new PriceResult(false, undefined);
   }
 
   public async getHistoricalPriceMinutes(coinSymbol: string, currency: string): Promise<HistoricalPrice> {
@@ -40,7 +50,7 @@ export class PriceManager {
       let coinData = this.storageManager.getCoinData(storage, coinSymbol);
       let existingData = coinData.historicalPriceMinutes;
 
-      if (this.isPriceUpdateNeeded(existingData, currency, TimeInterval.MINUTES)) {
+      if (this.isHistoricalPriceUpdateNeeded(existingData, currency, TimeInterval.MINUTES)) {
         // Prices out of date, get updated prices
         let updatedPrices = await (CoinApi.getHistoricalPriceMinutes(coinSymbol, currency));
         existingData = updatedPrices;
@@ -61,7 +71,7 @@ export class PriceManager {
       let coinData = this.storageManager.getCoinData(storage, coinSymbol);
       let existingData = coinData.historicalPriceHours;
 
-      if (this.isPriceUpdateNeeded(existingData, currency, TimeInterval.HOURS)) {
+      if (this.isHistoricalPriceUpdateNeeded(existingData, currency, TimeInterval.HOURS)) {
         // Prices out of date, get updated prices
         let updatedPrices = await (CoinApi.getHistoricalPriceHours(coinSymbol, currency));
         existingData = updatedPrices;
@@ -82,7 +92,7 @@ export class PriceManager {
       let coinData = this.storageManager.getCoinData(storage, coinSymbol);
       let existingData = coinData.historicalPriceDays;
 
-      if (this.isPriceUpdateNeeded(existingData, currency, TimeInterval.DAYS)) {
+      if (this.isHistoricalPriceUpdateNeeded(existingData, currency, TimeInterval.DAYS)) {
         // Prices out of date, get updated prices
         let updatedPrices = await (CoinApi.getHistoricalPriceDays(coinSymbol, currency));
         existingData = updatedPrices;
@@ -97,7 +107,26 @@ export class PriceManager {
     }
   }
 
-  private isPriceUpdateNeeded(existingData: HistoricalPrice, currency: string, interval: TimeInterval): Boolean {
+  private async storeLatestPrice(prices: StringMap<StringMap<number>>) {
+    try {
+      let storage = await (this.storageManager.loadStorage());
+
+      for (let item of storage.coins) {
+        item.latestPrice = prices[item.coin.symbol];
+      }
+
+      this.storageManager.putStorage(storage);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private isPriceSyncNeeded(): boolean {
+    // Only update prices every 60 seconds
+    return -this.lastPriceSync.diffNow('seconds').toObject().seconds >= 60;
+  }
+
+  private isHistoricalPriceUpdateNeeded(existingData: HistoricalPrice, currency: string, interval: TimeInterval): Boolean {
     let now = DateTime.local().toUTC();
     let lastTime = DateTime.fromMillis(existingData.lastTimeStamp * 1000);
 

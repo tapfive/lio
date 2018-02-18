@@ -53,7 +53,6 @@ import PortfolioTotal from './PortfolioTotal.vue';
 import PortfolioBalance from './PortfolioBalance.vue';
 import TimeIntervalPicker from './TimeIntervalPicker.vue';
 import Spinner from 'vue-simple-spinner';
-import CoinApi from '../ts/api/coin-api';
 import { Balance } from '../ts/models/balance';
 import { StringMap } from '../ts/string-map';
 import { AppData } from '../ts/app-data';
@@ -80,7 +79,6 @@ export default Vue.extend({
       appData: AppData.getInstance(),
       balanceData: <StringMap<Balance>> {},
       errors: [],
-      loadedApi: false,
       loadedStorage: false,
       selectedCurrency: 'USD',
       selectedCurrencySymbol: '$',
@@ -104,17 +102,14 @@ export default Vue.extend({
       .then((balanceData) => {
         this.balanceData = balanceData;
         this.loadedStorage = true;
-
-        if (ignoreTimer || this.appData.readyForPriceSync()) {
-          this.refreshPrices();
-        }
+        this.refreshPrices(ignoreTimer);
       })
       .catch ((error) => {
         console.log(error);
       });
     },
 
-    refreshPrices () {
+    refreshPrices (ignoreTimer: boolean) {
       let coins = [];
       for (let key in this.balanceData) {
         coins.push(key);
@@ -122,21 +117,18 @@ export default Vue.extend({
 
       // Only check prices if coins have been added
       if (coins.length > 0) {
-        CoinApi.getPriceMultiple(coins)
+        this.appData.priceManager.refreshPrices(coins, ignoreTimer)
         .then(response => {
-          // Cache data for later
-          this.appData.priceManager.storeLatestPrice(response);
 
-          for (let key in response) {
-            let value = response[key];
-            this.balanceData[key].price = value;
+          if (response.successful) {
+            // If call was successful, result will be defined
+            let result = response.result!!;
+
+            for (let key in result) {
+              // Update data with new prices
+              this.balanceData[key].price = result[key];
+            }
           }
-
-          this.appData.updateLastPriceSync();
-          this.loadedApi = true;
-        })
-        .catch((error: string) => {
-          console.log(error);
         });
       }
     }
@@ -147,7 +139,6 @@ export default Vue.extend({
       if (reload) {
         this.$emit('update:reload-data', false);
         this.loadedStorage = false;
-        this.loadedApi = false;
         this.loadBalances(true);
       }
     },
