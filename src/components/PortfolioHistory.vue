@@ -4,7 +4,9 @@
     <div v-if="loadedStorage">
 
       <div class="empty-state" v-if="isEmpty">
-        <h1>EMPTY</h1>
+        <h1>There are no transactions to show.</h1>
+        <h3>Add a balance to get started.</h3>
+        <svg class="empty-arrow" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" xml:space="preserve" width="16" height="16"><g class="nc-icon-wrapper" fill="#00334c"><polygon fill="#00334c" points="14.7,9.3 13.3,7.9 9,12.2 9,0 7,0 7,12.2 2.7,7.9 1.3,9.3 8,16 "></polygon></g></svg>
       </div>
 
       <div class="history-content" v-else>
@@ -312,5 +314,30 @@ export default Vue.extend({
   position: fixed;
   top: 50%;
   left: 50%;
+}
+
+.empty-state {
+  width: 100%;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+
+  & h3 {
+    margin-top: -8px;
+    font-weight: 400;
+  }
+
+  & .empty-arrow {
+    margin-top: 24px;
+    transform: rotate(45deg) scale(2);
+    transition: all 0.5s var(--ease-in-out-cubic);
+  }
+
+  & .empty-arrow:hover {
+      transform: rotate(405deg) scale(2);
+  }
 }
 </style>
