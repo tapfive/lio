@@ -55,6 +55,7 @@ import PortfolioTotal from './PortfolioTotal.vue';
 import PortfolioBalance from './PortfolioBalance.vue';
 import TimeIntervalPicker from './TimeIntervalPicker.vue';
 import Spinner from 'vue-simple-spinner';
+import { TimeInterval } from '../ts/enums/time-interval';
 import { Balance } from '../ts/models/balance';
 import { StringMap } from '../ts/string-map';
 import { AppData } from '../ts/app-data';
@@ -84,7 +85,7 @@ export default Vue.extend({
       loadedStorage: false,
       selectedCurrency: 'USD',
       selectedCurrencySymbol: '$',
-      selectedInterval: '1d'
+      selectedInterval: TimeInterval.ONE_DAY
     };
   },
 

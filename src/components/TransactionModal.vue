@@ -82,8 +82,8 @@
 import Vue from 'vue';
 import TransactionCoinItem from './TransactionCoinItem.vue';
 import Spinner from 'vue-simple-spinner';
-import CoinUtil from '../ts/coin-util';
-import CurrencyUtil from '../ts/currency-util';
+import CoinUtil from '../ts/helpers/coin-util';
+import CurrencyUtil from '../ts/helpers/currency-util';
 import { AppData } from '../ts/app-data';
 import { Balance } from '../ts/models/balance';
 import { Coin } from '../ts/models/coin';

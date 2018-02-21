@@ -1,6 +1,9 @@
 import CoinApi from '../api/coin-api';
+import TimeIntervalUtil from '../helpers/time-interval-util';
 import { HistoricalPrice } from '../models/historical-price';
 import { PriceResult } from '../models/price-result';
+import { TimeInterval } from '../enums/time-interval';
+import { TimeIntervalUnit } from '../enums/time-interval-unit';
 import { StorageManager } from './storage-manager';
 import { StringMap } from '../string-map';
 import { DateTime } from 'luxon';
@@ -44,64 +47,64 @@ export class PriceManager {
     return new PriceResult(false, undefined);
   }
 
-  public async getHistoricalPriceMinutes(coinSymbol: string, currency: string): Promise<HistoricalPrice> {
+  public async getHistoricalPrice(coinSymbol: string, currency: string, interval: TimeInterval): Promise<HistoricalPrice> {
     try {
       let storage = await (this.storageManager.loadStorage());
       let coinData = this.storageManager.getCoinData(storage, coinSymbol);
-      let existingData = coinData.historicalPriceMinutes;
+      let intervalUnit = TimeIntervalUtil.getUnit(interval);
 
-      if (this.isHistoricalPriceUpdateNeeded(existingData, currency, TimeInterval.MINUTES)) {
-        // Prices out of date, get updated prices
-        let updatedPrices = await (CoinApi.getHistoricalPriceMinutes(coinSymbol, currency));
-        existingData = updatedPrices;
+      let existingData: HistoricalPrice;
+
+      // Get appropriate data for the time interval
+      switch (intervalUnit) {
+        case TimeIntervalUnit.MINUTES: {
+          existingData = coinData.historicalPriceMinutes;
+          break;
+        }
+        case TimeIntervalUnit.HOURS: {
+          existingData = coinData.historicalPriceHours;
+          break;
+        }
+        case TimeIntervalUnit.DAYS: {
+          existingData = coinData.historicalPriceDays;
+          break;
+        }
+        default: {
+          throw Error('Incorrect TimeIntervalUnit');
+        }
+      }
+
+      if (this.isHistoricalPriceUpdateNeeded(existingData, currency, intervalUnit)) {
+        let updatedPrices: HistoricalPrice;
+
+        // Prices are out of date, get updated prices
+        switch (intervalUnit) {
+          case TimeIntervalUnit.MINUTES: {
+            updatedPrices = await (CoinApi.getHistoricalPriceMinutes(coinSymbol, currency));
+            coinData.historicalPriceMinutes = updatedPrices;
+            break;
+          }
+          case TimeIntervalUnit.HOURS: {
+            updatedPrices = await (CoinApi.getHistoricalPriceHours(coinSymbol, currency));
+            coinData.historicalPriceHours = updatedPrices;
+            break;
+          }
+          case TimeIntervalUnit.DAYS: {
+            updatedPrices = await (CoinApi.getHistoricalPriceDays(coinSymbol, currency));
+            coinData.historicalPriceDays = updatedPrices;
+            break;
+          }
+          default: {
+            throw Error('Incorrect TimeIntervalUnit');
+          }
+        }
 
         // Save new prices
+        existingData = updatedPrices;
         this.storageManager.putStorage(storage);
       }
 
-      return existingData;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  public async getHistoricalPriceHours(coinSymbol: string, amount: number, currency: string): Promise<HistoricalPrice> {
-    try {
-      let storage = await (this.storageManager.loadStorage());
-      let coinData = this.storageManager.getCoinData(storage, coinSymbol);
-      let existingData = coinData.historicalPriceHours;
-
-      if (this.isHistoricalPriceUpdateNeeded(existingData, currency, TimeInterval.HOURS)) {
-        // Prices out of date, get updated prices
-        let updatedPrices = await (CoinApi.getHistoricalPriceHours(coinSymbol, currency));
-        existingData = updatedPrices;
-
-        // Save new prices
-        this.storageManager.putStorage(storage);
-      }
-
-      return this.getAmountNeeded(existingData, currency, amount);
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  public async getHistoricalPriceDays(coinSymbol: string, amount: number, currency: string): Promise<HistoricalPrice> {
-    try {
-      let storage = await (this.storageManager.loadStorage());
-      let coinData = this.storageManager.getCoinData(storage, coinSymbol);
-      let existingData = coinData.historicalPriceDays;
-
-      if (this.isHistoricalPriceUpdateNeeded(existingData, currency, TimeInterval.DAYS)) {
-        // Prices out of date, get updated prices
-        let updatedPrices = await (CoinApi.getHistoricalPriceDays(coinSymbol, currency));
-        existingData = updatedPrices;
-
-        // Save new prices
-        this.storageManager.putStorage(storage);
-      }
-
-      return this.getAmountNeeded(existingData, currency, amount);
+      return this.getAmountNeeded(existingData, currency, TimeIntervalUtil.getAmount(interval));
     } catch (error) {
       throw error;
     }
@@ -126,24 +129,27 @@ export class PriceManager {
     return -this.lastPriceSync.diffNow('seconds').toObject().seconds >= 60;
   }
 
-  private isHistoricalPriceUpdateNeeded(existingData: HistoricalPrice, currency: string, interval: TimeInterval): Boolean {
+  private isHistoricalPriceUpdateNeeded(existingData: HistoricalPrice, currency: string, intervalUnit: TimeIntervalUnit): Boolean {
     let now = DateTime.local().toUTC();
     let lastTime = DateTime.fromMillis(existingData.lastTimeStamp * 1000);
 
     // Get diff between now and last update
     let diff = 0;
-    switch (interval) {
-      case TimeInterval.MINUTES: {
+    switch (intervalUnit) {
+      case TimeIntervalUnit.MINUTES: {
         diff = now.diff(lastTime, 'minutes').toObject().minutes;
         break;
       }
-      case TimeInterval.HOURS: {
+      case TimeIntervalUnit.HOURS: {
         diff = now.diff(lastTime, 'hours').toObject().hours;
         break;
       }
-      case TimeInterval.DAYS: {
+      case TimeIntervalUnit.DAYS: {
         diff = now.diff(lastTime, 'days').toObject().days;
         break;
+      }
+      default: {
+        throw Error('Incorrect TimeIntervalUnit');
       }
     }
 
@@ -173,10 +179,4 @@ export class PriceManager {
 
     return historicalPrice;
   }
-}
-
-enum TimeInterval {
-  MINUTES,
-  HOURS,
-  DAYS
 }

@@ -42,10 +42,13 @@
 import Vue from 'vue';
 import LineChart from './LineChart.vue';
 import TimeIntervalPicker from './TimeIntervalPicker.vue';
+import TimeIntervalUtil from '../ts/helpers/time-interval-util';
 import Spinner from 'vue-simple-spinner';
 import { Balance } from '../ts/models/balance';
 import { ChartData } from '../ts/models/chart-data';
 import { Coin } from '../ts/models/coin';
+import { TimeInterval } from '../ts/enums/time-interval';
+import { TimeIntervalUnit } from '../ts/enums/time-interval-unit';
 import { AppData } from '../ts/app-data';
 import { HistoricalPrice } from '../ts/models/historical-price';
 import { StringMap } from '../ts/string-map';
@@ -74,7 +77,7 @@ export default Vue.extend({
       loadedStorage: false,
       selectedBalance: <Balance>{},
       selectedCurrency: 'USD',
-      selectedInterval: '1d'
+      selectedInterval: TimeInterval.ONE_DAY
     };
   },
 
@@ -119,47 +122,14 @@ export default Vue.extend({
     },
 
     loadGraphData: function(balance: Balance) {
-      if (this.selectedInterval === '1h') {
-          this.appData.priceManager.getHistoricalPriceMinutes(balance.coin.symbol, this.selectedCurrency)
-          .then(response => {
-            this.addToChartData(response, balance, false);
-          });
-        } else if (this.selectedInterval === '12h') {
-          this.appData.priceManager.getHistoricalPriceHours(balance.coin.symbol, 12, this.selectedCurrency)
-          .then(response => {
-            this.addToChartData(response, balance, false);
-          });
-        } else if (this.selectedInterval === '1d') {
-          this.appData.priceManager.getHistoricalPriceHours(balance.coin.symbol, 24, this.selectedCurrency)
-          .then(response => {
-            this.addToChartData(response, balance, false);
-          });
-        } else if (this.selectedInterval === '1w') {
-          this.appData.priceManager.getHistoricalPriceDays(balance.coin.symbol, 7, this.selectedCurrency)
-          .then(response => {
-            this.addToChartData(response, balance, true);
-          });
-        } else if (this.selectedInterval === '1m') {
-          this.appData.priceManager.getHistoricalPriceDays(balance.coin.symbol, 30, this.selectedCurrency)
-          .then(response => {
-            this.addToChartData(response, balance, true);
-          });
-        } else if (this.selectedInterval === '3m') {
-          this.appData.priceManager.getHistoricalPriceDays(balance.coin.symbol, 90, this.selectedCurrency)
-          .then(response => {
-            this.addToChartData(response, balance, true);
-          });
-        } else if (this.selectedInterval === '6m') {
-          this.appData.priceManager.getHistoricalPriceDays(balance.coin.symbol, 180, this.selectedCurrency)
-          .then(response => {
-            this.addToChartData(response, balance, true);
-          });
-        } else if (this.selectedInterval === '1y') {
-          this.appData.priceManager.getHistoricalPriceDays(balance.coin.symbol, 365, this.selectedCurrency)
-          .then(response => {
-            this.addToChartData(response, balance, true);
-          });
-        }
+      this.appData.priceManager.getHistoricalPrice(balance.coin.symbol, this.selectedCurrency, this.selectedInterval)
+      .then(response => {
+        let useDays = TimeIntervalUtil.getUnit(this.selectedInterval) === TimeIntervalUnit.DAYS;
+        this.addToChartData(response, balance, useDays);
+      })
+      .catch ((error) => {
+        console.log(error);
+      });
     },
 
     addToChartData(historicalPrice: HistoricalPrice, balance: Balance, useDays: boolean) {

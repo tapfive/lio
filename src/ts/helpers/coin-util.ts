@@ -1,4 +1,4 @@
-import { Coin } from './models/coin';
+import { Coin } from '../models/coin';
 
 export default {
   getAvailable: function (): Coin[] {

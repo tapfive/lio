@@ -1,4 +1,5 @@
-import CurrencyUtil from '../currency-util';
+import CurrencyUtil from '../helpers/currency-util';
+import { TimeInterval } from '../enums/time-interval';
 import { StorageManager } from './storage-manager';
 import { Settings } from '../models/settings';
 import { StringMap } from '../string-map';
@@ -21,14 +22,14 @@ export class SettingsManager {
     this.settings = new Settings();
   }
 
-  public setTimeInterval(timeInterval: string) {
+  public setTimeInterval(timeInterval: TimeInterval) {
     this.settings.timeInterval = timeInterval;
     this.storeSettings();
   }
 
-  public getTimeInterval(): string {
+  public getTimeInterval(): TimeInterval {
     if (this.settings.timeInterval === null) {
-      return '1d';
+      return TimeInterval.ONE_DAY;
     }
 
     return this.settings.timeInterval;

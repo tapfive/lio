@@ -11,6 +11,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import TimeIntervalUtil from '../ts/helpers/time-interval-util';
+import { TimeInterval } from '../ts/enums/time-interval';
 import { AppData } from '../ts/app-data';
 
 export default Vue.extend({
@@ -19,8 +21,8 @@ export default Vue.extend({
   data () {
     return {
       appData: AppData.getInstance(),
-      intervals: ['1h', '12h', '1d', '1w', '1m', '3m', '6m', '1y'],
-      selectedInterval: '1d'
+      intervals: TimeIntervalUtil.getIntervals(),
+      selectedInterval: TimeInterval.ONE_DAY
     };
   },
 
@@ -29,7 +31,7 @@ export default Vue.extend({
   },
 
   methods: {
-    changeInterval(interval: string) {
+    changeInterval(interval: TimeInterval) {
       this.selectedInterval = interval;
       this.appData.settingsManager.setTimeInterval(interval);
       this.$emit('update:selected-interval', interval);

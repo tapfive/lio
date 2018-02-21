@@ -20,7 +20,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Spinner from 'vue-simple-spinner';
-import CurrencyUtil from '../ts/currency-util';
+import CurrencyUtil from '../ts/helpers/currency-util';
 import { AppData } from '../ts/app-data';
 
 export default Vue.extend({

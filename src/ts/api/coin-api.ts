@@ -1,5 +1,5 @@
 import axios from 'axios';
-import CurrencyUtil from '../currency-util';
+import CurrencyUtil from '../helpers/currency-util';
 import { StringMap } from '../string-map';
 import { HistoricalPrice } from '../models/historical-price';
 
