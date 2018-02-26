@@ -203,9 +203,9 @@ export default Vue.extend({
         let price = history.currentPrice[this.selectedCurrency];
 
         // Get value based on transaction amount
-        let value = price * history.transaction.amount;
+        let transactionValue = price * history.transaction.amount;
 
-        return this.currencySymbol + price.toFixed(2);
+        return this.currencySymbol + transactionValue.toFixed(2);
       } else {
         return '-';
       }
