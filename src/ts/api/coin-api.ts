@@ -13,6 +13,13 @@ export default {
     return axiosResult.data;
   },
 
+  getPriceOnDay: async function (coinSymbol: string, currency: string, timestamp: number): Promise<number> {
+    let requestUrl = BASE_URL + '/data/dayAvg?fsym=' + coinSymbol + '&tsym=' + currency + '&toTs=' + timestamp;
+    let axiosResult = await (axios.get(requestUrl));
+
+    return axiosResult.data[currency];
+  },
+
   getHistoricalPriceMinutes: async function (coinSymbol: string, currency: string): Promise<HistoricalPrice> {
     let requestUrl = BASE_URL + '/data/histominute?fsym=' + coinSymbol + '&tsym=' + currency + '&limit=60';
     let axiosResult = await (axios.get(requestUrl));

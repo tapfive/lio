@@ -32,23 +32,31 @@
       <portfolio-settings></portfolio-settings>
     </div>
 
-    <transaction-modal
-      v-if="showAddModal || showSubtractModal"
-      :adding-balance="showAddModal"
+    <add-modal 
+      v-if="showAddModal"
+      :currency="currency"
       @close="closeModal()"
       @reload="handleDataAdded()">
-    </transaction-modal>
+    </add-modal>
+
+    <subtract-modal 
+      v-if="showSubtractModal"
+      :currency="currency"
+      @close="closeModal()"
+      @reload="handleDataAdded()">
+    </subtract-modal>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import AddModal from './modal/AddModal.vue';
+import SubtractModal from './modal/SubtractModal.vue';
 import PortfolioSidebar from './PortfolioSidebar.vue';
 import PortfolioOverview from './PortfolioOverview.vue';
 import PortfolioGraph from './PortfolioGraph.vue';
 import PortfolioHistory from './PortfolioHistory.vue';
 import PortfolioSettings from './PortfolioSettings.vue';
-import TransactionModal from './TransactionModal.vue';
 
 export default Vue.extend({
   name: 'portfolio',
@@ -59,17 +67,19 @@ export default Vue.extend({
   },
 
   components: {
+    AddModal,
     PortfolioGraph,
     PortfolioHistory,
     PortfolioOverview,
     PortfolioSettings,
     PortfolioSidebar,
-    TransactionModal
+    SubtractModal
   },
 
   data () {
     return {
       blockstack: window.blockstack,
+      currency: 'USD', // TODO: Load this from settings
       currentComponent: 'overview',
       reloadData: false,
       showAddModal: false,

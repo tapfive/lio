@@ -1,4 +1,5 @@
 import CurrencyApi from '../api/currency-api';
+import CoinApi from '../api/coin-api';
 import { Coin } from '../models/coin';
 import { CoinData } from '../models/coin-data';
 import { Balance } from '../models/balance';
@@ -25,18 +26,25 @@ export class TransactionManager {
     TransactionManager.instance = this;
   }
 
-  public async storeTransaction(coin: Coin, amount: number, price: number, fees: number, feeCurrency: string,
-    date: string): Promise<string> {
+  public async storeTransaction(coin: Coin, amount: number, currency: string, date: string): Promise<string> {
 
     try {
       // If date is not provided, use current time
-      let formattedDate = date !== '' ? DateTime.fromISO(date).toISODate() : DateTime.local().toISODate();
+      let dateTime = date !== '' ? DateTime.fromISO(date) : DateTime.local();
 
-      let exchangeRates = await (CurrencyApi.getExchangeRates(feeCurrency, formattedDate));
+      // Format DateTime for each API call
+      let exchangeRateDate = dateTime.toISODate();
+      let priceTimestamp = Math.round(dateTime.ts / 1000);
+
+      // Get approximate price of coin on the purchase day
+      let price = await (CoinApi.getPriceOnDay(coin.symbol, currency, priceTimestamp));
+
+      // Get exchange rates on the purchase day
+      let exchangeRates = await (CurrencyApi.getExchangeRates(currency, exchangeRateDate));
       let storage = await (this.storageManager.loadStorage());
-      exchangeRates[feeCurrency] = 1;
+      exchangeRates[currency] = 1;
 
-      let transaction = new Transaction(amount, price, fees, exchangeRates, date);
+      let transaction = new Transaction(amount, price, exchangeRates, date);
       this.addTransactionForCoin(storage, coin, transaction);
 
       return await (this.storageManager.putStorage(storage));
@@ -77,7 +85,7 @@ export class TransactionManager {
       let index = 0;
       for (let coinData of storage.coins) {
         for (let transaction of coinData.transactions) {
-          transactionData.push(new TransactionHistory(index, coinData.coin, transaction));
+          transactionData.push(new TransactionHistory(index, coinData.coin, transaction, coinData.latestPrice));
           index++;
         }
       }

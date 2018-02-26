@@ -23,8 +23,9 @@
             <li>Coin</li>
             <li>Transaction</li>
             <li>Date</li>
-            <li>Price</li>
-            <li>Fees</li>
+            <li>Value at Transaction Date</li>
+            <li>Value Now</li>
+            <li>Value Change</li>
           </ul>
         </div>
         <div class="history-container">
@@ -37,8 +38,9 @@
             </div>
             <h4>{{ formatAmount(historyItem.transaction.amount) }}</h4>
             <h4>{{ formatDate(historyItem.transaction.date) }}</h4>
-            <h4 v-html="formatPrice(historyItem.transaction)"></h4>
-            <h4 v-html="formatFees(historyItem.transaction)"></h4>
+            <h4 v-html="formatOriginalPrice(historyItem.transaction)"></h4>
+            <h4 v-html="formatCurrentPrice(historyItem)"></h4>
+            <h4>{{ formatPriceDifference(historyItem) }}</h4>
             <svg width="16px" height="4px" viewBox="0 0 16 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <g id="History---Light" stroke="none" stroke-width="1" fill="none" transform="translate(-1177.000000, -593.000000)" fill-opacity="0.24">
                     <g id="Edit-Menu" transform="translate(1119.000000, 578.000000)" fill="#004466">
@@ -167,9 +169,9 @@ export default Vue.extend({
 
     formatAmount: function (amount: number): string {
       if (amount > 0) {
-        return '+' + amount.toString();
+        return '+ ' + amount.toString();
       } else {
-        return amount.toString();
+        return '- ' + Math.abs(amount).toString();
       }
     },
 
@@ -181,18 +183,52 @@ export default Vue.extend({
       return DateTime.fromISO(date).toLocaleString(DateTime.DATE_MED);
     },
 
-    formatPrice: function (transaction: Transaction): string {
+    formatOriginalPrice: function (transaction: Transaction): string {
       if (transaction.amount > 0) {
-        let adjustedPrice = transaction.price * transaction.exchangeRates[this.selectedCurrency];
-        return this.currencySymbol + adjustedPrice.toFixed(2);
+        // Get price in correct currency
+        let price = transaction.price * transaction.exchangeRates[this.selectedCurrency];
+
+        // Get value based on transaction amount
+        let transactionValue = price * transaction.amount;
+
+        return this.currencySymbol + transactionValue.toFixed(2);
       } else {
         return '-';
       }
     },
 
-    formatFees: function (transaction: Transaction): string {
-      let adjustedFees = transaction.fees * transaction.exchangeRates[this.selectedCurrency];
-      return this.currencySymbol + adjustedFees.toFixed(2);
+    formatCurrentPrice: function (history: TransactionHistory): string {
+      if (history.transaction.amount > 0 && history.currentPrice[this.selectedCurrency] != null) {
+        // Get price in correct currency
+        let price = history.currentPrice[this.selectedCurrency];
+
+        // Get value based on transaction amount
+        let value = price * history.transaction.amount;
+
+        return this.currencySymbol + price.toFixed(2);
+      } else {
+        return '-';
+      }
+    },
+
+    formatPriceDifference: function (history: TransactionHistory): string {
+      if (history.transaction.amount > 0 && history.currentPrice[this.selectedCurrency] != null) {
+        let percentChange = this.calculatePriceDifference(history);
+
+        if (percentChange > 0) {
+          return '+ ' + percentChange.toFixed(2) + '%';
+        } else {
+          return '- ' + Math.abs(percentChange).toFixed(2) + '%';
+        }
+      } else {
+        return '-';
+      }
+    },
+
+    calculatePriceDifference: function (history: TransactionHistory): number {
+      let original = history.transaction.price * history.transaction.exchangeRates[this.selectedCurrency];
+      let current = history.currentPrice[this.selectedCurrency];
+      return (current - original) / original * 100;
     }
   }
 });
