@@ -67,16 +67,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Spinner from 'vue-simple-spinner';
-import { AppData } from '../ts/app-data';
-import { Coin } from '../ts/models/coin';
-import { DateTime } from 'luxon';
-import { Transaction } from '../ts/models/transaction';
-import { TransactionHistory } from '../ts/models/transaction-history';
+import Vue from "vue";
+import Spinner from "vue-simple-spinner";
+import { AppData } from "../ts/app-data";
+import { Coin } from "../ts/models/coin";
+import { DateTime } from "luxon";
+import { Transaction } from "../ts/models/transaction";
+import { TransactionHistory } from "../ts/models/transaction-history";
 
 export default Vue.extend({
-  name: 'portfolio-history',
+  name: "portfolio-history",
 
   components: {
     Spinner
@@ -89,28 +89,28 @@ export default Vue.extend({
     }
   },
 
-  data () {
+  data() {
     return {
       appData: AppData.getInstance(),
       availableCoins: <Coin[]>[],
-      currencySymbol: '$',
+      currencySymbol: "$",
       loadedStorage: false,
       selectedCoins: <Coin[]>[],
-      selectedCurrency: 'USD',
-      transactionHistory: <TransactionHistory[]> []
+      selectedCurrency: "USD",
+      transactionHistory: <TransactionHistory[]>[]
     };
   },
 
-  mounted () {
+  mounted() {
     this.currencySymbol = this.appData.settingsManager.getSelectedCurrencySymbol();
     this.selectedCurrency = this.appData.settingsManager.getSelectedCurrency();
     this.getTransactionHistory();
   },
 
   watch: {
-    reloadData: function (reload: boolean) {
+    reloadData: function(reload: boolean) {
       if (reload) {
-        this.$emit('update:reload-data', false);
+        this.$emit("update:reload-data", false);
         this.loadedStorage = false;
         this.getTransactionHistory();
       }
@@ -124,24 +124,25 @@ export default Vue.extend({
   },
 
   methods: {
-    getTransactionHistory: function () {
-      this.appData.transactionManager.getAllTransactions()
-      .then (response => {
-        this.transactionHistory = response;
-        this.loadedStorage = true;
+    getTransactionHistory: function() {
+      this.appData.transactionManager
+        .getAllTransactions()
+        .then(response => {
+          this.transactionHistory = response;
+          this.loadedStorage = true;
 
-        for (let historyItem of response) {
-          if (this.availableCoins.indexOf(historyItem.coin) < 0) {
-            this.availableCoins.push(historyItem.coin);
+          for (let historyItem of response) {
+            if (this.availableCoins.indexOf(historyItem.coin) < 0) {
+              this.availableCoins.push(historyItem.coin);
+            }
           }
-        }
-      })
-      .catch (error => {
-        console.log(error);
-      });
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
-    selectCoin: function (coin: Coin) {
+    selectCoin: function(coin: Coin) {
       let index = this.selectedCoins.indexOf(coin);
       if (index > -1) {
         this.selectedCoins.splice(index, 1);
@@ -150,7 +151,7 @@ export default Vue.extend({
       }
     },
 
-    showCoin: function (coin: Coin) {
+    showCoin: function(coin: Coin) {
       if (this.selectedCoins.length === 0) {
         return true;
       } else {
@@ -158,7 +159,7 @@ export default Vue.extend({
       }
     },
 
-    isSelected: function (coin: Coin) {
+    isSelected: function(coin: Coin) {
       let index = this.selectedCoins.indexOf(coin);
       if (index > -1) {
         return true;
@@ -167,38 +168,42 @@ export default Vue.extend({
       }
     },
 
-    formatAmount: function (amount: number): string {
+    formatAmount: function(amount: number): string {
       if (amount > 0) {
-        return '+ ' + amount.toString();
+        return "+ " + amount.toString();
       } else {
-        return '- ' + Math.abs(amount).toString();
+        return "- " + Math.abs(amount).toString();
       }
     },
 
-    formatDate: function (date: string): string {
-      if (date === '') {
-        return '';
+    formatDate: function(date: string): string {
+      if (date === "") {
+        return "";
       }
 
       return DateTime.fromISO(date).toLocaleString(DateTime.DATE_MED);
     },
 
-    formatOriginalPrice: function (transaction: Transaction): string {
+    formatOriginalPrice: function(transaction: Transaction): string {
       if (transaction.amount > 0) {
         // Get price in correct currency
-        let price = transaction.price * transaction.exchangeRates[this.selectedCurrency];
+        let price =
+          transaction.price * transaction.exchangeRates[this.selectedCurrency];
 
         // Get value based on transaction amount
         let transactionValue = price * transaction.amount;
 
         return this.currencySymbol + transactionValue.toFixed(2);
       } else {
-        return '-';
+        return "-";
       }
     },
 
-    formatCurrentPrice: function (history: TransactionHistory): string {
-      if (history.transaction.amount > 0 && history.currentPrice[this.selectedCurrency] != null) {
+    formatCurrentPrice: function(history: TransactionHistory): string {
+      if (
+        history.transaction.amount > 0 &&
+        history.currentPrice[this.selectedCurrency] != null
+      ) {
         // Get price in correct currency
         let price = history.currentPrice[this.selectedCurrency];
 
@@ -207,26 +212,31 @@ export default Vue.extend({
 
         return this.currencySymbol + transactionValue.toFixed(2);
       } else {
-        return '-';
+        return "-";
       }
     },
 
-    formatPriceDifference: function (history: TransactionHistory): string {
-      if (history.transaction.amount > 0 && history.currentPrice[this.selectedCurrency] != null) {
+    formatPriceDifference: function(history: TransactionHistory): string {
+      if (
+        history.transaction.amount > 0 &&
+        history.currentPrice[this.selectedCurrency] != null
+      ) {
         let percentChange = this.calculatePriceDifference(history);
 
         if (percentChange > 0) {
-          return '+ ' + percentChange.toFixed(2) + '%';
+          return "+ " + percentChange.toFixed(2) + "%";
         } else {
-          return '- ' + Math.abs(percentChange).toFixed(2) + '%';
+          return "- " + Math.abs(percentChange).toFixed(2) + "%";
         }
       } else {
-        return '-';
+        return "-";
       }
     },
 
-    calculatePriceDifference: function (history: TransactionHistory): number {
-      let original = history.transaction.price * history.transaction.exchangeRates[this.selectedCurrency];
+    calculatePriceDifference: function(history: TransactionHistory): number {
+      let original =
+        history.transaction.price *
+        history.transaction.exchangeRates[this.selectedCurrency];
       let current = history.currentPrice[this.selectedCurrency];
       return (current - original) / original * 100;
     }
@@ -253,7 +263,9 @@ export default Vue.extend({
 
 @media screen and (max-width: 1100px) {
   .portfolio-history {
-    grid-template-columns: 0.5fr minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) 0.5fr;
+    grid-template-columns:
+      0.5fr minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr)
+      minmax(50px, 1fr) 0.5fr;
   }
 }
 
@@ -282,7 +294,7 @@ export default Vue.extend({
   display: flex;
   flex-direction: row;
   align-items: center;
-  align-self:center;
+  align-self: center;
   justify-self: center;
 
   & button {
@@ -290,27 +302,28 @@ export default Vue.extend({
     height: 72px;
     border-radius: 100px;
     font-size: 18px;
-    background-color: #FFFFFF;
+    background-color: var(--card-bg-theme-color);
+    color: var(--font-theme-color);
   }
 }
 
 .column-labels {
-    grid-area: history-labels;
-    align-self: end;
-    margin-top: 12px;
+  grid-area: history-labels;
+  align-self: end;
+  margin-top: 12px;
 
-    & ul {
-      display: grid;
-      list-style: none;
-      text-align: left;
-      font-weight: 600;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 24px;
-      padding: 0px 4px;
-    }
+  & ul {
+    display: grid;
+    list-style: none;
+    text-align: left;
+    font-weight: 600;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 24px;
+    padding: 0px 4px;
+  }
 }
 
 .selected {
-  border: 3px  solid var(--green);
+  border: 3px solid var(--green);
 }
 
 .history-container {
@@ -331,7 +344,7 @@ export default Vue.extend({
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 24px;
   height: 54px;
-  border-bottom: 1px solid rgba(0,69,102,0.1);
+  border-bottom: 1px solid rgba(0, 69, 102, 0.1);
   padding: 4px 16px;
   align-items: center;
   text-align: left;
@@ -354,7 +367,7 @@ export default Vue.extend({
 
 .empty-state {
   width: 100%;
-  height: 75vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -373,7 +386,7 @@ export default Vue.extend({
   }
 
   & .empty-arrow:hover {
-      transform: rotate(405deg) scale(2);
+    transform: rotate(405deg) scale(2);
   }
 }
 </style>

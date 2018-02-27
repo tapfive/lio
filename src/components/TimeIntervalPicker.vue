@@ -10,15 +10,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import TimeIntervalUtil from '../ts/helpers/time-interval-util';
-import { TimeInterval } from '../ts/enums/time-interval';
-import { AppData } from '../ts/app-data';
+import Vue from "vue";
+import TimeIntervalUtil from "../ts/helpers/time-interval-util";
+import { TimeInterval } from "../ts/enums/time-interval";
+import { AppData } from "../ts/app-data";
 
 export default Vue.extend({
-  name: 'time-interval-picker',
+  name: "time-interval-picker",
 
-  data () {
+  data() {
     return {
       appData: AppData.getInstance(),
       intervals: TimeIntervalUtil.getIntervals(),
@@ -26,7 +26,7 @@ export default Vue.extend({
     };
   },
 
-  created () {
+  created() {
     this.selectedInterval = this.appData.settingsManager.getTimeInterval();
   },
 
@@ -34,7 +34,7 @@ export default Vue.extend({
     changeInterval(interval: TimeInterval) {
       this.selectedInterval = interval;
       this.appData.settingsManager.setTimeInterval(interval);
-      this.$emit('update:selected-interval', interval);
+      this.$emit("update:selected-interval", interval);
     },
 
     isSelected(interval: string): boolean {
@@ -63,7 +63,7 @@ export default Vue.extend({
 }
 
 h5 {
-  margin-top:0;
+  margin-top: 0;
   margin-bottom: 8px;
 }
 
@@ -73,7 +73,7 @@ button {
   border: 1px solid transparent;
   border-radius: 0px;
   background-color: var(--card-bg-theme-color);
-  box-shadow: 0 0 1px 0 rgba(22,46,58,0);
+  box-shadow: 0 0 1px 0 rgba(22, 46, 58, 0);
   color: var(--font-theme-color);
   text-transform: none;
 }

@@ -1,15 +1,17 @@
-input{
+input {
   padding: 10px 15px;
-  border: 1px solid #DFE3E9;
+  background-color: var(--input-bg-theme-color);
+  border: 1px solid #dfe3e9;
   border-radius: 6px;
   box-shadow: 0 0 0px 0 rgba(0, 68, 102, 0);
+  color: var(--font-theme-color);
   font-size: 16px;
-  font-family: 'Source Code Pro', monospace;
+  font-family: "Source Code Pro", monospace;
   transition: all 0.24s var(--ease-out-cubic);
 }
 
 input:focus {
-  border: 1px solid #00FFA2;
+  border: 1px solid #00ffa2;
   box-shadow: 0 0 4px 0 rgba(0, 68, 102, 0.14);
 }
 
@@ -46,8 +48,8 @@ select {
   display: table;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 17, 26, .6);
-  transition: opacity .25s ease;
+  background-color: rgba(0, 17, 26, 0.6);
+  transition: opacity 0.25s ease;
 }
 
 .modal-wrapper {
@@ -61,8 +63,8 @@ select {
   width: 375px;
   border-radius: 12px;
   background-color: var(--card-bg-theme-color);
-  box-shadow: 0 3px 6px 0 var(--shadow-theme-color);
-  transition: all .25s ease;
+  box-shadow: 0 3px 6px 0 rgba(0, 68, 102, 0.14);
+  transition: all 0.25s ease;
 }
 
 .modal-header h3 {
@@ -79,7 +81,6 @@ select {
   padding: 8px 16px;
   font-size: 16px;
 }
-
 
 /*
    * The following styles are auto-applied to elements with
@@ -100,7 +101,7 @@ select {
 
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
-  transition: all .25s var(--ease-out-cubic);
+  transition: all 0.25s var(--ease-out-cubic);
   transform: scale(0.95);
   transform-origin: 50% 200%;
 }
@@ -120,17 +121,19 @@ select {
 .select-style select {
   padding: 10px 15px;
   width: 50%;
-  border: 1px solid #DFE3E9;
+  background-color: var(--input-bg-theme-color);
+  border: 1px solid #dfe3e9;
   border-radius: 6px;
   background-image: none;
   box-shadow: 0 0 0px 0 rgba(0, 68, 102, 0);
+  color: var(--font-theme-color);
   font-size: 16px;
-  font-family: 'Source Code Pro', monospace;
+  font-family: "Source Code Pro", monospace;
   transition: all 0.24s var(--ease-out-cubic);
   -webkit-appearance: none;
 }
 
 .select-style select:focus {
-  border: 1px solid #00FFA2;
+  border: 1px solid #00ffa2;
   box-shadow: 0 0 4px 0 rgba(0, 68, 102, 0.14);
 }

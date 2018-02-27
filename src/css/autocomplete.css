@@ -4,16 +4,18 @@
   padding: 10px 15px;
   width: calc(100% - 32px);
   outline: none;
-  border: 1px solid #DFE3E9;
+  border: 1px solid #dfe3e9;
   border-radius: 6px;
-  background-color: #fff;
-  box-shadow: 0 0 0px 0 rgba(0,68,102,0);
+  background-color: var(--input-bg-theme-color);
+  box-shadow: 0 0 0px 0 rgba(0, 68, 102, 0);
+  color: var(--font-theme-color);
   font-size: 1.5em;
   transition: all 0.24s var(--ease-out-cubic);
 }
 .v-autocomplete-input:focus {
-  border: 1px solid #00FFA2;
-  box-shadow: 0 0 4px 0 rgba(0,68,102,0.14);
+  border: 1px solid #00ffa2;
+  background-color: var(--input-bg-theme-color);
+  box-shadow: 0 0 4px 0 rgba(0, 68, 102, 0.14);
 }
 
 .v-autocomplete-list {
@@ -23,24 +25,28 @@
   max-height: 400px;
   width: calc(100% - 34px);
   border-top: none;
-  border-right: 1px solid #00FFA2;
-  border-bottom: 1px solid #00FFA2;
-  border-left: 1px solid #00FFA2;
+  border-right: 1px solid #00ffa2;
+  border-bottom: 1px solid #00ffa2;
+  border-left: 1px solid #00ffa2;
   border-radius: 0 0 6px 6px;
-  background-color: #fff;
-  box-shadow: 0 0 2px 0 rgba(0,68,102,0.14);
+  background-color: var(--input-bg-theme-color) !important;
+  box-shadow: 0 0 2px 0 rgba(0, 68, 102, 0.14);
+  color: var(--font-theme-color);
   text-align: left;
-  font-family: 'Source Code Pro', monospace;
+  font-family: "Source Code Pro", monospace;
   transition: all 0.24s var(--ease-out-cubic);
 }
 
 .v-autocomplete-list-item {
   padding: 8px;
-  background-color: #fff;
+  background-color: var(--input-bg-theme-color) !important;
+  color: var(--font-theme-color);
   cursor: pointer;
   transition: all 0.24s var(--ease-out-cubic);
 }
 
-.v-autocomplete-list-item:hover {
-    background-color: #fff;
+.v-autocomplete-list-item:hover,
+.v-autocomplete-list-item:active,
+.v-autocomplete-list-item:focus {
+  background-color: var(--view-bg-theme-color) !important;
 }

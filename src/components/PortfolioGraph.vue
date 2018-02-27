@@ -39,22 +39,22 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import LineChart from './LineChart.vue';
-import TimeIntervalPicker from './TimeIntervalPicker.vue';
-import TimeIntervalUtil from '../ts/helpers/time-interval-util';
-import Spinner from 'vue-simple-spinner';
-import { Balance } from '../ts/models/balance';
-import { ChartData } from '../ts/models/chart-data';
-import { Coin } from '../ts/models/coin';
-import { TimeInterval } from '../ts/enums/time-interval';
-import { TimeIntervalUnit } from '../ts/enums/time-interval-unit';
-import { AppData } from '../ts/app-data';
-import { HistoricalPrice } from '../ts/models/historical-price';
-import { StringMap } from '../ts/string-map';
+import Vue from "vue";
+import LineChart from "./LineChart.vue";
+import TimeIntervalPicker from "./TimeIntervalPicker.vue";
+import TimeIntervalUtil from "../ts/helpers/time-interval-util";
+import Spinner from "vue-simple-spinner";
+import { Balance } from "../ts/models/balance";
+import { ChartData } from "../ts/models/chart-data";
+import { Coin } from "../ts/models/coin";
+import { TimeInterval } from "../ts/enums/time-interval";
+import { TimeIntervalUnit } from "../ts/enums/time-interval-unit";
+import { AppData } from "../ts/app-data";
+import { HistoricalPrice } from "../ts/models/historical-price";
+import { StringMap } from "../ts/string-map";
 
 export default Vue.extend({
-  name: 'portfolio-graph',
+  name: "portfolio-graph",
 
   components: {
     LineChart,
@@ -69,34 +69,34 @@ export default Vue.extend({
     }
   },
 
-  data () {
+  data() {
     return {
       appData: AppData.getInstance(),
-      balanceData: <StringMap<Balance>> {},
+      balanceData: <StringMap<Balance>>{},
       chartData: new ChartData(null),
       loadedStorage: false,
       selectedBalance: <Balance>{},
-      selectedCurrency: 'USD',
+      selectedCurrency: "USD",
       selectedInterval: TimeInterval.ONE_DAY
     };
   },
 
-  mounted () {
+  mounted() {
     this.selectedInterval = this.appData.settingsManager.getTimeInterval();
     this.selectedCurrency = this.appData.settingsManager.getSelectedCurrency();
     this.loadCoins();
   },
 
   watch: {
-    selectedInterval: function (interval: string) {
+    selectedInterval: function(interval: string) {
       if (this.selectedBalance.coin != null) {
         this.loadGraphData(this.selectedBalance);
       }
     },
 
-    reloadData: function (reload: boolean) {
+    reloadData: function(reload: boolean) {
       if (reload) {
-        this.$emit('update:reload-data', false);
+        this.$emit("update:reload-data", false);
         this.loadedStorage = false;
         this.loadCoins();
       }
@@ -111,31 +111,47 @@ export default Vue.extend({
 
   methods: {
     loadCoins: function() {
-      this.appData.transactionManager.getAllBalances()
-      .then((balanceData) => {
-        this.balanceData = balanceData;
-        this.loadedStorage = true;
-      })
-      .catch ((error) => {
-        console.log(error);
-      });
+      this.appData.transactionManager
+        .getAllBalances()
+        .then(balanceData => {
+          this.balanceData = balanceData;
+          this.loadedStorage = true;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
     loadGraphData: function(balance: Balance) {
-      this.appData.priceManager.getHistoricalPrice(balance.coin.symbol, this.selectedCurrency, this.selectedInterval)
-      .then(response => {
-        let useDays = TimeIntervalUtil.getUnit(this.selectedInterval) === TimeIntervalUnit.DAYS;
-        this.addToChartData(response, balance, useDays);
-      })
-      .catch ((error) => {
-        console.log(error);
-      });
+      this.appData.priceManager
+        .getHistoricalPrice(
+          balance.coin.symbol,
+          this.selectedCurrency,
+          this.selectedInterval
+        )
+        .then(response => {
+          let useDays =
+            TimeIntervalUtil.getUnit(this.selectedInterval) ===
+            TimeIntervalUnit.DAYS;
+          this.addToChartData(response, balance, useDays);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
-    addToChartData(historicalPrice: HistoricalPrice, balance: Balance, useDays: boolean) {
+    addToChartData(
+      historicalPrice: HistoricalPrice,
+      balance: Balance,
+      useDays: boolean
+    ) {
       let newChart = new ChartData((this.$refs.chart as any).$refs.canvas);
       newChart.setLabels(historicalPrice.prices, useDays);
-      newChart.addDataSet(balance.coin.symbol, balance.amount, historicalPrice.prices);
+      newChart.addDataSet(
+        balance.coin.symbol,
+        balance.amount,
+        historicalPrice.prices
+      );
 
       this.chartData = newChart;
     },
@@ -150,14 +166,14 @@ export default Vue.extend({
       }
     },
 
-    selectCoin: function (balance: Balance) {
+    selectCoin: function(balance: Balance) {
       if (this.selectedBalance !== balance) {
         this.selectedBalance = balance;
         this.loadGraphData(balance);
       }
     },
 
-    isSelected: function (balance: Balance) {
+    isSelected: function(balance: Balance) {
       return this.selectedBalance === balance;
     }
   }
@@ -181,7 +197,7 @@ export default Vue.extend({
 }
 
 button {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .time-range-picker {
@@ -192,13 +208,13 @@ button {
 }
 
 .line-chart {
-    grid-area: graph;
-    height: 220px;
-    width: 100%;
+  grid-area: graph;
+  height: 220px;
+  width: 100%;
 }
 
 .selected {
-  border: 3px  solid var(--green)
+  border: 3px solid var(--green);
 }
 
 .options-wrapper {
@@ -216,13 +232,15 @@ button {
 .options {
   display: flex;
   align-items: center;
-  align-self:center;
+  align-self: center;
   justify-self: center;
 
   & button {
     width: 72px;
     height: 72px;
     border-radius: 100px;
+    background-color: var(--card-bg-theme-color);
+    color: var(--font-theme-color);
     font-size: 18px;
   }
 }
@@ -255,7 +273,7 @@ button {
   }
 
   & .empty-arrow:hover {
-      transform: rotate(405deg) scale(2);
+    transform: rotate(405deg) scale(2);
   }
 }
 </style>
