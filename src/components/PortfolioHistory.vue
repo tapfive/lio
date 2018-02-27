@@ -296,6 +296,8 @@ export default Vue.extend({
   align-items: center;
   align-self: center;
   justify-self: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
 
   & button {
     width: 72px;
@@ -317,7 +319,7 @@ export default Vue.extend({
     list-style: none;
     text-align: left;
     font-weight: 600;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 24px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24px;
     padding: 0px 4px;
   }
 }
@@ -328,7 +330,7 @@ export default Vue.extend({
 
 .history-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 24px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24px;
   grid-auto-rows: 54px;
   align-items: center;
   border-radius: 6px;
@@ -342,7 +344,7 @@ export default Vue.extend({
 
 .history-item {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 24px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24px;
   height: 54px;
   border-bottom: 1px solid rgba(0, 69, 102, 0.1);
   padding: 4px 16px;
