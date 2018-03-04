@@ -1,10 +1,9 @@
-import { Coin } from './coin';
-import { CoinData } from './coin-data';
-import { DateTime } from 'luxon';
-import { NumberMap } from '../number-map';
+import { Coin } from "./coin";
+import { CoinData } from "./coin-data";
+import { DateTime } from "luxon";
+import { NumberMap } from "../number-map";
 
 export class ChartData {
-
   public labels: string[];
   public datasets: DataSet[];
   public canvas: any;
@@ -27,7 +26,6 @@ export class ChartData {
   }
 
   public addDataSet(coinSymbol: string, coinAmount: number, prices: NumberMap<number>) {
-
     let priceArray: string[] = [];
 
     for (let key in prices) {
@@ -35,22 +33,22 @@ export class ChartData {
       priceArray.push((value * coinAmount).toFixed(2));
     }
 
-    let gradient = this.canvas.getContext('2d').createLinearGradient(0, 0, 0, 150);
-    gradient.addColorStop(0, 'rgba(102,255,199,1)');
-    gradient.addColorStop(1, 'rgba(102,255,199,0.24)');
+    let gradient = this.canvas.getContext("2d").createLinearGradient(0, 0, 0, 150);
+    gradient.addColorStop(0, "rgba(102,255,199,1)");
+    gradient.addColorStop(1, "rgba(102,255,199,0.24)");
 
     this.datasets.push({
       backgroundColor: gradient,
-      borderColor: 'RGBA(0,255,162,1.00)',
+      borderColor: "RGBA(0,255,162,1.00)",
       data: priceArray,
-      defaultFontColor: '#00334C',
+      defaultFontColor: "#00334C",
       defaultFontFamily: '"Source Sans Pro","Avenir", system-ui, sans-serif;',
-      label: coinAmount.toFixed(8) + ' ' + coinSymbol,
-      lineTension: '0.4',
-      pointBackgroundColor: 'RGBA(0,255,162,1.00)',
-      pointBorderColor: 'RGBA(0,255,162,0.2)',
-      pointHoverBackgroundColor: 'RGBA(0,255,162,1.00)',
-      pointHoverBorderColor: 'RGBA(251,252,255,1.00)'
+      label: coinAmount.toFixed(8) + " " + coinSymbol,
+      lineTension: "0.4",
+      pointBackgroundColor: "RGBA(0,255,162,1.00)",
+      pointBorderColor: "RGBA(0,255,162,0.2)",
+      pointHoverBackgroundColor: "RGBA(0,255,162,1.00)",
+      pointHoverBorderColor: "RGBA(251,252,255,1.00)"
     });
   }
 }

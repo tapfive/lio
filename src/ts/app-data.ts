@@ -1,8 +1,8 @@
-import { DateTime } from 'luxon';
-import { StorageManager } from './managers/storage-manager';
-import { PriceManager } from './managers/price-manager';
-import { TransactionManager } from './managers/transaction-manager';
-import { SettingsManager } from './managers/settings-manager';
+import { DateTime } from "luxon";
+import { StorageManager } from "./managers/storage-manager";
+import { PriceManager } from "./managers/price-manager";
+import { TransactionManager } from "./managers/transaction-manager";
+import { SettingsManager } from "./managers/settings-manager";
 
 export class AppData {
   private static instance: AppData = new AppData();
@@ -20,13 +20,13 @@ export class AppData {
 
   constructor() {
     if (AppData.instance) {
-      throw new Error('Error: Instantiation failed: Use AppData.getInstance() instead of new.');
+      throw new Error("Instantiation failed: Use AppData.getInstance() instead of new.");
     }
     AppData.instance = this;
   }
 
   public async loadSettings(): Promise<boolean> {
-    await (this.settingsManager.loadSettings());
+    await this.settingsManager.loadSettings();
     return true;
   }
 }

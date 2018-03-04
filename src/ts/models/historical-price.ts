@@ -1,4 +1,4 @@
-import { NumberMap } from '../number-map';
+import { NumberMap } from "../number-map";
 
 export class HistoricalPrice {
   public lastTimeStamp: number;

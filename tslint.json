@@ -43,7 +43,7 @@
         "check-finally",
         "check-whitespace"
       ],
-      "quotemark": [true, "single", "avoid-escape"],
+      "quotemark": [true, "double", "avoid-escape"],
       "radix": true,
       "semicolon": true,
       "trailing-comma": [true, {

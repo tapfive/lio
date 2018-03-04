@@ -50,18 +50,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import PortfolioTotal from './PortfolioTotal.vue';
-import PortfolioBalance from './PortfolioBalance.vue';
-import TimeIntervalPicker from './TimeIntervalPicker.vue';
-import Spinner from 'vue-simple-spinner';
-import { TimeInterval } from '../ts/enums/time-interval';
-import { Balance } from '../ts/models/balance';
-import { StringMap } from '../ts/string-map';
-import { AppData } from '../ts/app-data';
+import Vue from "vue";
+import PortfolioTotal from "./PortfolioTotal.vue";
+import PortfolioBalance from "./PortfolioBalance.vue";
+import TimeIntervalPicker from "./TimeIntervalPicker.vue";
+import Spinner from "vue-simple-spinner";
+import { TimeInterval } from "../ts/enums/time-interval";
+import { Balance } from "../ts/models/balance";
+import { StringMap } from "../ts/string-map";
+import { AppData } from "../ts/app-data";
 
 export default Vue.extend({
-  name: 'portfolio-overview',
+  name: "portfolio-overview",
 
   components: {
     PortfolioBalance,
@@ -77,21 +77,20 @@ export default Vue.extend({
     }
   },
 
-  data () {
+  data() {
     return {
       appData: AppData.getInstance(),
-      balanceData: <StringMap<Balance>> {},
+      balanceData: <StringMap<Balance>>{},
       errors: [],
       loadedStorage: false,
-      selectedCurrency: 'USD',
-      selectedCurrencySymbol: '$',
+      selectedCurrency: "USD",
+      selectedCurrencySymbol: "$",
       selectedInterval: TimeInterval.ONE_DAY
     };
   },
 
-  mounted () {
-    this.appData.loadSettings()
-    .then (response => {
+  mounted() {
+    this.appData.loadSettings().then(response => {
       this.selectedCurrency = this.appData.settingsManager.getSelectedCurrency();
       this.selectedCurrencySymbol = this.appData.settingsManager.getSelectedCurrencySymbol();
       this.selectedInterval = this.appData.settingsManager.getTimeInterval();
@@ -101,18 +100,19 @@ export default Vue.extend({
 
   methods: {
     loadBalances(ignoreTimer: boolean) {
-      this.appData.transactionManager.getAllBalances()
-      .then((balanceData) => {
-        this.balanceData = balanceData;
-        this.loadedStorage = true;
-        this.refreshPrices(ignoreTimer);
-      })
-      .catch ((error) => {
-        console.log(error);
-      });
+      this.appData.transactionManager
+        .getAllBalances()
+        .then(balanceData => {
+          this.balanceData = balanceData;
+          this.loadedStorage = true;
+          this.refreshPrices(ignoreTimer);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
-    refreshPrices (ignoreTimer: boolean) {
+    refreshPrices(ignoreTimer: boolean) {
       let coins = [];
       for (let key in this.balanceData) {
         coins.push(key);
@@ -120,9 +120,7 @@ export default Vue.extend({
 
       // Only check prices if coins have been added
       if (coins.length > 0) {
-        this.appData.priceManager.refreshPrices(coins, ignoreTimer)
-        .then(response => {
-
+        this.appData.priceManager.refreshPrices(coins, ignoreTimer).then(response => {
           if (response.successful) {
             // If call was successful, result will be defined
             let result = response.result!!;
@@ -138,15 +136,15 @@ export default Vue.extend({
   },
 
   watch: {
-    reloadData: function (reload: boolean) {
+    reloadData: function(reload: boolean) {
       if (reload) {
-        this.$emit('update:reload-data', false);
+        this.$emit("update:reload-data", false);
         this.loadedStorage = false;
         this.loadBalances(true);
       }
     },
 
-    selectedInterval: function (interval: string) {
+    selectedInterval: function(interval: string) {
       console.log(interval);
     }
   },
@@ -196,7 +194,9 @@ export default Vue.extend({
 
 @media screen and (max-width: 1100px) {
   .dashboard-content {
-    grid-template-columns: 0.5fr minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) 0.5fr;
+    grid-template-columns:
+      0.5fr minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr)
+      minmax(50px, 1fr) 0.5fr;
   }
 }
 
@@ -260,7 +260,7 @@ export default Vue.extend({
   }
 
   & .empty-arrow:hover {
-      transform: rotate(405deg) scale(2);
+    transform: rotate(405deg) scale(2);
   }
 }
 </style>

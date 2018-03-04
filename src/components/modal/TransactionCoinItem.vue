@@ -7,11 +7,11 @@
 
 <script>
 export default {
-  name: 'transaction-coin-item',
+  name: "transaction-coin-item",
   props: {
-    item: {required: true}
+    item: { required: true }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -124,15 +124,9 @@ export default Vue.extend({
 
     loadGraphData: function(balance: Balance) {
       this.appData.priceManager
-        .getHistoricalPrice(
-          balance.coin.symbol,
-          this.selectedCurrency,
-          this.selectedInterval
-        )
+        .getHistoricalPrice(balance.coin.symbol, this.selectedCurrency, this.selectedInterval)
         .then(response => {
-          let useDays =
-            TimeIntervalUtil.getUnit(this.selectedInterval) ===
-            TimeIntervalUnit.DAYS;
+          let useDays = TimeIntervalUtil.getUnit(this.selectedInterval) === TimeIntervalUnit.DAYS;
           this.addToChartData(response, balance, useDays);
         })
         .catch(error => {
@@ -140,18 +134,10 @@ export default Vue.extend({
         });
     },
 
-    addToChartData(
-      historicalPrice: HistoricalPrice,
-      balance: Balance,
-      useDays: boolean
-    ) {
+    addToChartData(historicalPrice: HistoricalPrice, balance: Balance, useDays: boolean) {
       let newChart = new ChartData((this.$refs.chart as any).$refs.canvas);
       newChart.setLabels(historicalPrice.prices, useDays);
-      newChart.addDataSet(
-        balance.coin.symbol,
-        balance.amount,
-        historicalPrice.prices
-      );
+      newChart.addDataSet(balance.coin.symbol, balance.amount, historicalPrice.prices);
 
       this.chartData = newChart;
     },

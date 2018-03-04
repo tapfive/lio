@@ -1,7 +1,7 @@
-import { StorageData } from '../models/storage-data';
-import { CoinData } from '../models/coin-data';
+import { StorageData } from "../models/storage-data";
+import { CoinData } from "../models/coin-data";
 
-const STORAGE_FILE = 'lio-storage.json';
+const STORAGE_FILE = "lio-storage.json";
 const STORAGE_VERSION = 1;
 
 export class StorageManager {
@@ -15,7 +15,7 @@ export class StorageManager {
 
   constructor() {
     if (StorageManager.instance) {
-      throw new Error('Error: Instantiation failed: Use StorageManager.getInstance() instead of new.');
+      throw new Error("Instantiation failed: Use StorageManager.getInstance() instead of new.");
     }
     StorageManager.instance = this;
     this.storageData = new StorageData(-1);
@@ -24,7 +24,7 @@ export class StorageManager {
   public async clearData(): Promise<boolean> {
     // Create a new storage file, removing the old one
     let newStorage = new StorageData(STORAGE_VERSION);
-    await (window.blockstack.putFile(STORAGE_FILE, JSON.stringify(newStorage), true));
+    await window.blockstack.putFile(STORAGE_FILE, JSON.stringify(newStorage), true);
     this.storageData = newStorage;
     return true;
   }
@@ -38,13 +38,13 @@ export class StorageManager {
     let storageText = null;
 
     try {
-      storageText = await (window.blockstack.getFile(STORAGE_FILE, true));
+      storageText = await window.blockstack.getFile(STORAGE_FILE, true);
     } catch (error) {
-      let dataExists = await (this.checkForExistingData());
+      let dataExists = await this.checkForExistingData();
 
       if (!dataExists) {
         // If error was caused by trying to decrypt an empty file, create a new one
-        await (window.blockstack.putFile(STORAGE_FILE, JSON.stringify(new StorageData(STORAGE_VERSION)), true));
+        await window.blockstack.putFile(STORAGE_FILE, JSON.stringify(new StorageData(STORAGE_VERSION)), true);
       } else {
         throw error;
       }
@@ -66,7 +66,6 @@ export class StorageManager {
   }
 
   public async putStorage(storage: StorageData): Promise<string> {
-
     let promise = null;
 
     try {
@@ -89,7 +88,7 @@ export class StorageManager {
       }
 
       // Not found
-      throw ('CoinData not found');
+      throw "CoinData not found";
     } catch (error) {
       throw error;
     }
@@ -100,7 +99,7 @@ export class StorageManager {
 
     try {
       // Get data unencrypted just to see if it exists
-      storageText = await (window.blockstack.getFile(STORAGE_FILE, false));
+      storageText = await window.blockstack.getFile(STORAGE_FILE, false);
     } catch (error) {
       throw error;
     }

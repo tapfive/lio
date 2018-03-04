@@ -187,8 +187,7 @@ export default Vue.extend({
     formatOriginalPrice: function(transaction: Transaction): string {
       if (transaction.amount > 0) {
         // Get price in correct currency
-        let price =
-          transaction.price * transaction.exchangeRates[this.selectedCurrency];
+        let price = transaction.price * transaction.exchangeRates[this.selectedCurrency];
 
         // Get value based on transaction amount
         let transactionValue = price * transaction.amount;
@@ -200,10 +199,7 @@ export default Vue.extend({
     },
 
     formatCurrentPrice: function(history: TransactionHistory): string {
-      if (
-        history.transaction.amount > 0 &&
-        history.currentPrice[this.selectedCurrency] != null
-      ) {
+      if (history.transaction.amount > 0 && history.currentPrice[this.selectedCurrency] != null) {
         // Get price in correct currency
         let price = history.currentPrice[this.selectedCurrency];
 
@@ -217,10 +213,7 @@ export default Vue.extend({
     },
 
     formatPriceDifference: function(history: TransactionHistory): string {
-      if (
-        history.transaction.amount > 0 &&
-        history.currentPrice[this.selectedCurrency] != null
-      ) {
+      if (history.transaction.amount > 0 && history.currentPrice[this.selectedCurrency] != null) {
         let percentChange = this.calculatePriceDifference(history);
 
         if (percentChange > 0) {
@@ -234,9 +227,7 @@ export default Vue.extend({
     },
 
     calculatePriceDifference: function(history: TransactionHistory): number {
-      let original =
-        history.transaction.price *
-        history.transaction.exchangeRates[this.selectedCurrency];
+      let original = history.transaction.price * history.transaction.exchangeRates[this.selectedCurrency];
       let current = history.currentPrice[this.selectedCurrency];
       return (current - original) / original * 100;
     }

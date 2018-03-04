@@ -1,13 +1,21 @@
-import { TimeInterval } from '../enums/time-interval';
-import { TimeIntervalUnit } from '../enums/time-interval-unit';
+import { TimeInterval } from "../enums/time-interval";
+import { TimeIntervalUnit } from "../enums/time-interval-unit";
 
 export default {
-  getIntervals: function (): TimeInterval[] {
-    return [TimeInterval.ONE_HOUR, TimeInterval.TWELVE_HOURS, TimeInterval.ONE_DAY, TimeInterval.ONE_WEEK,
-    TimeInterval.ONE_MONTH, TimeInterval.THREE_MONTHS, TimeInterval.SIX_MONTHS, TimeInterval.ONE_YEAR];
+  getIntervals: function(): TimeInterval[] {
+    return [
+      TimeInterval.ONE_HOUR,
+      TimeInterval.TWELVE_HOURS,
+      TimeInterval.ONE_DAY,
+      TimeInterval.ONE_WEEK,
+      TimeInterval.ONE_MONTH,
+      TimeInterval.THREE_MONTHS,
+      TimeInterval.SIX_MONTHS,
+      TimeInterval.ONE_YEAR
+    ];
   },
 
-  getUnit: function (interval: TimeInterval): TimeIntervalUnit {
+  getUnit: function(interval: TimeInterval): TimeIntervalUnit {
     switch (interval) {
       case TimeInterval.ONE_HOUR: {
         return TimeIntervalUnit.MINUTES;
@@ -22,7 +30,7 @@ export default {
     }
   },
 
-  getAmount: function (interval: TimeInterval): number {
+  getAmount: function(interval: TimeInterval): number {
     switch (interval) {
       case TimeInterval.ONE_HOUR: {
         return 60;

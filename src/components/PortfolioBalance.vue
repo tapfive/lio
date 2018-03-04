@@ -29,11 +29,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Balance } from '../ts/models/balance';
+import Vue from "vue";
+import { Balance } from "../ts/models/balance";
 
 export default Vue.extend({
-  name: 'portfolio-balance',
+  name: "portfolio-balance",
   props: {
     coinAmount: {
       required: true,
@@ -53,21 +53,21 @@ export default Vue.extend({
     }
   },
 
-  data () {
+  data() {
     return {
       isHovering: false
     };
   },
 
   computed: {
-    coinValue: function (): string {
+    coinValue: function(): string {
       return (this.coinPrice * this.coinAmount).toFixed(2);
     },
 
     shadowStyle: function(): any {
       if (this.isHovering) {
         return {
-          boxShadow: '0 4px 20px -4px var(--shadow-theme-color), 0 8px 40px -32px var(--' + this.coinName + ')'
+          boxShadow: "0 4px 20px -4px var(--shadow-theme-color), 0 8px 40px -32px var(--" + this.coinName + ")"
         };
       } else {
         return {};
@@ -93,7 +93,7 @@ export default Vue.extend({
   border-radius: 6px;
   background-color: var(--card-bg-theme-color);
   box-shadow: 0 2px 8px 0 var(--shadow-theme-color);
-  transition: all .25s var(--ease-out-cubic);
+  transition: all 0.25s var(--ease-out-cubic);
   transform: translateY(0px);
 }
 
@@ -108,7 +108,7 @@ export default Vue.extend({
 }
 
 .coin-logo {
-  margin-right:16px;
+  margin-right: 16px;
   font-size: 48px;
 }
 
@@ -120,7 +120,7 @@ export default Vue.extend({
 .coin-price {
   font-weight: 600;
   font-size: 18px;
-  font-family: 'Source Code Pro';
+  font-family: "Source Code Pro";
 }
 
 .coin-value {
@@ -131,13 +131,13 @@ export default Vue.extend({
 .coin-balance {
   font-weight: 600;
   font-size: 18px;
-  font-family: 'Source Code Pro';
+  font-family: "Source Code Pro";
 }
-.coin-balance > span{
+.coin-balance > span {
   letter-spacing: 0.3px;
   font-weight: 600;
   font-size: 12px;
-  font-family: 'Source Sans Pro';
+  font-family: "Source Sans Pro";
   opacity: 0.5;
 }
 </style>

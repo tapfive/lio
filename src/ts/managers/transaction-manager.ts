@@ -1,14 +1,14 @@
-import CurrencyApi from '../api/currency-api';
-import CoinApi from '../api/coin-api';
-import { Coin } from '../models/coin';
-import { CoinData } from '../models/coin-data';
-import { Balance } from '../models/balance';
-import { Transaction } from '../models/transaction';
-import { TransactionHistory } from '../models/transaction-history';
-import { StorageData } from '../models/storage-data';
-import { StorageManager } from './storage-manager';
-import { StringMap } from '../string-map';
-import { DateTime } from 'luxon';
+import CurrencyApi from "../api/currency-api";
+import CoinApi from "../api/coin-api";
+import { Coin } from "../models/coin";
+import { CoinData } from "../models/coin-data";
+import { Balance } from "../models/balance";
+import { Transaction } from "../models/transaction";
+import { TransactionHistory } from "../models/transaction-history";
+import { StorageData } from "../models/storage-data";
+import { StorageManager } from "./storage-manager";
+import { StringMap } from "../string-map";
+import { DateTime } from "luxon";
 
 export class TransactionManager {
   private static instance: TransactionManager = new TransactionManager();
@@ -21,33 +21,32 @@ export class TransactionManager {
 
   constructor() {
     if (TransactionManager.instance) {
-      throw new Error('Error: Instantiation failed: Use TransactionManager.getInstance() instead of new.');
+      throw new Error("Instantiation failed: Use TransactionManager.getInstance() instead of new.");
     }
     TransactionManager.instance = this;
   }
 
   public async storeTransaction(coin: Coin, amount: number, currency: string, date: string): Promise<string> {
-
     try {
       // If date is not provided, use current time
-      let dateTime = date !== '' ? DateTime.fromISO(date) : DateTime.local();
+      let dateTime = date !== "" ? DateTime.fromISO(date) : DateTime.local();
 
       // Format DateTime for each API call
       let exchangeRateDate = dateTime.toISODate();
       let priceTimestamp = Math.round(dateTime.ts / 1000);
 
       // Get approximate price of coin on the purchase day
-      let price = await (CoinApi.getPriceOnDay(coin.symbol, currency, priceTimestamp));
+      let price = await CoinApi.getPriceOnDay(coin.symbol, currency, priceTimestamp);
 
       // Get exchange rates on the purchase day
-      let exchangeRates = await (CurrencyApi.getExchangeRates(currency, exchangeRateDate));
-      let storage = await (this.storageManager.loadStorage());
+      let exchangeRates = await CurrencyApi.getExchangeRates(currency, exchangeRateDate);
+      let storage = await this.storageManager.loadStorage();
       exchangeRates[currency] = 1;
 
       let transaction = new Transaction(amount, price, exchangeRates, date);
       this.addTransactionForCoin(storage, coin, transaction);
 
-      return await (this.storageManager.putStorage(storage));
+      return await this.storageManager.putStorage(storage);
     } catch (error) {
       throw error;
     }
@@ -55,7 +54,7 @@ export class TransactionManager {
 
   public async getAllBalances(): Promise<StringMap<Balance>> {
     try {
-      let storage = await (this.storageManager.loadStorage());
+      let storage = await this.storageManager.loadStorage();
 
       let balanceData: StringMap<Balance> = {};
 
@@ -78,7 +77,7 @@ export class TransactionManager {
 
   public async getAllTransactions(): Promise<TransactionHistory[]> {
     try {
-      let storage = await (this.storageManager.loadStorage());
+      let storage = await this.storageManager.loadStorage();
 
       let transactionData: TransactionHistory[] = [];
 
@@ -92,9 +91,9 @@ export class TransactionManager {
 
       // Sort by date
       transactionData.sort((firstItem, secondItem) => {
-        if (firstItem.transaction.date === '') {
+        if (firstItem.transaction.date === "") {
           return 1;
-        } else if (secondItem.transaction.date === '') {
+        } else if (secondItem.transaction.date === "") {
           return -1;
         }
 
@@ -118,8 +117,8 @@ export class TransactionManager {
 
   public async getTransactionsForCoin(coinSymbol: string): Promise<Transaction[]> {
     try {
-      let storage = await (this.storageManager.loadStorage());
-      let coinData = await (this.storageManager.getCoinData(storage, coinSymbol));
+      let storage = await this.storageManager.loadStorage();
+      let coinData = await this.storageManager.getCoinData(storage, coinSymbol);
       return coinData.transactions;
     } catch (error) {
       throw error;

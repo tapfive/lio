@@ -1,5 +1,5 @@
-import { CoinData } from './coin-data';
-import { Settings } from './settings';
+import { CoinData } from "./coin-data";
+import { Settings } from "./settings";
 
 export class StorageData {
   public version: number;

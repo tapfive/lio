@@ -1,6 +1,6 @@
-import { Coin } from './coin';
-import { Transaction } from './transaction';
-import { StringMap } from '../string-map';
+import { Coin } from "./coin";
+import { Transaction } from "./transaction";
+import { StringMap } from "../string-map";
 
 export class TransactionHistory {
   public index: number;

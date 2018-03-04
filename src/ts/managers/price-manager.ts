@@ -1,12 +1,12 @@
-import CoinApi from '../api/coin-api';
-import TimeIntervalUtil from '../helpers/time-interval-util';
-import { HistoricalPrice } from '../models/historical-price';
-import { PriceResult } from '../models/price-result';
-import { TimeInterval } from '../enums/time-interval';
-import { TimeIntervalUnit } from '../enums/time-interval-unit';
-import { StorageManager } from './storage-manager';
-import { StringMap } from '../string-map';
-import { DateTime } from 'luxon';
+import CoinApi from "../api/coin-api";
+import TimeIntervalUtil from "../helpers/time-interval-util";
+import { HistoricalPrice } from "../models/historical-price";
+import { PriceResult } from "../models/price-result";
+import { TimeInterval } from "../enums/time-interval";
+import { TimeIntervalUnit } from "../enums/time-interval-unit";
+import { StorageManager } from "./storage-manager";
+import { StringMap } from "../string-map";
+import { DateTime } from "luxon";
 
 export class PriceManager {
   private static instance: PriceManager = new PriceManager();
@@ -20,7 +20,7 @@ export class PriceManager {
 
   constructor() {
     if (PriceManager.instance) {
-      throw new Error('Error: Instantiation failed: Use PriceManager.getInstance() instead of new.');
+      throw new Error("Instantiation failed: Use PriceManager.getInstance() instead of new.");
     }
     PriceManager.instance = this;
   }
@@ -29,7 +29,7 @@ export class PriceManager {
     // Check if an update is needed
     if (this.isPriceSyncNeeded() || ignoreTimer) {
       try {
-        let apiResult = await (CoinApi.getPriceMultiple(coinSymbols));
+        let apiResult = await CoinApi.getPriceMultiple(coinSymbols);
 
         // Store data for later
         this.storeLatestPrice(apiResult);
@@ -47,9 +47,13 @@ export class PriceManager {
     return new PriceResult(false, undefined);
   }
 
-  public async getHistoricalPrice(coinSymbol: string, currency: string, interval: TimeInterval): Promise<HistoricalPrice> {
+  public async getHistoricalPrice(
+    coinSymbol: string,
+    currency: string,
+    interval: TimeInterval
+  ): Promise<HistoricalPrice> {
     try {
-      let storage = await (this.storageManager.loadStorage());
+      let storage = await this.storageManager.loadStorage();
       let coinData = this.storageManager.getCoinData(storage, coinSymbol);
       let intervalUnit = TimeIntervalUtil.getUnit(interval);
 
@@ -70,7 +74,7 @@ export class PriceManager {
           break;
         }
         default: {
-          throw Error('Incorrect TimeIntervalUnit');
+          throw Error("Incorrect TimeIntervalUnit");
         }
       }
 
@@ -80,22 +84,22 @@ export class PriceManager {
         // Prices are out of date, get updated prices
         switch (intervalUnit) {
           case TimeIntervalUnit.MINUTES: {
-            updatedPrices = await (CoinApi.getHistoricalPriceMinutes(coinSymbol, currency));
+            updatedPrices = await CoinApi.getHistoricalPriceMinutes(coinSymbol, currency);
             coinData.historicalPriceMinutes = updatedPrices;
             break;
           }
           case TimeIntervalUnit.HOURS: {
-            updatedPrices = await (CoinApi.getHistoricalPriceHours(coinSymbol, currency));
+            updatedPrices = await CoinApi.getHistoricalPriceHours(coinSymbol, currency);
             coinData.historicalPriceHours = updatedPrices;
             break;
           }
           case TimeIntervalUnit.DAYS: {
-            updatedPrices = await (CoinApi.getHistoricalPriceDays(coinSymbol, currency));
+            updatedPrices = await CoinApi.getHistoricalPriceDays(coinSymbol, currency);
             coinData.historicalPriceDays = updatedPrices;
             break;
           }
           default: {
-            throw Error('Incorrect TimeIntervalUnit');
+            throw Error("Incorrect TimeIntervalUnit");
           }
         }
 
@@ -112,7 +116,7 @@ export class PriceManager {
 
   private async storeLatestPrice(prices: StringMap<StringMap<number>>) {
     try {
-      let storage = await (this.storageManager.loadStorage());
+      let storage = await this.storageManager.loadStorage();
 
       for (let item of storage.coins) {
         item.latestPrice = prices[item.coin.symbol];
@@ -126,10 +130,14 @@ export class PriceManager {
 
   private isPriceSyncNeeded(): boolean {
     // Only update prices every 60 seconds
-    return -this.lastPriceSync.diffNow('seconds').toObject().seconds >= 60;
+    return -this.lastPriceSync.diffNow("seconds").toObject().seconds >= 60;
   }
 
-  private isHistoricalPriceUpdateNeeded(existingData: HistoricalPrice, currency: string, intervalUnit: TimeIntervalUnit): Boolean {
+  private isHistoricalPriceUpdateNeeded(
+    existingData: HistoricalPrice,
+    currency: string,
+    intervalUnit: TimeIntervalUnit
+  ): Boolean {
     let now = DateTime.local().toUTC();
     let lastTime = DateTime.fromMillis(existingData.lastTimeStamp * 1000);
 
@@ -137,19 +145,19 @@ export class PriceManager {
     let diff = 0;
     switch (intervalUnit) {
       case TimeIntervalUnit.MINUTES: {
-        diff = now.diff(lastTime, 'minutes').toObject().minutes;
+        diff = now.diff(lastTime, "minutes").toObject().minutes;
         break;
       }
       case TimeIntervalUnit.HOURS: {
-        diff = now.diff(lastTime, 'hours').toObject().hours;
+        diff = now.diff(lastTime, "hours").toObject().hours;
         break;
       }
       case TimeIntervalUnit.DAYS: {
-        diff = now.diff(lastTime, 'days').toObject().days;
+        diff = now.diff(lastTime, "days").toObject().days;
         break;
       }
       default: {
-        throw Error('Incorrect TimeIntervalUnit');
+        throw Error("Incorrect TimeIntervalUnit");
       }
     }
 

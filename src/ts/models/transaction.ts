@@ -1,4 +1,4 @@
-import { StringMap } from '../string-map';
+import { StringMap } from "../string-map";
 
 export class Transaction {
   public id?: number;

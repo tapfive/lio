@@ -49,10 +49,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 export default Vue.extend({
-  name: 'portfolio-sidebar',
+  name: "portfolio-sidebar",
 
   props: {
     user: {
@@ -60,33 +60,33 @@ export default Vue.extend({
     }
   },
 
-  data () {
+  data() {
     return {
       blockstack: window.blockstack,
-      currentComponent: 'overview'
+      currentComponent: "overview"
     };
   },
 
   methods: {
-    signOut () {
+    signOut() {
       this.blockstack.signUserOut(window.location.href);
     },
 
-    changeComponent (component: string) {
+    changeComponent(component: string) {
       this.currentComponent = component;
-      this.$emit('update:current-component', component);
+      this.$emit("update:current-component", component);
     },
 
-    isSelected (component: string) {
+    isSelected(component: string) {
       return this.currentComponent === component;
     },
 
-    showAddModal: function () {
-      this.$emit('show-add-modal');
+    showAddModal: function() {
+      this.$emit("show-add-modal");
     },
 
-    showSubtractModal: function () {
-      this.$emit('show-subtract-modal');
+    showSubtractModal: function() {
+      this.$emit("show-subtract-modal");
     }
   }
 });
@@ -96,7 +96,7 @@ export default Vue.extend({
 .portfolio-sidebar {
   position: fixed;
   top: 0;
-  left:0;
+  left: 0;
   display: flex;
   flex-direction: column;
   /* align-items: center; */
@@ -113,14 +113,15 @@ export default Vue.extend({
   /* grid-column: 1 / 2; */
 }
 
-h1, h3 {
+h1,
+h3 {
   color: var(--font-theme-color);
 }
 
 .sidebar-logo {
   display: flex;
   align-items: center;
-   justify-content: center;
+  justify-content: center;
   margin-bottom: 32px;
   /*margin-left: 32px;*/
 
@@ -132,7 +133,7 @@ h1, h3 {
 .sidebar-user {
   display: flex;
   flex-direction: column;
-   align-items: center;
+  align-items: center;
   margin-bottom: 32px;
   /*margin-left: 32px;*/
   font-size: 14px;
@@ -175,7 +176,7 @@ a {
 
   & a {
     padding-top: 16px;
-    padding-bottom:16px;
+    padding-bottom: 16px;
   }
 
   & .nc-icon-wrapper > path {
@@ -206,7 +207,6 @@ a {
   & .nc-icon-wrapper > polygon {
     fill: var(--green);
   }
-
 }
 
 .action-buttons {
@@ -222,7 +222,7 @@ a {
   justify-content: center;
   width: 80%;
   height: 62px;
-  margin-bottom:16px;
+  margin-bottom: 16px;
   border-radius: 6px;
   text-align: center;
   font-weight: 700;
@@ -246,7 +246,7 @@ a {
 }
 
 .subtract-value-button:hover {
-    background-color: var(--red);
-    color: var(--dark-blue);
+  background-color: var(--red);
+  color: var(--dark-blue);
 }
 </style>

@@ -1,5 +1,5 @@
-import { Coin } from './coin';
-import { StringMap } from '../string-map';
+import { Coin } from "./coin";
+import { StringMap } from "../string-map";
 
 export class Balance {
   public coin: Coin;

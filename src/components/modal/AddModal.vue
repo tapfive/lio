@@ -54,15 +54,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Spinner from 'vue-simple-spinner';
-import TransactionCoinItem from './TransactionCoinItem.vue';
-import CoinUtil from '../../ts/helpers/coin-util';
-import { AppData } from '../../ts/app-data';
-import { Coin } from '../../ts/models/coin';
+import Vue from "vue";
+import Spinner from "vue-simple-spinner";
+import TransactionCoinItem from "./TransactionCoinItem.vue";
+import CoinUtil from "../../ts/helpers/coin-util";
+import { AppData } from "../../ts/app-data";
+import { Coin } from "../../ts/models/coin";
 
 export default Vue.extend({
-  name: 'add-modal',
+  name: "add-modal",
 
   components: {
     Spinner
@@ -75,78 +75,76 @@ export default Vue.extend({
     }
   },
 
-  data () {
+  data() {
     return {
-      amount: '',
+      amount: "",
       amountChecked: false,
       amountIsValid: true,
       appData: AppData.getInstance(),
       coinIsValid: false,
-      date: '',
+      date: "",
       items: <Coin[]>[],
       loading: false,
-      selectedItem: new Coin('', ''),
+      selectedItem: new Coin("", ""),
       template: TransactionCoinItem
     };
   },
 
   watch: {
-    amount: function (val) {
+    amount: function(val) {
       this.amountIsValid = this.isValidNumberInput(val);
       this.amountChecked = true;
     },
 
-    selectedItem: function (val) {
+    selectedItem: function(val) {
       // Fix this later
       this.coinIsValid = val instanceof Coin || val instanceof Object;
     }
   },
 
   computed: {
-    inputIsValid: function (): boolean {
-      return this.coinIsValid
-        && this.amountIsValid
-        && this.amountChecked;
+    inputIsValid: function(): boolean {
+      return this.coinIsValid && this.amountIsValid && this.amountChecked;
     }
   },
 
   methods: {
-    close: function () {
-      this.$emit('close');
+    close: function() {
+      this.$emit("close");
     },
 
-    addTransaction: function () {
+    addTransaction: function() {
       this.loading = true;
-      this.appData.transactionManager.storeTransaction(this.selectedItem, Number(this.amount), this.currency, this.date)
-      .then((response) => {
-        this.$emit('reload');
-      })
-      .catch((error) => {
-        console.log(error);
-        this.$emit('close');
-      });
+      this.appData.transactionManager
+        .storeTransaction(this.selectedItem, Number(this.amount), this.currency, this.date)
+        .then(response => {
+          this.$emit("reload");
+        })
+        .catch(error => {
+          console.log(error);
+          this.$emit("close");
+        });
     },
 
-    getLabel (item: Coin) {
+    getLabel(item: Coin) {
       return item.name;
     },
 
-    updateItems (text: string) {
-      this.items = CoinUtil.getAvailable().filter((item) => {
-        return (new RegExp(text.toLowerCase())).test(item.symbol.toLowerCase() + item.name.toLowerCase());
+    updateItems(text: string) {
+      this.items = CoinUtil.getAvailable().filter(item => {
+        return new RegExp(text.toLowerCase()).test(item.symbol.toLowerCase() + item.name.toLowerCase());
       });
     },
 
-    isValidNumberInput: function (val: string): boolean {
+    isValidNumberInput: function(val: string): boolean {
       // Number with optional decimals
       let regex = /^(\d+\.?\d*|\.\d+)$/;
       return regex.test(val) && Number(val) > 0;
     }
   }
-
 });
 </script>
 
 <style scoped>
-@import '../../css/modal.css';
+@import "../../css/modal.css";
 </style>

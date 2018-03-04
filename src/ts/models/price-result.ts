@@ -1,4 +1,4 @@
-import { StringMap } from '../string-map';
+import { StringMap } from "../string-map";
 
 export class PriceResult {
   public successful: boolean;
@@ -6,7 +6,7 @@ export class PriceResult {
 
   constructor(successful: boolean, result?: StringMap<StringMap<number>>) {
     if (successful && result === undefined) {
-      throw new Error('PriceResult must contain a result if successful.');
+      throw new Error("PriceResult must contain a result if successful.");
     }
 
     this.successful = successful;

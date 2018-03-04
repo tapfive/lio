@@ -1,35 +1,37 @@
 <script>
-import { Line, mixins } from 'vue-chartjs'
-const { reactiveProp } = mixins
+import { Line, mixins } from "vue-chartjs";
+const { reactiveProp } = mixins;
 
 export default {
   extends: Line,
-  name: 'line-chart',
+  name: "line-chart",
   mixins: [reactiveProp],
 
   props: {
-    chartData: {required: true}
+    chartData: { required: true }
   },
 
-  data () {
+  data() {
     return {
       options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: false
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: false
+              }
             }
-          }]
+          ]
         }
       }
     };
   },
 
-  mounted () {
-    this.renderChart(this.chartData, this.options)
-    this.$emit('update:chart-loaded', true);
+  mounted() {
+    this.renderChart(this.chartData, this.options);
+    this.$emit("update:chart-loaded", true);
   }
 };
 </script>

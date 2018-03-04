@@ -18,28 +18,28 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Spinner from 'vue-simple-spinner';
-import CurrencyUtil from '../ts/helpers/currency-util';
-import { AppData } from '../ts/app-data';
+import Vue from "vue";
+import Spinner from "vue-simple-spinner";
+import CurrencyUtil from "../ts/helpers/currency-util";
+import { AppData } from "../ts/app-data";
 
 export default Vue.extend({
-  name: 'portfolio-settings',
+  name: "portfolio-settings",
 
   components: {
     Spinner
   },
 
-  data () {
+  data() {
     return {
       appData: AppData.getInstance(),
       availableCurrencies: CurrencyUtil.getAll(),
-      currency: 'USD',
+      currency: "USD",
       loading: false
     };
   },
 
-  mounted () {
+  mounted() {
     this.currency = this.appData.settingsManager.getSelectedCurrency();
   },
 
@@ -52,8 +52,7 @@ export default Vue.extend({
   methods: {
     clearData: function() {
       this.loading = true;
-      this.appData.storageManager.clearData()
-      .then (response => {
+      this.appData.storageManager.clearData().then(response => {
         this.loading = false;
       });
     }
@@ -68,7 +67,7 @@ export default Vue.extend({
   background-image: var(--view-bg-theme-gradient);
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 120px  120px;
+  grid-template-rows: 96px 120px 120px;
   grid-gap: 16px;
   grid-template-areas:
     ". settings-title     settings-title     settings-title     settings-title   ."
@@ -78,7 +77,9 @@ export default Vue.extend({
 
 @media screen and (max-width: 1100px) {
   .portfolio-settings {
-    grid-template-columns: 0.5fr minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr) 0.5fr;
+    grid-template-columns:
+      0.5fr minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr)
+      minmax(50px, 1fr) 0.5fr;
   }
 }
 
@@ -103,5 +104,4 @@ button {
 .clear-option {
   grid-area: clear-options;
 }
-
 </style>

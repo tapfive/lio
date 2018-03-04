@@ -49,17 +49,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import AddModal from './modal/AddModal.vue';
-import SubtractModal from './modal/SubtractModal.vue';
-import PortfolioSidebar from './PortfolioSidebar.vue';
-import PortfolioOverview from './PortfolioOverview.vue';
-import PortfolioGraph from './PortfolioGraph.vue';
-import PortfolioHistory from './PortfolioHistory.vue';
-import PortfolioSettings from './PortfolioSettings.vue';
+import Vue from "vue";
+import AddModal from "./modal/AddModal.vue";
+import SubtractModal from "./modal/SubtractModal.vue";
+import PortfolioSidebar from "./PortfolioSidebar.vue";
+import PortfolioOverview from "./PortfolioOverview.vue";
+import PortfolioGraph from "./PortfolioGraph.vue";
+import PortfolioHistory from "./PortfolioHistory.vue";
+import PortfolioSettings from "./PortfolioSettings.vue";
 
 export default Vue.extend({
-  name: 'portfolio',
+  name: "portfolio",
   props: {
     user: {
       required: true
@@ -76,11 +76,11 @@ export default Vue.extend({
     SubtractModal
   },
 
-  data () {
+  data() {
     return {
       blockstack: window.blockstack,
-      currency: 'USD', // TODO: Load this from settings
-      currentComponent: 'overview',
+      currency: "USD", // TODO: Load this from settings
+      currentComponent: "overview",
       reloadData: false,
       showAddModal: false,
       showSubtractModal: false
@@ -88,12 +88,12 @@ export default Vue.extend({
   },
 
   methods: {
-    handleDataAdded: function () {
+    handleDataAdded: function() {
       this.closeModal();
       this.reloadData = true;
     },
 
-    closeModal: function () {
+    closeModal: function() {
       this.showAddModal = false;
       this.showSubtractModal = false;
     }
@@ -120,11 +120,9 @@ export default Vue.extend({
 }
 
 .component-container {
-    z-index: 1;
-    padding-bottom: 62px;
-    box-shadow: 30px 0 74px 0 var(--shadow-theme-color);
-    grid-column: 2 / 3;
+  z-index: 1;
+  padding-bottom: 62px;
+  box-shadow: 30px 0 74px 0 var(--shadow-theme-color);
+  grid-column: 2 / 3;
 }
-
-
 </style>

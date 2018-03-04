@@ -1,7 +1,7 @@
-import { Coin } from './coin';
-import { HistoricalPrice } from './historical-price';
-import { Transaction } from './transaction';
-import { StringMap } from '../string-map';
+import { Coin } from "./coin";
+import { HistoricalPrice } from "./historical-price";
+import { Transaction } from "./transaction";
+import { StringMap } from "../string-map";
 
 export class CoinData {
   public coin: Coin;
@@ -19,9 +19,9 @@ export class CoinData {
 
     this.latestPrice = {};
 
-    this.historicalPriceMinutes = new HistoricalPrice(1, 'USD');
-    this.historicalPriceHours = new HistoricalPrice(1, 'USD');
-    this.historicalPriceDays = new HistoricalPrice(1, 'USD');
+    this.historicalPriceMinutes = new HistoricalPrice(1, "USD");
+    this.historicalPriceHours = new HistoricalPrice(1, "USD");
+    this.historicalPriceDays = new HistoricalPrice(1, "USD");
 
     transaction.id = this.lastTransactionId;
     this.transactions.push(transaction);

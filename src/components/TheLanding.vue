@@ -16,20 +16,20 @@
 
 <script>
 export default {
-  name: 'landing',
-  data () {
+  name: "landing",
+  data() {
     return {
       blockstack: window.blockstack
-    }
+    };
   },
 
   methods: {
-    signIn () {
-      const blockstack = this.blockstack
-      blockstack.redirectToSignIn()
+    signIn() {
+      const blockstack = this.blockstack;
+      blockstack.redirectToSignIn();
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -37,7 +37,7 @@ export default {
   /* height: 100%; */
 }
 
-.hero-stuff{
+.hero-stuff {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,14 +47,14 @@ export default {
 .hero-stuff > h2 {
   font-weight: 300;
   font-size: 48px;
-  color: #00FFA2;
+  color: #00ffa2;
 }
 
 .hero-bg {
   width: 100%;
   height: 680px;
   background: #004466;
-  background-image: linear-gradient(-135deg, #004466 0%, #01324A 100%);
+  background-image: linear-gradient(-135deg, #004466 0%, #01324a 100%);
   transform: skewY(-8deg);
   transform-origin: 0;
   position: absolute;
@@ -66,7 +66,7 @@ export default {
   width: 100%;
   height: 680px;
   background: #004466;
-  background-image: linear-gradient(-135deg, #004466 0%, #01324A 100%);
+  background-image: linear-gradient(-135deg, #004466 0%, #01324a 100%);
   opacity: 0.2;
   transform: skewY(-5deg);
   transform-origin: 0;
@@ -87,16 +87,16 @@ button {
   font-size: 24px;
 }
 
-button:hover{
-    background: var(--light-green);
-    box-shadow: 4px 16px 24px -16px rgba(0, 3, 4, 0.6);
-    transform: translateY(-1px);
+button:hover {
+  background: var(--light-green);
+  box-shadow: 4px 16px 24px -16px rgba(0, 3, 4, 0.6);
+  transform: translateY(-1px);
 }
 
-button:active{
-    background: #002A3F;
-    box-shadow: 4px 16px 24px -16px rgba(0, 3, 4, 0.8);
-    color: #00FFA2;
-    transform: translateY(1px);
+button:active {
+  background: #002a3f;
+  box-shadow: 4px 16px 24px -16px rgba(0, 3, 4, 0.8);
+  color: #00ffa2;
+  transform: translateY(1px);
 }
 </style>

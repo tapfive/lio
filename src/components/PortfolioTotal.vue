@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'portfolio-total',
+  name: "portfolio-total",
   props: {
     totalBalance: {
       type: String,
@@ -18,7 +18,7 @@ export default {
       type: String
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -41,7 +41,7 @@ export default {
 
 @media screen and (min-width: 2000px) {
   .dashboard-content {
-      grid-area: total;
+    grid-area: total;
   }
 }
 </style>
