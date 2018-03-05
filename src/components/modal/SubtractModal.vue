@@ -70,13 +70,6 @@ export default Vue.extend({
     Spinner
   },
 
-  props: {
-    currency: {
-      required: true,
-      type: String
-    }
-  },
-
   data() {
     return {
       amount: "",
@@ -84,6 +77,7 @@ export default Vue.extend({
       amountIsValid: true,
       appData: AppData.getInstance(),
       coinIsValid: false,
+      currency: "USD",
       currentBalances: <StringMap<number>>{},
       currentCoins: <Coin[]>[],
       date: DateTime.local().toISODate(),
@@ -107,6 +101,8 @@ export default Vue.extend({
       .catch(error => {
         console.log(error);
       });
+
+    this.currency = this.appData.settingsManager.getSelectedCurrency();
   },
 
   watch: {

@@ -34,14 +34,12 @@
 
     <add-modal 
       v-if="showAddModal"
-      :currency="currency"
       @close="closeModal()"
       @reload="handleDataAdded()">
     </add-modal>
 
     <subtract-modal 
       v-if="showSubtractModal"
-      :currency="currency"
       @close="closeModal()"
       @reload="handleDataAdded()">
     </subtract-modal>
@@ -79,7 +77,6 @@ export default Vue.extend({
   data() {
     return {
       blockstack: window.blockstack,
-      currency: "USD", // TODO: Load this from settings
       currentComponent: "overview",
       reloadData: false,
       showAddModal: false,

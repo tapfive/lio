@@ -9,16 +9,27 @@
     </div>
     <div class="clear-option">
       <h3>Clear All Data</h3>
-      <button @click.prevent="clearData()">
+      <button @click.prevent="showClearConfirmation = true">
         <div v-if="!loading">Clear Data</div>
         <div v-else><spinner line-fg-color="#004466" line-bg-color="#00000000" size="small"></spinner></div>
       </button>
     </div>
+
+    <confirmation-modal
+      v-if="showClearConfirmation"
+      @close="showClearConfirmation = false"
+      @confirm="clearData()">
+
+      <h3 slot="header">Clear Data?</h3>
+      <div slot="body">Are you sure you want to delete all your stored data? This cannot be undone.</div>
+    </confirmation-modal>
+
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import ConfirmationModal from "./modal/ConfirmationModal.vue";
 import Spinner from "vue-simple-spinner";
 import CurrencyUtil from "../ts/helpers/currency-util";
 import { AppData } from "../ts/app-data";
@@ -27,6 +38,7 @@ export default Vue.extend({
   name: "portfolio-settings",
 
   components: {
+    ConfirmationModal,
     Spinner
   },
 
@@ -35,7 +47,8 @@ export default Vue.extend({
       appData: AppData.getInstance(),
       availableCurrencies: CurrencyUtil.getAll(),
       currency: "USD",
-      loading: false
+      loading: false,
+      showClearConfirmation: false
     };
   },
 
@@ -51,6 +64,7 @@ export default Vue.extend({
 
   methods: {
     clearData: function() {
+      this.showClearConfirmation = false;
       this.loading = true;
       this.appData.storageManager.clearData().then(response => {
         this.loading = false;
