@@ -242,7 +242,8 @@ export default Vue.extend({
   background-image: var(--view-bg-theme-gradient);
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 32px 96px 48px min-content;
+  grid-template-rows: 96px 32px min-content 48px min-content;
+  grid-auto-rows: 96px;
   grid-gap: 16px;
   grid-template-areas:
     ". history-title     history-title     history-title     history-title   ."
@@ -276,9 +277,11 @@ export default Vue.extend({
 
 .history-toggles-wrap {
   grid-area: history-toggles;
-  grid-template-columns: 1fr 1fr 1fr 1fr 24px;
-  grid-row: auto;
   display: grid;
+  grid-template-columns: 96px 96px 96px 96px 96px 96px 96px;
+  grid-template-rows: 96px;
+  grid-auto-rows: 96px;
+  grid-gap: 16px;
 }
 
 .history-toggles {
