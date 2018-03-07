@@ -52,6 +52,7 @@ body {
   --font-theme-color: var(--dark-blue);
   --icon-theme-color: var(--dark-blue);
   --shadow-theme-color: rgba(22, 46, 58, 0.16);
+  background-color: #f7f7fa;
   overflow-x: hidden;
   margin: 0;
   max-width: 100vw;
