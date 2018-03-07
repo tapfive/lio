@@ -50,6 +50,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { AppData } from "../ts/app-data";
 
 export default Vue.extend({
   name: "portfolio-sidebar",
@@ -62,14 +63,13 @@ export default Vue.extend({
 
   data() {
     return {
-      blockstack: window.blockstack,
       currentComponent: "overview"
     };
   },
 
   methods: {
     signOut() {
-      this.blockstack.signUserOut(window.location.href);
+      AppData.blockstack.signUserOut();
     },
 
     changeComponent(component: string) {

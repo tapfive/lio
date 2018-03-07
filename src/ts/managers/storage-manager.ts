@@ -1,5 +1,6 @@
 import { StorageData } from "../models/storage-data";
 import { CoinData } from "../models/coin-data";
+import { BlockstackManager } from "./blockstack-manager";
 
 const STORAGE_FILE = "lio-storage.json";
 const STORAGE_VERSION = 1;
@@ -7,6 +8,7 @@ const STORAGE_VERSION = 1;
 export class StorageManager {
   private static instance: StorageManager = new StorageManager();
 
+  private blockstack = BlockstackManager.getInstance().getBlockstack();
   private storageData: StorageData;
 
   public static getInstance(): StorageManager {
@@ -24,7 +26,7 @@ export class StorageManager {
   public async clearData(): Promise<boolean> {
     // Create a new storage file, removing the old one
     let newStorage = new StorageData(STORAGE_VERSION);
-    await window.blockstack.putFile(STORAGE_FILE, JSON.stringify(newStorage), true);
+    await this.blockstack.putFile(STORAGE_FILE, JSON.stringify(newStorage), true);
     this.storageData = newStorage;
     return true;
   }
@@ -38,13 +40,13 @@ export class StorageManager {
     let storageText = null;
 
     try {
-      storageText = await window.blockstack.getFile(STORAGE_FILE, true);
+      storageText = await this.blockstack.getFile(STORAGE_FILE, true);
     } catch (error) {
       let dataExists = await this.checkForExistingData();
 
       if (!dataExists) {
         // If error was caused by trying to decrypt an empty file, create a new one
-        await window.blockstack.putFile(STORAGE_FILE, JSON.stringify(new StorageData(STORAGE_VERSION)), true);
+        await this.blockstack.putFile(STORAGE_FILE, JSON.stringify(new StorageData(STORAGE_VERSION)), true);
       } else {
         throw error;
       }
@@ -69,7 +71,7 @@ export class StorageManager {
     let promise = null;
 
     try {
-      promise = window.blockstack.putFile(STORAGE_FILE, JSON.stringify(storage), true);
+      promise = this.blockstack.putFile(STORAGE_FILE, JSON.stringify(storage), true);
     } catch (error) {
       throw error;
     }
@@ -99,7 +101,7 @@ export class StorageManager {
 
     try {
       // Get data unencrypted just to see if it exists
-      storageText = await window.blockstack.getFile(STORAGE_FILE, false);
+      storageText = await this.blockstack.getFile(STORAGE_FILE, false);
     } catch (error) {
       throw error;
     }

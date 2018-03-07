@@ -91,7 +91,6 @@ export default Vue.extend({
 
   data() {
     return {
-      appData: AppData.getInstance(),
       availableCoins: <Coin[]>[],
       currencySymbol: "$",
       loadedStorage: false,
@@ -102,8 +101,8 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.currencySymbol = this.appData.settingsManager.getSelectedCurrencySymbol();
-    this.selectedCurrency = this.appData.settingsManager.getSelectedCurrency();
+    this.currencySymbol = AppData.settingsManager.getSelectedCurrencySymbol();
+    this.selectedCurrency = AppData.settingsManager.getSelectedCurrency();
     this.getTransactionHistory();
   },
 
@@ -125,7 +124,7 @@ export default Vue.extend({
 
   methods: {
     getTransactionHistory: function() {
-      this.appData.transactionManager
+      AppData.transactionManager
         .getAllTransactions()
         .then(response => {
           this.transactionHistory = response;

@@ -79,7 +79,6 @@ export default Vue.extend({
 
   data() {
     return {
-      appData: AppData.getInstance(),
       balanceData: <StringMap<Balance>>{},
       errors: [],
       loadedStorage: false,
@@ -90,17 +89,17 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.appData.loadSettings().then(response => {
-      this.selectedCurrency = this.appData.settingsManager.getSelectedCurrency();
-      this.selectedCurrencySymbol = this.appData.settingsManager.getSelectedCurrencySymbol();
-      this.selectedInterval = this.appData.settingsManager.getTimeInterval();
+    AppData.settingsManager.loadSettings().then(response => {
+      this.selectedCurrency = AppData.settingsManager.getSelectedCurrency();
+      this.selectedCurrencySymbol = AppData.settingsManager.getSelectedCurrencySymbol();
+      this.selectedInterval = AppData.settingsManager.getTimeInterval();
     });
     this.loadBalances(false);
   },
 
   methods: {
     loadBalances(ignoreTimer: boolean) {
-      this.appData.transactionManager
+      AppData.transactionManager
         .getAllBalances()
         .then(balanceData => {
           this.balanceData = balanceData;
@@ -120,7 +119,7 @@ export default Vue.extend({
 
       // Only check prices if coins have been added
       if (coins.length > 0) {
-        this.appData.priceManager.refreshPrices(coins, ignoreTimer).then(response => {
+        AppData.priceManager.refreshPrices(coins, ignoreTimer).then(response => {
           if (response.successful) {
             // If call was successful, result will be defined
             let result = response.result!!;

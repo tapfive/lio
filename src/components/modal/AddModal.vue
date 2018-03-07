@@ -73,7 +73,6 @@ export default Vue.extend({
       amount: "",
       amountChecked: false,
       amountIsValid: true,
-      appData: AppData.getInstance(),
       coinIsValid: false,
       currency: "USD",
       date: "",
@@ -85,7 +84,7 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.currency = this.appData.settingsManager.getSelectedCurrency();
+    this.currency = AppData.settingsManager.getSelectedCurrency();
   },
 
   watch: {
@@ -113,7 +112,7 @@ export default Vue.extend({
 
     addTransaction: function() {
       this.loading = true;
-      this.appData.transactionManager
+      AppData.transactionManager
         .storeTransaction(this.selectedItem, Number(this.amount), this.currency, this.date)
         .then(response => {
           this.$emit("reload");

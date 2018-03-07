@@ -1,32 +1,13 @@
-import { DateTime } from "luxon";
+import { BlockstackManager } from "./managers/blockstack-manager";
 import { StorageManager } from "./managers/storage-manager";
 import { PriceManager } from "./managers/price-manager";
 import { TransactionManager } from "./managers/transaction-manager";
 import { SettingsManager } from "./managers/settings-manager";
 
-export class AppData {
-  private static instance: AppData = new AppData();
-
-  public storageManager = StorageManager.getInstance();
-  public priceManager = PriceManager.getInstance();
-  public transactionManager = TransactionManager.getInstance();
-  public settingsManager = SettingsManager.getInstance();
-
-  private lastPriceSync = DateTime.local().minus({ minutes: 1 });
-
-  public static getInstance(): AppData {
-    return AppData.instance;
-  }
-
-  constructor() {
-    if (AppData.instance) {
-      throw new Error("Instantiation failed: Use AppData.getInstance() instead of new.");
-    }
-    AppData.instance = this;
-  }
-
-  public async loadSettings(): Promise<boolean> {
-    await this.settingsManager.loadSettings();
-    return true;
-  }
+export abstract class AppData {
+  public static blockstack = BlockstackManager.getInstance().getBlockstack();
+  public static storageManager = StorageManager.getInstance();
+  public static priceManager = PriceManager.getInstance();
+  public static transactionManager = TransactionManager.getInstance();
+  public static settingsManager = SettingsManager.getInstance();
 }
