@@ -87,16 +87,16 @@ export default Vue.extend({
 }
 
 .hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
   width: 100%;
   height: 1000px;
   background: #004466;
   background-image: linear-gradient(-135deg, #004466 0%, #01324a 100%);
   transform-origin: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 56vw));
-  z-index: -1;
 }
 
 @media screen and (min-width: 1600px) {
@@ -104,6 +104,13 @@ export default Vue.extend({
     height: 1200px;
   }
 }
+
+@media screen and (min-width: 2400px) {
+  .hero-bg {
+    height: 1250px;
+  }
+}
+
 
 .hero-bg-fade {
   width: 100%;
