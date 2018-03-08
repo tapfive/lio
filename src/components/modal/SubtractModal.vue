@@ -75,7 +75,6 @@ export default Vue.extend({
       amount: "",
       amountChecked: false,
       amountIsValid: true,
-      appData: AppData.getInstance(),
       coinIsValid: false,
       currency: "USD",
       currentBalances: <StringMap<number>>{},
@@ -89,7 +88,7 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.appData.transactionManager
+    AppData.transactionManager
       .getAllBalances()
       .then(balanceData => {
         for (let key in balanceData) {
@@ -102,7 +101,7 @@ export default Vue.extend({
         console.log(error);
       });
 
-    this.currency = this.appData.settingsManager.getSelectedCurrency();
+    this.currency = AppData.settingsManager.getSelectedCurrency();
   },
 
   watch: {
@@ -132,7 +131,7 @@ export default Vue.extend({
 
     addTransaction: function() {
       this.loading = true;
-      this.appData.transactionManager
+      AppData.transactionManager
         .storeTransaction(this.selectedItem, Number(this.amount) * -1, this.currency, this.date)
         .then(response => {
           this.$emit("reload");

@@ -76,7 +76,6 @@ export default Vue.extend({
 
   data() {
     return {
-      blockstack: window.blockstack,
       currentComponent: "overview",
       reloadData: false,
       showAddModal: false,

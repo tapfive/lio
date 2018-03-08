@@ -20,20 +20,19 @@ export default Vue.extend({
 
   data() {
     return {
-      appData: AppData.getInstance(),
       intervals: TimeIntervalUtil.getIntervals(),
       selectedInterval: TimeInterval.ONE_DAY
     };
   },
 
   created() {
-    this.selectedInterval = this.appData.settingsManager.getTimeInterval();
+    this.selectedInterval = AppData.settingsManager.getTimeInterval();
   },
 
   methods: {
     changeInterval(interval: TimeInterval) {
       this.selectedInterval = interval;
-      this.appData.settingsManager.setTimeInterval(interval);
+      AppData.settingsManager.setTimeInterval(interval);
       this.$emit("update:selected-interval", interval);
     },
 

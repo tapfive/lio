@@ -71,7 +71,6 @@ export default Vue.extend({
 
   data() {
     return {
-      appData: AppData.getInstance(),
       balanceData: <StringMap<Balance>>{},
       chartData: new ChartData(null),
       loadedStorage: false,
@@ -82,8 +81,8 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.selectedInterval = this.appData.settingsManager.getTimeInterval();
-    this.selectedCurrency = this.appData.settingsManager.getSelectedCurrency();
+    this.selectedInterval = AppData.settingsManager.getTimeInterval();
+    this.selectedCurrency = AppData.settingsManager.getSelectedCurrency();
     this.loadCoins();
   },
 
@@ -111,7 +110,7 @@ export default Vue.extend({
 
   methods: {
     loadCoins: function() {
-      this.appData.transactionManager
+      AppData.transactionManager
         .getAllBalances()
         .then(balanceData => {
           this.balanceData = balanceData;
@@ -123,7 +122,7 @@ export default Vue.extend({
     },
 
     loadGraphData: function(balance: Balance) {
-      this.appData.priceManager
+      AppData.priceManager
         .getHistoricalPrice(balance.coin.symbol, this.selectedCurrency, this.selectedInterval)
         .then(response => {
           let useDays = TimeIntervalUtil.getUnit(this.selectedInterval) === TimeIntervalUnit.DAYS;

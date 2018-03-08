@@ -56,22 +56,19 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue";
+import { AppData } from "../ts/app-data";
+
+export default Vue.extend({
   name: "landing",
-  data() {
-    return {
-      blockstack: window.blockstack
-    };
-  },
 
   methods: {
     signIn() {
-      const blockstack = this.blockstack;
-      blockstack.redirectToSignIn();
+      AppData.blockstack.redirectToSignIn();
     }
   }
-};
+});
 </script>
 
 <style scoped>

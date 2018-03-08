@@ -5,36 +5,35 @@
   </div>
 </template>
 
-<script>
-import TheLanding from "./components/TheLanding";
-import ThePortfolio from "./components/ThePortfolio";
+<script lang="ts">
+import Vue from "vue";
+import TheLanding from "./components/TheLanding.vue";
+import ThePortfolio from "./components/ThePortfolio.vue";
+import { AppData } from "./ts/app-data";
 
-export default {
+export default Vue.extend({
   name: "app",
+
   components: {
     TheLanding,
     ThePortfolio
   },
 
-  mounted() {
-    const blockstack = this.blockstack;
-
-    if (blockstack.isUserSignedIn()) {
-      this.user = blockstack.loadUserData().profile;
-    } else if (blockstack.isSignInPending()) {
-      blockstack.handlePendingSignIn().then(userData => {
-        window.location = window.location.origin;
-      });
-    }
-  },
-
   data() {
     return {
-      blockstack: window.blockstack,
+      blockstack: AppData.blockstack,
       user: null
     };
+  },
+
+  mounted() {
+    if (this.blockstack.isUserSignedIn()) {
+      this.user = this.blockstack.loadUserData().profile;
+    } else if (this.blockstack.isSignInPending()) {
+      this.blockstack.handlePendingSignIn();
+    }
   }
-};
+});
 </script>
 
 <style>

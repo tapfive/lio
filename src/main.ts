@@ -4,7 +4,6 @@ import Vue from "vue";
 import App from "./App.vue";
 import Autocomplete from "v-autocomplete";
 import Datetime from "vue-datetime";
-import * as blockstack from "blockstack";
 import KonamiCode from "vue-konami-code";
 import SimpleSpinner from "vue-simple-spinner";
 
@@ -25,14 +24,6 @@ Vue.use(KonamiCode, {
     document.body.classList.toggle("dark-theme");
   }
 });
-
-declare global {
-  interface Window {
-    blockstack: any;
-  }
-}
-
-window.blockstack = blockstack;
 
 Vue.config.productionTip = false;
 

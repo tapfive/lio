@@ -48,12 +48,14 @@ export class SettingsManager {
     return CurrencyUtil.getSymbol(this.settings.currency);
   }
 
-  public async loadSettings() {
+  public async loadSettings(): Promise<boolean> {
     try {
       let storage = await this.storageManager.loadStorage();
       this.settings = storage.settings;
+      return true;
     } catch (error) {
       console.log("Error loading settings");
+      return false;
     }
   }
 

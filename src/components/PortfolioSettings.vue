@@ -44,7 +44,6 @@ export default Vue.extend({
 
   data() {
     return {
-      appData: AppData.getInstance(),
       availableCurrencies: CurrencyUtil.getAll(),
       currency: "USD",
       loading: false,
@@ -53,12 +52,12 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.currency = this.appData.settingsManager.getSelectedCurrency();
+    this.currency = AppData.settingsManager.getSelectedCurrency();
   },
 
   watch: {
     currency: function(selectedCurrency) {
-      this.appData.settingsManager.setSelectedCurrency(selectedCurrency);
+      AppData.settingsManager.setSelectedCurrency(selectedCurrency);
     }
   },
 
@@ -66,7 +65,7 @@ export default Vue.extend({
     clearData: function() {
       this.showClearConfirmation = false;
       this.loading = true;
-      this.appData.storageManager.clearData().then(response => {
+      AppData.storageManager.clearData().then(response => {
         this.loading = false;
       });
     }
