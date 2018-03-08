@@ -34,7 +34,7 @@
       <div class="see-what">
         <img class="see-what-graphic" src="../assets/see-graphic@2x.png">
         <div class="info-text">
-          <h2>See what you want,<br>when you want..</h2>
+          <h2>See what you want,<br>when you want.</h2>
           <p>Choose which investments you want to compare<br>and the length of time to track them over.</p>
         </div>
       </div>
@@ -179,6 +179,7 @@ export default {
     margin-right: 80px;
   }
   & .keep-simple-graphic {
+    border-radius: 16px;
     box-shadow: 0 3px 76px -8px rgba(22, 46, 58, 0.16);
   }
 }
