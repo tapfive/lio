@@ -52,6 +52,42 @@ export class TransactionManager {
     }
   }
 
+  public async updateTransaction(
+    coin: Coin,
+    currency: string,
+    id: number,
+    amount: number,
+    date: string,
+    price: number
+  ): Promise<boolean> {
+    try {
+      let storage = await this.storageManager.loadStorage();
+      let successful = false;
+
+      // Find correct transaction to update
+      storage.coins.forEach(coinData => {
+        if (coinData.coin === coin) {
+          coinData.transactions.forEach(transaction => {
+            if (transaction.id === id) {
+              // Set the new values
+              transaction.amount = amount;
+              transaction.date = date;
+              transaction.price = price / transaction.exchangeRates[currency];
+
+              // Save updated transaction
+              this.storageManager.putStorage(storage);
+              successful = true;
+            }
+          });
+        }
+      });
+
+      return successful;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   public async getAllBalances(): Promise<StringMap<Balance>> {
     try {
       let storage = await this.storageManager.loadStorage();
@@ -70,6 +106,29 @@ export class TransactionManager {
       }
 
       return balanceData;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getBalanceForCoin(coin: Coin): Promise<Balance> {
+    try {
+      let storage = await this.storageManager.loadStorage();
+
+      let balance: Balance;
+
+      for (let coinData of storage.coins) {
+        if (coinData.coin === coin) {
+          let coinAmount = 0;
+          for (let transaction of coinData.transactions) {
+            coinAmount += Number(transaction.amount);
+          }
+
+          return new Balance(coinData.coin, coinAmount, coinData.latestPrice);
+        }
+      }
+
+      throw Error("Data for " + coin.name + " not found.");
     } catch (error) {
       throw error;
     }

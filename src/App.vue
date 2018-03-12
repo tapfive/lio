@@ -5,13 +5,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script>
 import TheLanding from "./components/TheLanding.vue";
 import ThePortfolio from "./components/ThePortfolio.vue";
 import { AppData } from "./ts/app-data";
 
-export default Vue.extend({
+export default {
   name: "app",
 
   components: {
@@ -30,10 +29,12 @@ export default Vue.extend({
     if (this.blockstack.isUserSignedIn()) {
       this.user = this.blockstack.loadUserData().profile;
     } else if (this.blockstack.isSignInPending()) {
-      this.blockstack.handlePendingSignIn();
+      this.blockstack.handlePendingSignIn().then(userData => {
+        window.location = window.location.origin;
+      });
     }
   }
-});
+};
 </script>
 
 <style>

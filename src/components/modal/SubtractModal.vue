@@ -36,6 +36,7 @@
                 input-format="MMMM DD, YYYY"
                 :placeholder="'mm/dd/yyyy'">
               </datetime>
+              <span class="error-message" v-if="!dateIsValid">Please enter a valid date</span>
             </div>
 
           </div>
@@ -80,6 +81,7 @@ export default Vue.extend({
       currentBalances: <StringMap<number>>{},
       currentCoins: <Coin[]>[],
       date: DateTime.local().toISODate(),
+      dateIsValid: true,
       items: <Coin[]>[],
       loading: false,
       selectedItem: new Coin("", ""),
@@ -115,12 +117,18 @@ export default Vue.extend({
     selectedItem: function(val) {
       // Fix this later
       this.coinIsValid = val instanceof Coin || val instanceof Object;
+    },
+
+    date: function(val) {
+      let currentDate = DateTime.local().valueOf();
+      let selectedDate = DateTime.fromISO(val).valueOf();
+      this.dateIsValid = selectedDate <= currentDate || val === "";
     }
   },
 
   computed: {
     inputIsValid: function(): boolean {
-      return this.coinIsValid && this.amountIsValid && this.amountChecked;
+      return this.coinIsValid && this.dateIsValid && this.amountIsValid && this.amountChecked;
     }
   },
 

@@ -69,7 +69,7 @@ export default Vue.extend({
 
   methods: {
     signOut() {
-      AppData.blockstack.signUserOut();
+      AppData.blockstack.signUserOut(window.location.href);
     },
 
     changeComponent(component: string) {

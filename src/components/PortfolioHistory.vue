@@ -29,33 +29,24 @@
           </ul>
         </div>
         <div class="history-container">
-          <div class="history-item" v-for="historyItem in transactionHistory" :key="historyItem.index" v-if="showCoin(historyItem.coin)">
-            <div class="coin-info">
-              <div class="coin-name">
-                <i :class="historyItem.coin.symbol" class="cc"></i>
-                {{ historyItem.coin.symbol }}
-              </div>
-            </div>
-            <h4>{{ formatAmount(historyItem.transaction.amount) }}</h4>
-            <h4>{{ formatDate(historyItem.transaction.date) }}</h4>
-            <h4 v-html="formatOriginalPrice(historyItem.transaction)"></h4>
-            <h4 v-html="formatCurrentPrice(historyItem)"></h4>
-            <h4>{{ formatPriceDifference(historyItem) }}</h4>
-            <svg width="16px" height="4px" viewBox="0 0 16 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <g id="History---Light" stroke="none" stroke-width="1" fill="none" transform="translate(-1177.000000, -593.000000)" fill-opacity="0.24">
-                    <g id="Edit-Menu" transform="translate(1119.000000, 578.000000)" fill="#004466">
-                        <g id="menu-dots" transform="translate(58.000000, 15.000000)">
-                            <circle id="Oval" cx="8" cy="2" r="2"></circle>
-                            <circle id="Oval" cx="2" cy="2" r="2"></circle>
-                            <circle id="Oval" cx="14" cy="2" r="2"></circle>
-                        </g>
-                    </g>
-                </g>
-            </svg>
+          <div class="history-item-wrapper" v-for="transaction in transactionHistory" :key="transaction.index" v-if="showCoin(transaction.coin)">
+            <history-item
+              :currency="selectedCurrency"
+              :currency-symbol="currencySymbol"
+              :item="transaction"
+              @edit="val => editTransaction(val)">
+            </history-item>
           </div>
         </div>
 
       </div>
+
+      <edit-modal
+        v-if="showEditModal"
+        :transaction-history="currentEdit"
+        @close="showEditModal = false"
+        @reload="reloadFromEdit">
+      </edit-modal>
 
     </div>
 
@@ -68,6 +59,8 @@
 
 <script lang="ts">
 import Vue from "vue";
+import EditModal from "./modal/EditModal.vue";
+import HistoryItem from "./HistoryItem.vue";
 import Spinner from "vue-simple-spinner";
 import { AppData } from "../ts/app-data";
 import { Coin } from "../ts/models/coin";
@@ -79,6 +72,8 @@ export default Vue.extend({
   name: "portfolio-history",
 
   components: {
+    EditModal,
+    HistoryItem,
     Spinner
   },
 
@@ -93,9 +88,11 @@ export default Vue.extend({
     return {
       availableCoins: <Coin[]>[],
       currencySymbol: "$",
+      currentEdit: TransactionHistory.getEmpty(),
       loadedStorage: false,
       selectedCoins: <Coin[]>[],
       selectedCurrency: "USD",
+      showEditModal: false,
       transactionHistory: <TransactionHistory[]>[]
     };
   },
@@ -167,68 +164,15 @@ export default Vue.extend({
       }
     },
 
-    formatAmount: function(amount: number): string {
-      if (amount > 0) {
-        return "+ " + amount.toString();
-      } else {
-        return "- " + Math.abs(amount).toString();
-      }
+    editTransaction: function(transaction: TransactionHistory) {
+      this.currentEdit = transaction;
+      this.showEditModal = true;
     },
 
-    formatDate: function(date: string): string {
-      if (date === "") {
-        return "";
-      }
-
-      return DateTime.fromISO(date).toLocaleString(DateTime.DATE_MED);
-    },
-
-    formatOriginalPrice: function(transaction: Transaction): string {
-      if (transaction.amount > 0) {
-        // Get price in correct currency
-        let price = transaction.price * transaction.exchangeRates[this.selectedCurrency];
-
-        // Get value based on transaction amount
-        let transactionValue = price * transaction.amount;
-
-        return this.currencySymbol + transactionValue.toFixed(2);
-      } else {
-        return "-";
-      }
-    },
-
-    formatCurrentPrice: function(history: TransactionHistory): string {
-      if (history.transaction.amount > 0 && history.currentPrice[this.selectedCurrency] != null) {
-        // Get price in correct currency
-        let price = history.currentPrice[this.selectedCurrency];
-
-        // Get value based on transaction amount
-        let transactionValue = price * history.transaction.amount;
-
-        return this.currencySymbol + transactionValue.toFixed(2);
-      } else {
-        return "-";
-      }
-    },
-
-    formatPriceDifference: function(history: TransactionHistory): string {
-      if (history.transaction.amount > 0 && history.currentPrice[this.selectedCurrency] != null) {
-        let percentChange = this.calculatePriceDifference(history);
-
-        if (percentChange > 0) {
-          return "+ " + percentChange.toFixed(2) + "%";
-        } else {
-          return "- " + Math.abs(percentChange).toFixed(2) + "%";
-        }
-      } else {
-        return "-";
-      }
-    },
-
-    calculatePriceDifference: function(history: TransactionHistory): number {
-      let original = history.transaction.price * history.transaction.exchangeRates[this.selectedCurrency];
-      let current = history.currentPrice[this.selectedCurrency];
-      return (current - original) / original * 100;
+    reloadFromEdit: function() {
+      this.showEditModal = false;
+      this.loadedStorage = false;
+      this.getTransactionHistory();
     }
   }
 });
@@ -335,23 +279,10 @@ export default Vue.extend({
   overflow: hidden;
 }
 
-.history-item {
+.history-item-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24px;
-  height: 54px;
-  border-bottom: 1px solid rgba(0, 69, 102, 0.1);
-  padding: 4px 16px;
-  align-items: center;
-  text-align: left;
   grid-column: 1 / -1;
-
-  & > h4 {
-    font-weight: 400;
-  }
-}
-
-.coin-name > i {
-  margin-right: 4px;
 }
 
 .loading-container {
