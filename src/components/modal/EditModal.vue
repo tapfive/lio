@@ -90,8 +90,7 @@ export default Vue.extend({
       loading: false,
       maxAmount: 0,
       price: this.transactionHistory.transaction.price,
-      priceIsValid: true,
-      maxDate: DateTime.local()
+      priceIsValid: true
     };
   },
 

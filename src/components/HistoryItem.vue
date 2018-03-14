@@ -1,5 +1,5 @@
 <template>
-  <div class="history-item">
+  <div :class="{ addition: isAddition, subtraction: !isAddition }" class="history-item">
     <div class="coin-info">
       <div class="coin-name">
         <i :class="item.coin.symbol" class="cc"></i>
@@ -54,6 +54,7 @@ export default Vue.extend({
 
   data() {
     return {
+      isAddition: this.item.transaction.amount > 0,
       showEditModal: false
     };
   },
@@ -148,5 +149,13 @@ export default Vue.extend({
 
 .coin-name > i {
   margin-right: 4px;
+}
+
+.addition {
+  background-color: aqua;
+}
+
+.subtraction {
+  background-color: darkviolet;
 }
 </style>
