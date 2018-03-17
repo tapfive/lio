@@ -1,5 +1,6 @@
 import CurrencyApi from "../api/currency-api";
 import CoinApi from "../api/coin-api";
+import TransactionHelper from "../helpers/transaction-helper";
 import { Coin } from "../models/coin";
 import { CoinData } from "../models/coin-data";
 import { Balance } from "../models/balance";
@@ -91,17 +92,12 @@ export class TransactionManager {
   public async getAllBalances(): Promise<StringMap<Balance>> {
     try {
       let storage = await this.storageManager.loadStorage();
-
       let balanceData: StringMap<Balance> = {};
 
       for (let coinData of storage.coins) {
-        let coinAmount = 0;
-        for (let transaction of coinData.transactions) {
-          coinAmount += Number(transaction.amount);
-        }
-
-        if (coinAmount > 0) {
-          balanceData[coinData.coin.symbol] = new Balance(coinData.coin, coinAmount, coinData.latestPrice);
+        let balance = this.getBalanceFromCoinData(coinData);
+        if (balance.amount > 0) {
+          balanceData[coinData.coin.symbol] = balance;
         }
       }
 
@@ -114,17 +110,11 @@ export class TransactionManager {
   public async getBalanceForCoin(coin: Coin): Promise<Balance> {
     try {
       let storage = await this.storageManager.loadStorage();
-
       let balance: Balance;
 
       for (let coinData of storage.coins) {
         if (coinData.coin === coin) {
-          let coinAmount = 0;
-          for (let transaction of coinData.transactions) {
-            coinAmount += Number(transaction.amount);
-          }
-
-          return new Balance(coinData.coin, coinAmount, coinData.latestPrice);
+          return this.getBalanceFromCoinData(coinData);
         }
       }
 
@@ -198,5 +188,16 @@ export class TransactionManager {
 
     // If no previous data, add coin as well
     storage.coins.push(new CoinData(coin, transaction));
+  }
+
+  private getBalanceFromCoinData(coinData: CoinData): Balance {
+    let coinAmount = 0;
+
+    for (let transaction of coinData.transactions) {
+      // Add up each transaction amount to get the total for the coin
+      coinAmount += Number(transaction.amount);
+    }
+
+    return new Balance(coinData.coin, coinAmount, coinData.latestPrice);
   }
 }

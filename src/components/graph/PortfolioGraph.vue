@@ -41,17 +41,17 @@
 <script lang="ts">
 import Vue from "vue";
 import LineChart from "./LineChart.vue";
-import TimeIntervalPicker from "./TimeIntervalPicker.vue";
-import TimeIntervalUtil from "../ts/helpers/time-interval-util";
+import TimeIntervalPicker from "../TimeIntervalPicker.vue";
+import TimeIntervalUtil from "../../ts/helpers/time-interval-util";
 import Spinner from "vue-simple-spinner";
-import { Balance } from "../ts/models/balance";
-import { ChartData } from "../ts/models/chart-data";
-import { Coin } from "../ts/models/coin";
-import { TimeInterval } from "../ts/enums/time-interval";
-import { TimeIntervalUnit } from "../ts/enums/time-interval-unit";
-import { AppData } from "../ts/app-data";
-import { HistoricalPrice } from "../ts/models/historical-price";
-import { StringMap } from "../ts/string-map";
+import { Balance } from "../../ts/models/balance";
+import { ChartData } from "../../ts/models/chart-data";
+import { Coin } from "../../ts/models/coin";
+import { TimeInterval } from "../../ts/enums/time-interval";
+import { TimeIntervalUnit } from "../../ts/enums/time-interval-unit";
+import { AppData } from "../../ts/app-data";
+import { HistoricalPrice } from "../../ts/models/historical-price";
+import { StringMap } from "../../ts/string-map";
 
 export default Vue.extend({
   name: "portfolio-graph",

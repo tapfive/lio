@@ -59,14 +59,14 @@
 
 <script lang="ts">
 import Vue from "vue";
-import EditModal from "./modal/EditModal.vue";
+import EditModal from "../modal/EditModal.vue";
 import HistoryItem from "./HistoryItem.vue";
 import Spinner from "vue-simple-spinner";
-import { AppData } from "../ts/app-data";
-import { Coin } from "../ts/models/coin";
+import { AppData } from "../../ts/app-data";
+import { Coin } from "../../ts/models/coin";
 import { DateTime } from "luxon";
-import { Transaction } from "../ts/models/transaction";
-import { TransactionHistory } from "../ts/models/transaction-history";
+import { Transaction } from "../../ts/models/transaction";
+import { TransactionHistory } from "../../ts/models/transaction-history";
 
 export default Vue.extend({
   name: "portfolio-history",

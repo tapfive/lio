@@ -19,14 +19,14 @@
         </div>
         <portfolio-total
           :total-balance="totalBalance"
-          :currency-symbol="selectedCurrencySymbol">
+          :currency-symbol="selectedCurrencySymbol">     
         </portfolio-total>
 
         <div class="column-labels">
           <ul>
-            <li>Cryptocurrency</li>
-            <li>Holdings</li>
-            <li>Value</li>
+            <li>Coin</li>
+            <li>Amount</li>
+            <li>Value Per Coin</li>
             <li>Balance</li>
           </ul>
         </div>
@@ -53,12 +53,12 @@
 import Vue from "vue";
 import PortfolioTotal from "./PortfolioTotal.vue";
 import PortfolioBalance from "./PortfolioBalance.vue";
-import TimeIntervalPicker from "./TimeIntervalPicker.vue";
+import TimeIntervalPicker from "./../TimeIntervalPicker.vue";
 import Spinner from "vue-simple-spinner";
-import { TimeInterval } from "../ts/enums/time-interval";
-import { Balance } from "../ts/models/balance";
-import { StringMap } from "../ts/string-map";
-import { AppData } from "../ts/app-data";
+import { TimeInterval } from "../../ts/enums/time-interval";
+import { Balance } from "../../ts/models/balance";
+import { StringMap } from "../../ts/string-map";
+import { AppData } from "../../ts/app-data";
 
 export default Vue.extend({
   name: "portfolio-overview",
@@ -150,18 +150,18 @@ export default Vue.extend({
 
   computed: {
     totalBalance: function() {
-      let balance = 0;
+      let totalBalance = 0;
       if (this.loadedStorage) {
         for (let key in this.balanceData) {
           // If the coin has a stored price, add it to the total
-          let value = this.balanceData[key];
-          if (value.price) {
-            balance += value.amount * value.price[this.selectedCurrency];
+          let balance = this.balanceData[key];
+          if (balance.price) {
+            totalBalance += balance.amount * balance.price[this.selectedCurrency];
           }
         }
       }
 
-      return balance.toFixed(2);
+      return totalBalance.toFixed(2);
     },
 
     isEmpty: function(): Boolean {

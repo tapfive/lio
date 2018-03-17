@@ -29,10 +29,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import TransactionHelper from "../ts/helpers/transaction-helper";
+import TransactionHelper from "../../ts/helpers/transaction-helper";
 import { DateTime } from "luxon";
-import { Transaction } from "../ts/models/transaction";
-import { TransactionHistory } from "../ts/models/transaction-history";
+import { Transaction } from "../../ts/models/transaction";
+import { TransactionHistory } from "../../ts/models/transaction-history";
 
 export default Vue.extend({
   name: "history-item",

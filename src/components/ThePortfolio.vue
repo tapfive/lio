@@ -51,9 +51,9 @@ import Vue from "vue";
 import AddModal from "./modal/AddModal.vue";
 import SubtractModal from "./modal/SubtractModal.vue";
 import PortfolioSidebar from "./PortfolioSidebar.vue";
-import PortfolioOverview from "./PortfolioOverview.vue";
-import PortfolioGraph from "./PortfolioGraph.vue";
-import PortfolioHistory from "./PortfolioHistory.vue";
+import PortfolioOverview from "./overview/PortfolioOverview.vue";
+import PortfolioGraph from "./graph/PortfolioGraph.vue";
+import PortfolioHistory from "./history/PortfolioHistory.vue";
 import PortfolioSettings from "./PortfolioSettings.vue";
 
 export default Vue.extend({

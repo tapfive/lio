@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Balance } from "../ts/models/balance";
+import { Balance } from "../../ts/models/balance";
 
 export default Vue.extend({
   name: "portfolio-balance",
