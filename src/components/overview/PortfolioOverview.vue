@@ -93,8 +93,8 @@ export default Vue.extend({
       this.selectedCurrency = AppData.settingsManager.getSelectedCurrency();
       this.selectedCurrencySymbol = AppData.settingsManager.getSelectedCurrencySymbol();
       this.selectedInterval = AppData.settingsManager.getTimeInterval();
+      this.loadBalances(false);
     });
-    this.loadBalances(false);
   },
 
   methods: {

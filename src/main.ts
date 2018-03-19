@@ -4,8 +4,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import Autocomplete from "v-autocomplete";
 import Datetime from "vue-datetime";
-import KonamiCode from "vue-konami-code";
 import SimpleSpinner from "vue-simple-spinner";
+import Switches from "vue-switches";
 
 import "./css/easings.css";
 import "./css/colors.css";
@@ -19,11 +19,7 @@ import "v-autocomplete/dist/v-autocomplete.css";
 Vue.use(Autocomplete);
 Vue.use(Datetime);
 Vue.use(SimpleSpinner);
-Vue.use(KonamiCode, {
-  callback: function() {
-    document.body.classList.toggle("dark-theme");
-  }
-});
+Vue.use(Switches);
 
 Vue.config.productionTip = false;
 

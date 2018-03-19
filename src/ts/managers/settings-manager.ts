@@ -35,6 +35,16 @@ export class SettingsManager {
     return this.settings.timeInterval;
   }
 
+  public setDarkModeEnabled(enabled: boolean) {
+    this.settings.darkModeEnabled = enabled;
+    this.applyDarkModeSetting();
+    this.storeSettings();
+  }
+
+  public isDarkModeEnabled(): boolean {
+    return this.settings.darkModeEnabled;
+  }
+
   public getSelectedCurrency(): string {
     return this.settings.currency;
   }
@@ -52,6 +62,7 @@ export class SettingsManager {
     try {
       let storage = await this.storageManager.loadStorage();
       this.settings = storage.settings;
+      this.applyDarkModeSetting();
       return true;
     } catch (error) {
       console.log("Error loading settings");
@@ -67,5 +78,9 @@ export class SettingsManager {
     } catch (error) {
       console.log("Error saving settings");
     }
+  }
+
+  private applyDarkModeSetting() {
+    document.body.classList.toggle("dark-theme", this.isDarkModeEnabled());
   }
 }

@@ -14,12 +14,15 @@
         <div v-else><spinner line-fg-color="#004466" line-bg-color="#00000000" size="small"></spinner></div>
       </button>
     </div>
+    <div class="toggle-dark-mode">
+      <h3>Toggle Dark Mode</h3>
+      <switches v-model="darkModeEnabled"></switches>
+    </div>
 
     <confirmation-modal
       v-if="showClearConfirmation"
       @close="showClearConfirmation = false"
       @confirm="clearData()">
-
       <h3 slot="header">Clear Data?</h3>
       <div slot="body">Are you sure you want to delete all your stored data? This cannot be undone.</div>
     </confirmation-modal>
@@ -29,8 +32,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import ConfirmationModal from "./modal/ConfirmationModal.vue";
+import Switches from "vue-switches";
 import Spinner from "vue-simple-spinner";
+import ConfirmationModal from "./modal/ConfirmationModal.vue";
 import CurrencyUtil from "../ts/helpers/currency-util";
 import { AppData } from "../ts/app-data";
 
@@ -39,25 +43,27 @@ export default Vue.extend({
 
   components: {
     ConfirmationModal,
-    Spinner
+    Spinner,
+    Switches
   },
 
   data() {
     return {
       availableCurrencies: CurrencyUtil.getAll(),
-      currency: "USD",
+      currency: AppData.settingsManager.getSelectedCurrency(),
+      darkModeEnabled: AppData.settingsManager.isDarkModeEnabled(),
       loading: false,
       showClearConfirmation: false
     };
   },
 
-  mounted() {
-    this.currency = AppData.settingsManager.getSelectedCurrency();
-  },
-
   watch: {
     currency: function(selectedCurrency) {
       AppData.settingsManager.setSelectedCurrency(selectedCurrency);
+    },
+
+    darkModeEnabled: function(enabled: boolean) {
+      AppData.settingsManager.setDarkModeEnabled(enabled);
     }
   },
 
@@ -85,7 +91,7 @@ export default Vue.extend({
   grid-template-areas:
     ". settings-title     settings-title     settings-title     settings-title   ."
     ". currency-selector   .   clear-options  . ."
-    ". .    .    .    .  .";
+    ". toggle-dark-mode    .    .    .  .";
 }
 
 @media screen and (max-width: 1100px) {
@@ -116,5 +122,9 @@ button {
 
 .clear-option {
   grid-area: clear-options;
+}
+
+.toggle-dark-mode {
+  grid-area: toggle-dark-mode;
 }
 </style>
