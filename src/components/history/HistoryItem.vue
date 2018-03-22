@@ -10,7 +10,7 @@
     <h4>{{ formatDate(item.transaction.date) }}</h4>
     <h4 v-html="formatOriginalPrice(item.transaction)"></h4>
     <h4 v-html="formatCurrentPrice(item)"></h4>
-    <h4>{{ formatPriceDifference(item) }}</h4>
+    <h4 :class="{ positive: isPositive, negative: !isPositive }">{{ formatPriceDifference(item) }}</h4>
     <a href="#" @click="edit">
       <svg width="16px" height="4px" viewBox="0 0 16 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g id="History---Light" stroke="none" stroke-width="1" fill="none" transform="translate(-1177.000000, -593.000000)" fill-opacity="0.24">
@@ -57,6 +57,12 @@ export default Vue.extend({
       isAddition: this.item.transaction.amount > 0,
       showEditModal: false
     };
+  },
+
+  computed: {
+    isPositive: function(): Boolean {
+      return this.calculatePriceDifference(this.item) >= 0;
+    }
   },
 
   methods: {
@@ -152,20 +158,18 @@ export default Vue.extend({
 }
 
 .addition {
-  /* background-color: rgba(237, 28, 36, 0.08); */
   border-left: solid 3px var(--green);
 }
 
 .subtraction {
   border-left: solid 3px var(--red);
-
 }
 
-.item-change-addition {
+.positive {
   color: var(--green);
 }
 
-.item-change-subtraction {
+.negative {
   color: var(--red);
 }
 </style>
