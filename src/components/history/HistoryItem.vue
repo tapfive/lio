@@ -135,9 +135,9 @@ export default Vue.extend({
 .history-item {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24px;
-  height: 54px;
+  height: 56px;
   border-bottom: 1px solid rgba(0, 69, 102, 0.1);
-  padding: 4px 16px;
+  padding: 0px 16px;
   align-items: center;
   text-align: left;
   grid-column: 1 / -1;
@@ -152,10 +152,20 @@ export default Vue.extend({
 }
 
 .addition {
-  background-color: aqua;
+  /* background-color: rgba(237, 28, 36, 0.08); */
+  border-left: solid 3px var(--green);
 }
 
 .subtraction {
-  background-color: darkviolet;
+  border-left: solid 3px var(--red);
+
+}
+
+.item-change-addition {
+  color: var(--green);
+}
+
+.item-change-subtraction {
+  color: var(--red);
 }
 </style>

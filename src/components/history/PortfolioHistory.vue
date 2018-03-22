@@ -23,7 +23,7 @@
             <li>Coin</li>
             <li>Transaction</li>
             <li>Date</li>
-            <li>Value at Transaction Date</li>
+            <li>Original Value</li>
             <li>Value Now</li>
             <li>Value Change</li>
           </ul>
@@ -222,9 +222,11 @@ export default Vue.extend({
   grid-area: history-toggles;
   display: grid;
   grid-template-columns: 96px 96px 96px 96px 96px 96px 96px;
-  grid-template-rows: 96px;
-  grid-auto-rows: 96px;
+  grid-template-rows: 80px;
+  grid-auto-rows: 80px;
   grid-gap: 16px;
+  padding-top: 16px;
+  padding-bottom: 24px;
 }
 
 .history-toggles {
@@ -268,14 +270,13 @@ export default Vue.extend({
 .history-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24px;
-  grid-auto-rows: 54px;
+  grid-auto-rows: 56px;
   align-items: center;
   border-radius: 6px;
   text-align: left;
   background-color: var(--card-bg-theme-color);
   box-shadow: 0 2px 8px 0 var(--shadow-theme-color);
   grid-area: transactions;
-  padding-bottom: 4px;
   overflow: hidden;
 }
 
