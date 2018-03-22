@@ -15,6 +15,7 @@ import "./css/cryptocoins-colors.css";
 import "./css/fonts.css";
 import "./css/autocomplete.css";
 import "v-autocomplete/dist/v-autocomplete.css";
+import "./css/switches.css";
 
 Vue.use(Autocomplete);
 Vue.use(Datetime);

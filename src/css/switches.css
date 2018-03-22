@@ -1,0 +1,16 @@
+.vue-switcher input {
+  position: unset !important;
+}
+
+.vue-switcher div {
+  background-color: var(--darkest-blue);
+}
+.vue-switcher div:after {
+  background-color: var(--green);
+}
+.vue-switcher--unchecked div {
+  background-color: var(--light-green);
+}
+.vue-switcher--unchecked div:after {
+  background-color: var(--dark-blue);
+}

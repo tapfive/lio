@@ -166,10 +166,10 @@ export default Vue.extend({
 }
 
 .positive {
-  color: var(--green);
+  color: var(--dark-green);
 }
 
 .negative {
-  color: var(--red);
+  color: var(--dark-red);
 }
 </style>

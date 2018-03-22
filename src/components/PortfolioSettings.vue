@@ -1,22 +1,37 @@
 <template>
   <div class="portfolio-settings">
     <h1 class="settings-title">Settings</h1>
-    <div class="currency-selector">
-      <h3>Fiat Currency</h3>
-      <select class="currency-options" v-model="currency">
-        <option v-for="currency in availableCurrencies" :key="currency">{{ currency }}</option>
-      </select>
+    <div class="currency-selector settings-item">
+      <div class="setting-info">
+        <h3>Fiat Currency</h3>
+        <p>Change the default FIAT currency used in your portfolio.</p>
+      </div>
+      <div class="settings-action">
+        <select class="currency-options" v-model="currency">
+          <option v-for="currency in availableCurrencies" :key="currency">{{ currency }}</option>
+        </select>
+      </div>
     </div>
-    <div class="clear-option">
-      <h3>Clear All Data</h3>
-      <button @click.prevent="showClearConfirmation = true">
-        <div v-if="!loading">Clear Data</div>
-        <div v-else><spinner line-fg-color="#004466" line-bg-color="#00000000" size="small"></spinner></div>
-      </button>
+    <div class="toggle-dark-mode settings-item">
+      <div class="setting-info">
+        <h3>Toggle Dark Mode</h3>
+        <p>Change the default FIAT currency used in your portfolio.</p>
+      </div>
+      <div class="settings-action">
+        <switches v-model="darkModeEnabled" theme="custom" color="green"></switches>
+      </div>
     </div>
-    <div class="toggle-dark-mode">
-      <h3>Toggle Dark Mode</h3>
-      <switches v-model="darkModeEnabled"></switches>
+    <div class="clear-option settings-item">
+      <div class="setting-info">
+        <h3>Clear All Data</h3>
+        <p>Clear all of the data in your portfolio. This will remove all of your transactions and cannot be undone.</p>
+      </div>
+      <div class="settings-action">
+        <button @click.prevent="showClearConfirmation = true">
+          <div v-if="!loading">Clear Data</div>
+          <div v-else><spinner line-fg-color="#004466" line-bg-color="#00000000" size="small"></spinner></div>
+        </button>
+      </div>
     </div>
 
     <confirmation-modal
@@ -86,12 +101,13 @@ export default Vue.extend({
   background-image: var(--view-bg-theme-gradient);
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 120px 120px;
+  grid-template-rows: 96px 120px 120px 120px;
   grid-gap: 16px;
   grid-template-areas:
-    ". settings-title     settings-title     settings-title     settings-title   ."
-    ". currency-selector   .   clear-options  . ."
-    ". toggle-dark-mode    .    .    .  .";
+    ". settings-title      settings-title       settings-title      settings-title   ."
+    ". currency-selector   currency-selector    currency-selector   .                ."
+    ". toggle-dark-mode    toggle-dark-mode     toggle-dark-mode    .                ."
+    ". clear-options       clear-options        clear-options       .                .";
 }
 
 @media screen and (max-width: 1100px) {
@@ -116,6 +132,14 @@ button {
   grid-area: settings-title;
 }
 
+.settings-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 69, 102, 0.1);
+}
+
 .currency-selector {
   grid-area: currency-selector;
 }
@@ -126,5 +150,16 @@ button {
 
 .toggle-dark-mode {
   grid-area: toggle-dark-mode;
+}
+
+.setting-info {
+  width: 720px;
+  padding-right: 48px;
+  & h3 {
+    margin: 8px 0px;
+  }
+  & p {
+    margin: 8px 0px;
+  }
 }
 </style>
