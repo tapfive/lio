@@ -50,6 +50,7 @@ body {
   --card-bg-theme-color: #ffffff;
   --input-bg-theme-color: #ffffff;
   --font-theme-color: var(--dark-blue);
+  --link-theme-color: var(--dark-blue);
   --icon-theme-color: var(--dark-blue);
   --shadow-theme-color: rgba(22, 46, 58, 0.16);
   background-color: #f7f7fa;
@@ -67,6 +68,7 @@ body.dark-theme {
   --card-bg-theme-color: var(--darkest-blue);
   --input-bg-theme-color: var(--darker-blue);
   --font-theme-color: #ffffff;
+  --link-theme-color: var(--green);
   --icon-theme-color: #ffffff;
   --shadow-theme-color: rgba(22, 46, 58, 1);
 }

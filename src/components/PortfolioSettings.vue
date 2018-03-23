@@ -33,6 +33,19 @@
         </button>
       </div>
     </div>
+    <h1 class="about-title">About</h1>
+    <div class="about settings-item">
+      <div class="setting-info">
+        <h3>Lio</h3>
+        <p>Lio is a cryptocurrency portfolio built with Vue.js and Blockstack, built by Tap Five.</p>
+      </div>
+    </div>
+    <div class="price-data settings-item">
+      <div class="setting-info">
+        <h3>Price Data</h3>
+        <p>Lio pulls cryptocurrency prices from <a href="https://www.cryptocompare.com/">CryptoCompare</a> and fiat exchange rates from <a href="http://fixer.io/">Fixer</a>.</p>
+      </div>
+    </div>
 
     <confirmation-modal
       v-if="showClearConfirmation"
@@ -101,13 +114,16 @@ export default Vue.extend({
   background-image: var(--view-bg-theme-gradient);
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 120px 120px 120px;
+  grid-template-rows: 96px 120px 120px 120px 96px 120px 120px;
   grid-gap: 16px;
   grid-template-areas:
     ". settings-title      settings-title       settings-title      settings-title   ."
     ". currency-selector   currency-selector    currency-selector   .                ."
     ". toggle-dark-mode    toggle-dark-mode     toggle-dark-mode    .                ."
-    ". clear-options       clear-options        clear-options       .                .";
+    ". clear-options       clear-options        clear-options       .                ."
+    ". about-title         about-title          about-title         about-title      ."
+    ". about               about                about               .                ."
+    ". price-data          price-data           price-data          .                .";
 }
 
 @media screen and (max-width: 1100px) {
@@ -150,6 +166,23 @@ button {
 
 .toggle-dark-mode {
   grid-area: toggle-dark-mode;
+}
+
+.about-title {
+  grid-area: about-title;
+  margin-top: 48px;
+}
+
+.about {
+  grid-area: about;
+}
+
+.price-data {
+  grid-area: price-data;
+  & a {
+    color: var(--link-theme-color);
+    text-decoration-skip-ink: auto;
+  }
 }
 
 .setting-info {
