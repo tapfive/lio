@@ -4,7 +4,7 @@
     <div class="currency-selector settings-item">
       <div class="setting-info">
         <h3>Fiat Currency</h3>
-        <p>Change the default FIAT currency used in your portfolio.</p>
+        <p>Change the default fiat currency used in your portfolio.</p>
       </div>
       <div class="settings-action">
         <select class="currency-options" v-model="currency">
@@ -15,7 +15,7 @@
     <div class="toggle-dark-mode settings-item">
       <div class="setting-info">
         <h3>Toggle Dark Mode</h3>
-        <p>Change the default FIAT currency used in your portfolio.</p>
+        <p>Change the default fiat currency used in your portfolio.</p>
       </div>
       <div class="settings-action">
         <switches v-model="darkModeEnabled" theme="custom" color="green"></switches>
@@ -33,7 +33,7 @@
         </button>
       </div>
     </div>
-    <div class="about-title" v-bind:class="{ visible: isVisible }" @click="showAbout">
+    <div class="about-title" v-bind:class="{ visible: isAboutVisible }" @click="toggleAbout">
       <h4>About</h4>
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" xml:space="preserve" width="16" height="16"><g class="nc-icon-wrapper" fill="#004466"><polygon fill="#004466" points="8,11.4 2.6,6 4,4.6 8,8.6 12,4.6 13.4,6 "></polygon></g></svg>
     </div>
@@ -83,7 +83,7 @@ export default Vue.extend({
       availableCurrencies: CurrencyUtil.getAll(),
       currency: AppData.settingsManager.getSelectedCurrency(),
       darkModeEnabled: AppData.settingsManager.isDarkModeEnabled(),
-      isVisible: false,
+      isAboutVisible: false,
       loading: false,
       showClearConfirmation: false
     };
@@ -107,8 +107,9 @@ export default Vue.extend({
         this.loading = false;
       });
     },
-    showAbout: function() {
-      this.isVisible = !this.isVisible;
+
+    toggleAbout: function() {
+      this.isAboutVisible = !this.isAboutVisible;
     }
   }
 });

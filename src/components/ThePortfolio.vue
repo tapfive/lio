@@ -1,16 +1,18 @@
 <template>
   <div class="portfolio container">
     <portfolio-sidebar
-      @show-add-modal="showAddModal = true"
-      @show-subtract-modal="showSubtractModal = true"
+      :current-component="currentComponent"
+      :user="user"
       @update:current-component="val => currentComponent = val"
-      :user="user">
+      @show-add-modal="showAddModal = true"
+      @show-subtract-modal="showSubtractModal = true">
     </portfolio-sidebar>
 
     <div v-if="currentComponent === 'overview'" class="component-container">
       <portfolio-overview
         :reload-data="reloadData"
-        @update:reload-data="val => reloadData = val">
+        @update:reload-data="val => reloadData = val"
+        @view-transactions="val => viewTransactionsForCoin(val)">
       </portfolio-overview>
     </div>
 
@@ -23,7 +25,9 @@
 
     <div v-else-if="currentComponent === 'history'" class="component-container">
       <portfolio-history
+        :preselected-coin="preselectedCoinSymbol"
         :reload-data="reloadData"
+        @update:preselected-coin="val => preselectedCoinSymbol = val"
         @update:reload-data="val => reloadData = val">
       </portfolio-history>
     </div>
@@ -77,6 +81,7 @@ export default Vue.extend({
   data() {
     return {
       currentComponent: "overview",
+      preselectedCoinSymbol: "",
       reloadData: false,
       showAddModal: false,
       showSubtractModal: false
@@ -92,6 +97,11 @@ export default Vue.extend({
     closeModal: function() {
       this.showAddModal = false;
       this.showSubtractModal = false;
+    },
+
+    viewTransactionsForCoin: function(coinSymbol: string) {
+      this.preselectedCoinSymbol = coinSymbol;
+      this.currentComponent = "history";
     }
   }
 });

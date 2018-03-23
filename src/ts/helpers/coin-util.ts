@@ -5,15 +5,16 @@ export default {
     return COINS;
   },
 
-  getCoinFromSymbol: function(symbol: string): Coin {
-    for (let item of this.getAvailable()) {
-      if (item.symbol === symbol) {
-        return item;
-      }
-    }
+  findCoinInArray: function(array: Coin[], coinSymbol: string): Coin | null {
+    let coin: Coin | null = null;
 
-    // TODO: return undefined
-    return new Coin("", "");
+    array.forEach(element => {
+      if (element.symbol === coinSymbol) {
+        coin = element;
+      }
+    });
+
+    return coin;
   }
 };
 

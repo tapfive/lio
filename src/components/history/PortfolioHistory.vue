@@ -62,6 +62,7 @@ import Vue from "vue";
 import EditModal from "../modal/EditModal.vue";
 import HistoryItem from "./HistoryItem.vue";
 import Spinner from "vue-simple-spinner";
+import CoinUtil from "../../ts/helpers/coin-util";
 import { AppData } from "../../ts/app-data";
 import { Coin } from "../../ts/models/coin";
 import { DateTime } from "luxon";
@@ -78,6 +79,10 @@ export default Vue.extend({
   },
 
   props: {
+    preselectedCoin: {
+      required: true,
+      type: String
+    },
     reloadData: {
       required: true,
       type: Boolean
@@ -132,10 +137,20 @@ export default Vue.extend({
               this.availableCoins.push(historyItem.coin);
             }
           }
+
+          this.handlePreselectedCoin(this.preselectedCoin);
         })
         .catch(error => {
           console.log(error);
         });
+    },
+
+    handlePreselectedCoin: function(coinSymbol: string) {
+      let coin = CoinUtil.findCoinInArray(this.availableCoins, coinSymbol);
+      if (coin != null) {
+        this.selectCoin(coin);
+        this.$emit("update:preselected-coin", "");
+      }
     },
 
     selectCoin: function(coin: Coin) {

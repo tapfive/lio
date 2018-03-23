@@ -56,15 +56,13 @@ export default Vue.extend({
   name: "portfolio-sidebar",
 
   props: {
+    currentComponent: {
+      required: true,
+      type: String
+    },
     user: {
       required: true
     }
-  },
-
-  data() {
-    return {
-      currentComponent: "overview"
-    };
   },
 
   methods: {
@@ -73,11 +71,10 @@ export default Vue.extend({
     },
 
     changeComponent(component: string) {
-      this.currentComponent = component;
       this.$emit("update:current-component", component);
     },
 
-    isSelected(component: string) {
+    isSelected(component: string): boolean {
       return this.currentComponent === component;
     },
 

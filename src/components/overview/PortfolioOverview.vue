@@ -31,13 +31,19 @@
           </ul>
         </div>
 
-        <div class="balance-wrapper" v-for="balance in balanceData" :key="balance.coin.symbol">
+        <div
+          class="balance-wrapper" 
+          v-for="balance in balanceData" 
+          :key="balance.coin.symbol"
+          @click="viewTransactionsForCoin(balance.coin.symbol)">
+
           <portfolio-balance
             :coin-amount="balance.amount"
             :coin-name="balance.coin.symbol"
             :coin-price="balance.getPriceInCurrency(selectedCurrency)"
             :currency-symbol="selectedCurrencySymbol">
           </portfolio-balance>
+
         </div>
       </div>
 
@@ -98,7 +104,7 @@ export default Vue.extend({
   },
 
   methods: {
-    loadBalances(ignoreTimer: boolean) {
+    loadBalances: function(ignoreTimer: boolean) {
       AppData.transactionManager
         .getAllBalances()
         .then(balanceData => {
@@ -111,7 +117,7 @@ export default Vue.extend({
         });
     },
 
-    refreshPrices(ignoreTimer: boolean) {
+    refreshPrices: function(ignoreTimer: boolean) {
       let coins = [];
       for (let key in this.balanceData) {
         coins.push(key);
@@ -131,6 +137,10 @@ export default Vue.extend({
           }
         });
       }
+    },
+
+    viewTransactionsForCoin: function(coinSymbol: string) {
+      this.$emit("view-transactions", coinSymbol);
     }
   },
 
