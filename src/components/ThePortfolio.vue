@@ -9,40 +9,48 @@
     </portfolio-sidebar>
 
     <div v-if="currentComponent === 'overview'" class="component-container">
-      <portfolio-overview
-        :reload-data="reloadData"
-        @update:reload-data="val => reloadData = val"
-        @view-transactions="val => viewTransactionsForCoin(val)">
-      </portfolio-overview>
+      <transition name="component-fade" mode="out-in">
+        <portfolio-overview
+          :reload-data="reloadData"
+          @update:reload-data="val => reloadData = val"
+          @view-transactions="val => viewTransactionsForCoin(val)">
+        </portfolio-overview>
+      </transition>
     </div>
 
     <div v-else-if="currentComponent === 'graph'" class="component-container">
-      <portfolio-graph
-        :reload-data="reloadData"
-        @update:reload-data="val => reloadData = val">
-      </portfolio-graph>
+      <transition name="component-fade" mode="out-in">
+        <portfolio-graph
+          :reload-data="reloadData"
+          @update:reload-data="val => reloadData = val">
+        </portfolio-graph>
+      </transition>
     </div>
 
     <div v-else-if="currentComponent === 'history'" class="component-container">
-      <portfolio-history
-        :preselected-coin="preselectedCoinSymbol"
-        :reload-data="reloadData"
-        @update:preselected-coin="val => preselectedCoinSymbol = val"
-        @update:reload-data="val => reloadData = val">
-      </portfolio-history>
+      <transition name="component-fade" mode="out-in">
+        <portfolio-history
+          :preselected-coin="preselectedCoinSymbol"
+          :reload-data="reloadData"
+          @update:preselected-coin="val => preselectedCoinSymbol = val"
+          @update:reload-data="val => reloadData = val">
+        </portfolio-history>
+      </transition>
     </div>
 
     <div v-else-if="currentComponent === 'settings'" class="component-container">
-      <portfolio-settings></portfolio-settings>
+      <transition name="component-fade" mode="out-in">
+        <portfolio-settings></portfolio-settings>
+      </transition>
     </div>
 
-    <add-modal 
+    <add-modal
       v-if="showAddModal"
       @close="closeModal()"
       @reload="handleDataAdded()">
     </add-modal>
 
-    <subtract-modal 
+    <subtract-modal
       v-if="showSubtractModal"
       @close="closeModal()"
       @reload="handleDataAdded()">
@@ -130,5 +138,14 @@ export default Vue.extend({
   padding-bottom: 62px;
   box-shadow: 30px 0 74px 0 var(--shadow-theme-color);
   grid-column: 2 / 3;
+}
+
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.25s var(--ease-in-out-cubic);
+}
+.component-fade-enter,
+.component-fade-leave-to {
+  opacity: 0;
 }
 </style>
