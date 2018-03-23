@@ -11,18 +11,8 @@
     <h4 v-html="formatOriginalPrice(item.transaction)"></h4>
     <h4 v-html="formatCurrentPrice(item)"></h4>
     <h4 :class="{ positive: isPositive, negative: !isPositive }">{{ formatPriceDifference(item) }}</h4>
-    <a href="#" @click="edit">
-      <svg width="16px" height="4px" viewBox="0 0 16 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <g id="History---Light" stroke="none" stroke-width="1" fill="none" transform="translate(-1177.000000, -593.000000)" fill-opacity="0.24">
-          <g id="Edit-Menu" transform="translate(1119.000000, 578.000000)" fill="#004466">
-            <g id="menu-dots" transform="translate(58.000000, 15.000000)">
-              <circle id="Oval" cx="8" cy="2" r="2"></circle>
-              <circle id="Oval" cx="2" cy="2" r="2"></circle>
-              <circle id="Oval" cx="14" cy="2" r="2"></circle>
-            </g>
-          </g>
-        </g>
-      </svg>
+    <a href="#" @click="edit" class="edit-menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="4" viewBox="0 0 16 4"><g fill="#046" fill-opacity=".24"><circle cx="8" cy="2" r="2"/><circle cx="2" cy="2" r="2"/><circle cx="14" cy="2" r="2"/></g></svg>
     </a>
   </div>
 </template>
@@ -171,5 +161,13 @@ export default Vue.extend({
 
 .negative {
   color: var(--dark-red);
+}
+
+.edit-menu {
+  & svg {
+    & g {
+      fill: var(--icon-theme-color);
+    }
+  }
 }
 </style>
