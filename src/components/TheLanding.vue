@@ -25,8 +25,8 @@
       <div class="keep-simple">
         <div class="info-text">
           <h2>Let’s keep things simple.</h2>
-          <p>Quickly see an overview of your cyrptocurrency<br>
-            investments and their performance over time.</p>
+          <p>Quickly see an overview of all your cyrptocurrency<br>
+            investments. Dive into details on the graph page.</p>
         </div>
         <img class="keep-simple-graphic" src="../assets/keep-simple-graphic.svg" width="312px" height="230px">
       </div>
@@ -35,7 +35,7 @@
         <img class="see-what-graphic" src="../assets/see-graphic@2x.png">
         <div class="info-text">
           <h2>See what you want,<br>when you want.</h2>
-          <p>Choose which investments you want to compare<br>and the length of time to track them over.</p>
+          <p>Toggle coin investments you want to compare in your<br>history and the length of time to track them over in graphs.</p>
         </div>
       </div>
 
@@ -110,7 +110,6 @@ export default Vue.extend({
     height: 1250px;
   }
 }
-
 
 .hero-bg-fade {
   width: 100%;
@@ -241,7 +240,7 @@ button:active {
 footer {
   width: 100%;
   height: 400px;
-  background: #01324A;
+  background: #01324a;
   position: absolute;
   bottom: 100;
   left: 0;
