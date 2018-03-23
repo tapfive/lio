@@ -35,7 +35,7 @@
     </div>
     <div class="about-title" v-bind:class="{ visible: isVisible }" @click="showAbout">
       <h4>About</h4>
-      <img src="../assets/icons/chevron.svg"/>
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" xml:space="preserve" width="16" height="16"><g class="nc-icon-wrapper" fill="#004466"><polygon fill="#004466" points="8,11.4 2.6,6 4,4.6 8,8.6 12,4.6 13.4,6 "></polygon></g></svg>
     </div>
     <div class="about settings-item about-item">
       <div class="setting-info">
@@ -181,8 +181,24 @@ button {
   display: flex;
   align-items: center;
   cursor: pointer;
+  z-index: 2;
   & h4 {
     margin-right: 8px;
+  }
+  & svg {
+    transition: all 0.25s var(--ease-in-out-cubic);
+
+    & .nc-icon-wrapper > path {
+      fill: var(--icon-theme-color);
+    }
+
+    & .nc-icon-wrapper > ellipse {
+      fill: var(--icon-theme-color);
+    }
+
+    & .nc-icon-wrapper > polygon {
+      fill: var(--icon-theme-color);
+    }
   }
 }
 
@@ -209,6 +225,12 @@ button {
   opacity: 100;
   height: auto;
   transform: translateY(0px);
+}
+
+.about-title.visible {
+  & svg {
+    transform: rotate(-180deg);
+  }
 }
 
 .setting-info {
