@@ -33,14 +33,17 @@
         </button>
       </div>
     </div>
-    <h1 class="about-title">About</h1>
-    <div class="about settings-item">
+    <div class="about-title" v-bind:class="{ visible: isVisible }" @click="showAbout">
+      <h4>About</h4>
+      <img src="../assets/icons/chevron.svg"/>
+    </div>
+    <div class="about settings-item about-item">
       <div class="setting-info">
         <h3>Lio</h3>
         <p>Lio is a cryptocurrency portfolio built with Vue.js and Blockstack, built by Tap Five.</p>
       </div>
     </div>
-    <div class="price-data settings-item">
+    <div class="price-data settings-item about-item">
       <div class="setting-info">
         <h3>Price Data</h3>
         <p>Lio pulls cryptocurrency prices from <a href="https://www.cryptocompare.com/">CryptoCompare</a> and fiat exchange rates from <a href="http://fixer.io/">Fixer</a>.</p>
@@ -80,6 +83,7 @@ export default Vue.extend({
       availableCurrencies: CurrencyUtil.getAll(),
       currency: AppData.settingsManager.getSelectedCurrency(),
       darkModeEnabled: AppData.settingsManager.isDarkModeEnabled(),
+      isVisible: false,
       loading: false,
       showClearConfirmation: false
     };
@@ -102,6 +106,9 @@ export default Vue.extend({
       AppData.storageManager.clearData().then(response => {
         this.loading = false;
       });
+    },
+    showAbout: function() {
+      this.isVisible = !this.isVisible;
     }
   }
 });
@@ -114,7 +121,7 @@ export default Vue.extend({
   background-image: var(--view-bg-theme-gradient);
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
-  grid-template-rows: 96px 120px 120px 120px 96px 120px 120px;
+  grid-template-rows: 96px 120px 120px 120px 96px min-content min-content;
   grid-gap: 16px;
   grid-template-areas:
     ". settings-title      settings-title       settings-title      settings-title   ."
@@ -171,6 +178,12 @@ button {
 .about-title {
   grid-area: about-title;
   margin-top: 48px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  & h4 {
+    margin-right: 8px;
+  }
 }
 
 .about {
@@ -183,6 +196,19 @@ button {
     color: var(--link-theme-color);
     text-decoration-skip-ink: auto;
   }
+}
+
+.about-title ~ .about-item {
+  opacity: 0;
+  height: 0px;
+  transform: translateY(-4px);
+  transition: all 0.25s var(--ease-out-cubic);
+}
+
+.about-title.visible ~ .about-item {
+  opacity: 100;
+  height: auto;
+  transform: translateY(0px);
 }
 
 .setting-info {
