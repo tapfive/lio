@@ -238,7 +238,7 @@ button {
 
 .empty-state {
   width: 100%;
-  height: 75vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
