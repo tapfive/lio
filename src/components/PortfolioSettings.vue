@@ -15,7 +15,7 @@
     <div class="toggle-dark-mode settings-item">
       <div class="setting-info">
         <h3>Toggle Dark Mode</h3>
-        <p>Change the default fiat currency used in your portfolio.</p>
+        <p>Enable a dark color theme for Lio's interface.</p>
       </div>
       <div class="settings-action">
         <switches v-model="darkModeEnabled" theme="custom" color="green"></switches>
