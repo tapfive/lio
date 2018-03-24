@@ -292,13 +292,16 @@ export default Vue.extend({
   background-color: var(--card-bg-theme-color);
   box-shadow: 0 2px 8px 0 var(--shadow-theme-color);
   grid-area: transactions;
-  overflow: hidden;
 }
 
 .history-item-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24px;
   grid-column: 1 / -1;
+  /* & :first-child {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  } */
 }
 
 .loading-container {
