@@ -89,6 +89,37 @@ export class TransactionManager {
     }
   }
 
+  public async deleteTransaction(transactionHistory: TransactionHistory): Promise<boolean> {
+    try {
+      let storage = await this.storageManager.loadStorage();
+      let successful = false;
+
+      let id = transactionHistory.transaction.id;
+      let coin = transactionHistory.coin;
+
+      // Find correct transaction to delete
+      storage.coins.forEach(coinData => {
+        if (coinData.coin === coin) {
+          for (let i = 0; i < coinData.transactions.length; i++) {
+            let transaction = coinData.transactions[i];
+            if (transaction.id === id) {
+              // Remove from array
+              coinData.transactions.splice(i, 1);
+
+              // Save deleted transaction
+              this.storageManager.putStorage(storage);
+              successful = true;
+            }
+          }
+        }
+      });
+
+      return successful;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   public async getAllBalances(): Promise<StringMap<Balance>> {
     try {
       let storage = await this.storageManager.loadStorage();

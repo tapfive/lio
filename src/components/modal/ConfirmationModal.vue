@@ -13,8 +13,9 @@
           </div>
 
           <div class="modal-footer">
-            <button class="modal-default-button" @click="$emit('confirm')">
-              <slot name="button-text">Confirm</slot>
+            <button class="modal-default-button" @click="confirm">
+              <div v-if="!loading"><slot name="button-text">Confirm</slot></div>
+              <div v-else><spinner line-fg-color="#004466" line-bg-color="#00000000" size="small"></spinner></div>
             </button>
           </div>
 
@@ -26,9 +27,32 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Spinner from "vue-simple-spinner";
 
 export default Vue.extend({
-  name: "confirmation-modal"
+  name: "confirmation-modal",
+
+  components: { Spinner },
+
+  props: {
+    showLoading: {
+      required: false,
+      type: Boolean
+    }
+  },
+
+  data() {
+    return {
+      loading: false
+    };
+  },
+
+  methods: {
+    confirm: function() {
+      this.loading = this.showLoading;
+      this.$emit("confirm");
+    }
+  }
 });
 </script>
 

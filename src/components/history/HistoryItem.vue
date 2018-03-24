@@ -18,11 +18,11 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="4" viewBox="0 0 16 4"><g fill="#046" fill-opacity=".24"><circle cx="8" cy="2" r="2"/><circle cx="2" cy="2" r="2"/><circle cx="14" cy="2" r="2"/></g></svg>
       </div>
       <div class="item-menu">
-        <div @click="edit">
+        <div @click="editItem">
           <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><title>pen-01</title><g fill="#046" fill-opacity=".24" fill-rule="nonzero"><path d="M8.1 3.5L.3 11.3c-.2.2-.3.4-.3.7v3c0 .6.4 1 1 1h3c.3 0 .5-.1.7-.3l7.8-7.8-4.4-4.4zM15.7 3.3l-3-3c-.4-.4-1-.4-1.4 0L9.5 2.1l4.4 4.4 1.8-1.8c.4-.4.4-1 0-1.4z"/></g></svg>
           <span>Edit</span>
         </div>
-        <div>
+        <div @click="deleteItem">
           <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><title>trash-simple</title><g fill="#046" fill-rule="nonzero" fill-opacity=".24"><path d="M5 7h2v6H5zM9 7h2v6H9z"/><path d="M12 1c0-.6-.4-1-1-1H5c-.6 0-1 .4-1 1v2H0v2h1v10c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V5h1V3h-4V1zM6 2h4v1H6V2zm7 3v9H3V5h10z"/></g></svg>
           <span>Delete</span>
         </div>
@@ -137,8 +137,14 @@ export default Vue.extend({
       return (current - original) / original * 100;
     },
 
-    edit: function() {
+    editItem: function() {
+      this.isMenuVisible = false;
       this.$emit("edit", this.item);
+    },
+
+    deleteItem: function() {
+      this.isMenuVisible = false;
+      this.$emit("delete", this.item);
     },
 
     toggleMenu: function() {

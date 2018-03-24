@@ -34,7 +34,8 @@
               :currency="selectedCurrency"
               :currency-symbol="currencySymbol"
               :item="transaction"
-              @edit="val => editTransaction(val)">
+              @edit="val => editTransaction(val)"
+              @delete="val => deleteTransaction(val)">
             </history-item>
           </div>
         </div>
@@ -43,10 +44,20 @@
 
       <edit-modal
         v-if="showEditModal"
-        :transaction-history="currentEdit"
+        :transaction-history="transactionToBeEdited"
         @close="showEditModal = false"
         @reload="reloadFromEdit">
       </edit-modal>
+
+      <confirmation-modal
+        v-if="showDeleteModal"
+        :show-loading="true"
+        @close="showDeleteModal = false"
+        @confirm="onDeleteConfirm()">
+        <h3 slot="header">DELETE TRANSACTION</h3>
+        <div slot="body">Are you sure you want to delete this transaction?</div>
+        <div slot="button-text">Delete</div>
+      </confirmation-modal>
 
     </div>
 
@@ -59,6 +70,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import ConfirmationModal from "../modal/ConfirmationModal.vue";
 import EditModal from "../modal/EditModal.vue";
 import HistoryItem from "./HistoryItem.vue";
 import Spinner from "vue-simple-spinner";
@@ -73,6 +85,7 @@ export default Vue.extend({
   name: "portfolio-history",
 
   components: {
+    ConfirmationModal,
     EditModal,
     HistoryItem,
     Spinner
@@ -93,12 +106,14 @@ export default Vue.extend({
     return {
       availableCoins: <Coin[]>[],
       currencySymbol: "$",
-      currentEdit: TransactionHistory.getEmpty(),
       loadedStorage: false,
       selectedCoins: <Coin[]>[],
       selectedCurrency: "USD",
+      showDeleteModal: false,
       showEditModal: false,
-      transactionHistory: <TransactionHistory[]>[]
+      transactionHistory: <TransactionHistory[]>[],
+      transactionToBeDeleted: TransactionHistory.getEmpty(),
+      transactionToBeEdited: TransactionHistory.getEmpty()
     };
   },
 
@@ -180,14 +195,32 @@ export default Vue.extend({
     },
 
     editTransaction: function(transaction: TransactionHistory) {
-      this.currentEdit = transaction;
+      this.transactionToBeEdited = transaction;
       this.showEditModal = true;
+    },
+
+    deleteTransaction: function(transaction: TransactionHistory) {
+      this.transactionToBeDeleted = transaction;
+      this.showDeleteModal = true;
     },
 
     reloadFromEdit: function() {
       this.showEditModal = false;
       this.loadedStorage = false;
       this.getTransactionHistory();
+    },
+
+    onDeleteConfirm: function() {
+      AppData.transactionManager
+        .deleteTransaction(this.transactionToBeDeleted)
+        .then((successful: boolean) => {
+          this.showDeleteModal = false;
+          this.loadedStorage = false;
+          this.getTransactionHistory();
+        })
+        .catch(error => {
+          this.showDeleteModal = false;
+        });
     }
   }
 });
