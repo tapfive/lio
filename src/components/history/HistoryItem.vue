@@ -150,7 +150,7 @@ export default Vue.extend({
 }
 
 .icon-wrapper {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   margin-right: 4px;
