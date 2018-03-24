@@ -2,7 +2,9 @@
   <div :class="{ addition: isAddition, subtraction: !isAddition }" class="history-item">
     <div class="coin-info">
       <div class="coin-name">
+        <div class="icon-wrapper">
         <i :class="item.coin.symbol" class="cc"></i>
+        </div>
         {{ item.coin.symbol }}
       </div>
     </div>
@@ -143,8 +145,20 @@ export default Vue.extend({
   }
 }
 
-.coin-name > i {
+.coin-name > .icon-wrapper > i {
+  line-height: 0px;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: #fff;
+  line-height: 0px;
 }
 
 .addition {

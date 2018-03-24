@@ -109,8 +109,16 @@ export default Vue.extend({
 }
 
 .coin-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 16px;
+  width: 64px;
+  height: 64px;
+  border-radius: 100%;
+  background-color: #fff;
   font-size: 48px;
+  line-height: 0px;
 }
 
 .coin-name {
