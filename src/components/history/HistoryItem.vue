@@ -134,7 +134,7 @@ export default Vue.extend({
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24px;
   height: 56px;
-  border-bottom: 1px solid rgba(0, 69, 102, 0.1);
+  border-bottom: 1px solid var(--div-line-theme-color);
   padding: 0px 16px;
   align-items: center;
   text-align: left;

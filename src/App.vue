@@ -49,6 +49,7 @@ body {
   --view-bg-theme-gradient: var(--light-gradient);
   --card-bg-theme-color: #ffffff;
   --input-bg-theme-color: #ffffff;
+  --div-line-theme-color: rgba(0, 69, 102, 0.1);
   --font-theme-color: var(--dark-blue);
   --link-theme-color: var(--dark-blue);
   --icon-theme-color: var(--dark-blue);
@@ -67,6 +68,7 @@ body.dark-theme {
   --view-bg-theme-gradient: transparent;
   --card-bg-theme-color: var(--darkest-blue);
   --input-bg-theme-color: var(--darker-blue);
+  --div-line-theme-color: var(--darker-blue);
   --font-theme-color: #ffffff;
   --link-theme-color: var(--green);
   --icon-theme-color: #ffffff;

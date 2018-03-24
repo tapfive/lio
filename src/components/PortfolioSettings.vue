@@ -161,7 +161,7 @@ button {
   align-items: center;
   justify-content: space-between;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(0, 69, 102, 0.1);
+  border-bottom: 1px solid var(--div-line-theme-color);
 }
 
 .currency-selector {
