@@ -19,7 +19,7 @@
           <line-chart
             ref="chart"
             :chart-data="chartData"
-            :dark-mode="isDarkModeEnabled"
+            :label-color="primaryColor"
             @update:chart-loaded="val => selectFirstCoin(val)">>
           </line-chart>
         </div>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="loading-container" v-else>
-      <spinner size="large" message="Loading..."></spinner>
+      <spinner size="large" :line-fg-color="primaryColor" :text-fg-color="primaryColor" message="Loading..."></spinner>
     </div>
 
   </div>
@@ -74,8 +74,8 @@ export default Vue.extend({
     return {
       balanceData: <StringMap<Balance>>{},
       chartData: new ChartData(null),
-      isDarkModeEnabled: AppData.settingsManager.isDarkModeEnabled(),
       loadedStorage: false,
+      primaryColor: AppData.settingsManager.getPrimaryColor(),
       selectedBalance: <Balance>{},
       selectedCurrency: "USD",
       selectedInterval: TimeInterval.ONE_DAY

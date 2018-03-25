@@ -12,9 +12,9 @@ export default {
     chartData: { 
       required: true 
     },
-    darkMode: {
+    labelColor: {
       required: true,
-      type: Boolean
+      type: String
     }
   },
 
@@ -37,8 +37,7 @@ export default {
   },
 
   mounted() {
-    let fontColor = this.darkMode ? "#FFFFFF" : "#004466";
-    Chart.defaults.global.defaultFontColor = fontColor;
+    Chart.defaults.global.defaultFontColor = this.labelColor;
     this.renderChart(this.chartData, this.options);
     this.$emit("update:chart-loaded", true);
   }

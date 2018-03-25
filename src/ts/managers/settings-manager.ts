@@ -58,6 +58,10 @@ export class SettingsManager {
     return CurrencyUtil.getSymbol(this.settings.currency);
   }
 
+  public getPrimaryColor(): string {
+    return this.isDarkModeEnabled() ? "#FFFFFF" : "#004466";
+  }
+
   public async loadSettings(): Promise<boolean> {
     try {
       let storage = await this.storageManager.loadStorage();

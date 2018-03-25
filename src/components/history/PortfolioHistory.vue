@@ -62,7 +62,7 @@
     </div>
 
     <div class="loading-container" v-else>
-      <spinner size="large" message="Loading..."></spinner>
+      <spinner size="large" :line-fg-color="primaryColor" :text-fg-color="primaryColor" message="Loading..."></spinner>
     </div>
 
   </div>
@@ -107,6 +107,7 @@ export default Vue.extend({
       availableCoins: <Coin[]>[],
       currencySymbol: "$",
       loadedStorage: false,
+      primaryColor: AppData.settingsManager.getPrimaryColor(),
       selectedCoins: <Coin[]>[],
       selectedCurrency: "USD",
       showDeleteModal: false,
