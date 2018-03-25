@@ -19,6 +19,7 @@
           <line-chart
             ref="chart"
             :chart-data="chartData"
+            :dark-mode="isDarkModeEnabled"
             @update:chart-loaded="val => selectFirstCoin(val)">>
           </line-chart>
         </div>
@@ -73,6 +74,7 @@ export default Vue.extend({
     return {
       balanceData: <StringMap<Balance>>{},
       chartData: new ChartData(null),
+      isDarkModeEnabled: AppData.settingsManager.isDarkModeEnabled(),
       loadedStorage: false,
       selectedBalance: <Balance>{},
       selectedCurrency: "USD",

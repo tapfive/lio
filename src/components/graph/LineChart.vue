@@ -1,4 +1,5 @@
 <script>
+import Chart from "chart.js";
 import { Line, mixins } from "vue-chartjs";
 const { reactiveProp } = mixins;
 
@@ -8,7 +9,13 @@ export default {
   mixins: [reactiveProp],
 
   props: {
-    chartData: { required: true }
+    chartData: { 
+      required: true 
+    },
+    darkMode: {
+      required: true,
+      type: Boolean
+    }
   },
 
   data() {
@@ -30,6 +37,8 @@ export default {
   },
 
   mounted() {
+    let fontColor = this.darkMode ? "#FFFFFF" : "#004466";
+    Chart.defaults.global.defaultFontColor = fontColor;
     this.renderChart(this.chartData, this.options);
     this.$emit("update:chart-loaded", true);
   }

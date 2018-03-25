@@ -1,6 +1,6 @@
 {
   "name": "lio",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "A simple, decentralized cryptocurrency portfolio",
   "author": "Tap Five <dev@tapfive.io>",
   "private": true,
