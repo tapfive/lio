@@ -38,15 +38,22 @@
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16" xml:space="preserve" width="16" height="16"><g class="nc-icon-wrapper" fill="#004466"><polygon fill="#004466" points="8,11.4 2.6,6 4,4.6 8,8.6 12,4.6 13.4,6 "></polygon></g></svg>
     </div>
     <div class="about settings-item about-item">
-      <div class="setting-info">
+      <div class="about-info">
         <h3>Lio</h3>
-        <p>Lio is a cryptocurrency portfolio built with Vue.js and Blockstack, built by Tap Five.</p>
+        <p>v1.0.1</p>
+        <p>Made by the designer/developer duo at Tap Five.</p>
+        <p>Lio is open source. Check us out on <a target="_blank" href="https://github.com/tapfive/lio">GitHub</a>.</p>
       </div>
     </div>
-    <div class="price-data settings-item about-item">
-      <div class="setting-info">
-        <h3>Price Data</h3>
-        <p>Lio pulls cryptocurrency prices from <a href="https://www.cryptocompare.com/">CryptoCompare</a> and fiat exchange rates from <a href="http://fixer.io/">Fixer</a>.</p>
+    <div class="acknowledgements settings-item about-item">
+      <div class="about-info">
+        <h3>Acknowledgements</h3>
+        <h4>Price Data</h4>
+        <p>Lio pulls cryptocurrency prices from <a target="_blank" href="https://www.cryptocompare.com/">CryptoCompare</a> and fiat exchange rates from <a target="_blank" href="http://fixer.io/">Fixer</a>.</p>
+        <h4>Coin Icons</h4>
+        <p>Lio's coin icons are from <a target="_blank" href="https://github.com/allienworks/cryptocoins">Cryptocoins</a> by Martin Allien.</p>
+        <h4>Open Source Licenses</h4>
+        <p><a target="_blank" href="/licenses.html">Click here</a> to see the list of open source licenses.</p>
       </div>
     </div>
 
@@ -131,7 +138,7 @@ export default Vue.extend({
     ". clear-options       clear-options        clear-options       .                ."
     ". about-title         about-title          about-title         about-title      ."
     ". about               about                about               .                ."
-    ". price-data          price-data           price-data          .                .";
+    ". acknowledgements    acknowledgements     acknowledgements    .                .";
 }
 
 @media screen and (max-width: 1100px) {
@@ -205,10 +212,14 @@ button {
 
 .about {
   grid-area: about;
+  & a {
+    color: var(--link-theme-color);
+    text-decoration-skip-ink: auto;
+  }
 }
 
-.price-data {
-  grid-area: price-data;
+.acknowledgements{
+  grid-area: acknowledgements;
   & a {
     color: var(--link-theme-color);
     text-decoration-skip-ink: auto;
@@ -242,6 +253,20 @@ button {
   }
   & p {
     margin: 8px 0px;
+  }
+}
+
+.about-info {
+  width: 720px;
+  padding-right: 48px;
+  & h3 {
+    margin: 8px 0px;
+  }
+  & h4 {
+    margin: 12px 0px;
+  }
+  & p {
+    margin: 10px 0px;
   }
 }
 </style>
