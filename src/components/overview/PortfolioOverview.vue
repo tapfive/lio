@@ -199,6 +199,7 @@ export default Vue.extend({
     ". total           total           total           total          ."
     ". balance-labels  balance-labels  balance-labels  balance-labels ."
     ". balance         balance         balance         balance        .";
+  padding-bottom: 62px;
 }
 
 @media screen and (max-width: 1100px) {

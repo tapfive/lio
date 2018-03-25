@@ -179,6 +179,7 @@ export default Vue.extend({
     ". time-picker     time-picker     time-picker     time-picker    ."
     ". graph           graph           graph           graph          ."
     ". options         options         options         options        .";
+  padding-bottom: 62px;
 }
 
 button {

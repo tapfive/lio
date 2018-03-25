@@ -242,6 +242,7 @@ export default Vue.extend({
     ". history-toggles   history-toggles   history-toggles   history-toggles ."
     ". history-labels    history-labels    history-labels    history-labels  ."
     ". transactions      transactions      transactions      transactions    .";
+  padding-bottom: 62px;
 }
 
 @media screen and (max-width: 1100px) {
