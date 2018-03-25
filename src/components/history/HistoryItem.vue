@@ -90,26 +90,22 @@ export default Vue.extend({
     },
 
     formatOriginalPrice: function(transaction: Transaction): string {
-      if (transaction.amount > 0) {
-        // Get price in correct currency
-        let price = TransactionHelper.getPriceForCurrency(transaction, this.currency);
+      // Get price in correct currency
+      let price = TransactionHelper.getPriceForCurrency(transaction, this.currency);
 
-        // Get value based on transaction amount
-        let transactionValue = price * transaction.amount;
+      // Get value based on transaction amount
+      let transactionValue = Math.abs(price * transaction.amount);
 
-        return this.currencySymbol + transactionValue.toFixed(2);
-      } else {
-        return "-";
-      }
+      return this.currencySymbol + transactionValue.toFixed(2);
     },
 
     formatCurrentPrice: function(history: TransactionHistory): string {
-      if (history.transaction.amount > 0 && history.currentPrice[this.currency] != null) {
+      if (history.currentPrice[this.currency] != null) {
         // Get price in correct currency
         let price = history.currentPrice[this.currency];
 
         // Get value based on transaction amount
-        let transactionValue = price * history.transaction.amount;
+        let transactionValue = Math.abs(price * history.transaction.amount);
 
         return this.currencySymbol + transactionValue.toFixed(2);
       } else {
@@ -118,7 +114,7 @@ export default Vue.extend({
     },
 
     formatPriceDifference: function(history: TransactionHistory): string {
-      if (history.transaction.amount > 0 && history.currentPrice[this.currency] != null) {
+      if (history.currentPrice[this.currency] != null) {
         let percentChange = this.calculatePriceDifference(history);
 
         if (percentChange > 0) {

@@ -17,7 +17,7 @@
     "luxon": "^0.2.12",
     "v-autocomplete": "^1.8.2",
     "vue": "^2.5.16",
-    "vue-chartjs": "^3.2.1",
+    "vue-chartjs": "^3.3.0",
     "vue-datetime": "^0.6.0",
     "vue-simple-spinner": "^1.2.8",
     "vue-switches": "^2.0.1"
