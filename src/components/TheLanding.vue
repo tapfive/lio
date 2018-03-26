@@ -35,7 +35,7 @@
         <img class="see-what-graphic" src="../assets/see-graphic@2x.png">
         <div class="info-text">
           <h2>See what you want,<br>when you want.</h2>
-          <p>Toggle coin investments you want to compare in your<br>history and the length of time to track them over in graphs.</p>
+          <p>Choose which coins you want to compare in your transaction<br>history and the length of time to track them over in graphs.</p>
         </div>
       </div>
 

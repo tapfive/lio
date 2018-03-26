@@ -19,6 +19,7 @@
           <line-chart
             ref="chart"
             :chart-data="chartData"
+            :label-color="primaryColor"
             @update:chart-loaded="val => selectFirstCoin(val)">>
           </line-chart>
         </div>
@@ -32,7 +33,7 @@
     </div>
 
     <div class="loading-container" v-else>
-      <spinner size="large" message="Loading..."></spinner>
+      <spinner size="large" :line-fg-color="primaryColor" :text-fg-color="primaryColor" message="Loading..."></spinner>
     </div>
 
   </div>
@@ -74,6 +75,7 @@ export default Vue.extend({
       balanceData: <StringMap<Balance>>{},
       chartData: new ChartData(null),
       loadedStorage: false,
+      primaryColor: AppData.settingsManager.getPrimaryColor(),
       selectedBalance: <Balance>{},
       selectedCurrency: "USD",
       selectedInterval: TimeInterval.ONE_DAY
