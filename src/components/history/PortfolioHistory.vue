@@ -311,6 +311,9 @@ export default Vue.extend({
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 24px;
     padding: 0px 4px;
   }
+  & :first-child {
+    padding-left: 20px;
+  }
 }
 
 .selected {
