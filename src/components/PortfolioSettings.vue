@@ -41,7 +41,7 @@
       <div class="about settings-item about-item">
         <div class="about-info">
           <h3>Lio</h3>
-          <p>v1.0.0</p>
+          <p>v1.0.1</p>
           <p>Made by the designer/developer duo at Tap Five.</p>
           <p>Lio is open source. Check us out on <a target="_blank" href="https://github.com/tapfive/lio">GitHub</a>.</p>
         </div>
