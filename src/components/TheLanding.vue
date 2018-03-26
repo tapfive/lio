@@ -80,10 +80,10 @@ export default Vue.extend({
 }
 
 .hero-stuff > h2 {
-  font-weight: 300;
-  font-size: 40px;
   color: #00ffa2;
   text-align: center;
+  font-weight: 300;
+  font-size: 40px;
 }
 
 .hero-bg {
@@ -99,28 +99,16 @@ export default Vue.extend({
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 56vw));
 }
 
-@media screen and (min-width: 1600px) {
-  .hero-bg {
-    height: 1200px;
-  }
-}
-
-@media screen and (min-width: 2400px) {
-  .hero-bg {
-    height: 1250px;
-  }
-}
-
 .hero-bg-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -2;
   width: 100%;
   height: 900px;
   background: #00ffa2;
   transform-origin: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
   clip-path: polygon(50% 0%, 100% 0, 100% calc(100% - 28vw), 50% 100%, 0% calc(100% - 28vw), 0 0);
-  z-index: -2;
 }
 
 .hero-logo {
@@ -129,10 +117,10 @@ export default Vue.extend({
 }
 
 .lio-browser-mockup {
-  max-width: 720px;
-  box-shadow: 0 3px 71px -20px rgba(22, 46, 58, 0.45);
-  border-radius: 8px;
   margin-top: 24px;
+  max-width: 720px;
+  border-radius: 8px;
+  box-shadow: 0 3px 71px -20px rgba(22, 46, 58, 0.45);
   & .lio-mockup-img {
     margin-top: -5px;
     margin-bottom: -5px;
@@ -145,8 +133,8 @@ export default Vue.extend({
   padding: 0 !important;
   width: 310px;
   height: 50px;
-  background-color: #270f34;
   border-radius: 0;
+  background-color: #270f34;
 }
 
 .login-btn:hover {
@@ -156,12 +144,12 @@ export default Vue.extend({
 }
 
 .section-two {
-  width: 100%;
-  margin-top: 142px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  margin-top: 142px;
+  width: 100%;
 }
 
 .info-text > h2 {
@@ -174,9 +162,9 @@ export default Vue.extend({
 
 .keep-simple {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
-  flex-wrap: wrap;
   margin-bottom: 180px;
   & .info-text {
     margin-right: 80px;
@@ -189,9 +177,9 @@ export default Vue.extend({
 
 .see-what {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
-  flex-wrap: wrap;
   margin-bottom: 180px;
   & .info-text {
     margin-left: 80px;
@@ -205,9 +193,9 @@ export default Vue.extend({
 
 .easy-eyes {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
-  flex-wrap: wrap;
   margin-bottom: -80px;
   & .info-text {
     margin-right: 80px;
@@ -238,18 +226,127 @@ button:active {
 }
 
 footer {
-  width: 100%;
-  height: 400px;
-  background: #01324a;
   position: absolute;
   bottom: 100;
   left: 0;
-  clip-path: polygon(0 0, calc(100% - 46vw) 100%, 0% 100%);
   display: flex;
   align-items: center;
+  width: 100%;
+  height: 400px;
+  background: #01324a;
+  clip-path: polygon(0 0, calc(100% - 46vw) 100%, 0% 100%);
   & img {
-    margin-left: 80px;
     margin-top: 120px;
+    margin-left: 80px;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .hero-bg {
+    height: 1200px;
+  }
+}
+
+@media screen and (min-width: 2400px) {
+  .hero-bg {
+    height: 1250px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .lio-browser-mockup {
+    margin-top: 16px;
+    transform: scale(0.7);
+  }
+
+  .section-two {
+    text-align: center;
+  }
+
+  .keep-simple {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 80px;
+    & .info-text {
+      margin-right: 0px;
+    }
+  }
+
+  .see-what {
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-bottom: 80px;
+    & .info-text {
+      margin-left: 0px;
+    }
+    & .see-what-graphic {
+      /* box-shadow: 0 3px 76px -8px rgba(22, 46, 58, 0.16); */
+      width: 310px;
+      height: auto;
+    }
+  }
+
+  .easy-eyes {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0px;
+    & .info-text {
+      margin-right: 0px;
+    }
+  }
+
+  footer {
+    clip-path: polygon(0 0, calc(100% + 50vw) 100%, 0% 100%);
+    & img {
+      margin-top: 120px;
+      margin-left: 80px;
+    }
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .lio-browser-mockup {
+    margin-top: 0px;
+    transform: scale(0.5) translateY(-50%);
+  }
+  .hero-bg {
+    height: 600px;
+  }
+  .hero-bg-fade {
+    height: 660px;
+  }
+  .hero-logo {
+    margin-top: 64px;
+    transform: scale(0.8);
+  }
+  .login-btn {
+    z-index: 5;
+    margin-top: -50px;
+  }
+  .info-text > h2 {
+    padding-right: 8px;
+    padding-left: 8px;
+    font-size: 32px;
+  }
+  .info-text > p {
+    padding-right: 16px;
+    padding-left: 16px;
+    font-size: 16px;
+    line-height: 130%;
+  }
+  footer {
+    clip-path: polygon(0 0, calc(100% + 100vw) 100%, 0% 100%);
+    & img {
+      margin-top: 120px;
+      margin-left: 80px;
+    }
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .lio-browser-mockup {
+    margin-top: 0px;
+    transform: scale(0.4) translateY(-50%);
   }
 }
 </style>
