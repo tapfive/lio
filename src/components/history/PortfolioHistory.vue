@@ -243,11 +243,11 @@ export default Vue.extend({
     ". history-toggles   history-toggles   history-toggles   history-toggles ."
     ". history-labels    history-labels    history-labels    history-labels  ."
     ". transactions      transactions      transactions      transactions    .";
-  padding-bottom: 62px;
+  /* padding-bottom: 62px; */
 }
 
 @media screen and (max-width: 1100px) {
-  .portfolio-history {
+  .history-content {
     grid-template-columns:
       0.5fr minmax(50px, 1fr) minmax(50px, 1fr) minmax(50px, 1fr)
       minmax(50px, 1fr) 0.5fr;
@@ -255,7 +255,7 @@ export default Vue.extend({
 }
 
 @media screen and (min-width: 2000px) {
-  .portfolio-history {
+  .history-content {
     grid-template-columns: 1fr 360px 360px 360px 360px 1fr;
   }
 }
