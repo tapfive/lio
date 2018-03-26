@@ -169,7 +169,7 @@ export default Vue.extend({
 
 <style scoped>
 .graph-content {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   background-color: var(--view-bg-theme-color);
   background-image: var(--view-bg-theme-gradient);
   display: grid;
