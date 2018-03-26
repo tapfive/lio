@@ -228,10 +228,13 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.history-content {
+.portfolio-history {
   min-height: 100vh;
   background-color: var(--view-bg-theme-color);
   background-image: var(--view-bg-theme-gradient);
+}
+
+.history-content {
   display: grid;
   grid-template-columns: 1fr 200px 200px 200px 200px 1fr;
   grid-template-rows: 96px 32px min-content 48px min-content;
@@ -243,7 +246,7 @@ export default Vue.extend({
     ". history-toggles   history-toggles   history-toggles   history-toggles ."
     ". history-labels    history-labels    history-labels    history-labels  ."
     ". transactions      transactions      transactions      transactions    .";
-  /* padding-bottom: 62px; */
+  padding-bottom: 62px;
 }
 
 @media screen and (max-width: 1100px) {
