@@ -112,6 +112,7 @@ export default Vue.extend({
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   margin-right: 16px;
   width: 64px;
   height: 64px;
