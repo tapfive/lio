@@ -166,6 +166,10 @@ export default Vue.extend({
   }
 }
 
+.history-item > h4 {
+  margin: 0px !important;
+}
+
 .coin-name {
   display: flex;
 }
