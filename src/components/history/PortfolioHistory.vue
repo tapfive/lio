@@ -315,7 +315,7 @@ export default Vue.extend({
     padding: 0px 4px;
   }
   & :first-child {
-    padding-left: 20px;
+    padding-left: 14px;
   }
 }
 
