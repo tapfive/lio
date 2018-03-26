@@ -166,6 +166,10 @@ export default Vue.extend({
   }
 }
 
+.coin-name {
+  display: flex;
+}
+
 .coin-name > .icon-wrapper > i {
   line-height: 0px;
 }
@@ -175,7 +179,7 @@ export default Vue.extend({
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin-right: 4px;
+  margin-right: 8px;
   width: 20px;
   height: 20px;
   border-radius: 100%;
