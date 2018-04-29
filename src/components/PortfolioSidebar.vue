@@ -7,7 +7,7 @@
       </div>
 
       <div class="sidebar-user">
-        <div v-if="user.image[0].contentUrl">
+        <div v-if="hasProfileImage()">
           <img :src="user.image[0].contentUrl" style="height:64px;width:64px;border-radius:50%;"/>
         </div>
         <div v-else>
@@ -89,6 +89,11 @@ export default Vue.extend({
 
     showSubtractModal: function() {
       this.$emit("show-subtract-modal");
+    },
+
+    hasProfileImage() {
+      let user = <any>this.user;
+      return (user.image);
     }
   }
 });
