@@ -41,7 +41,7 @@
       <div class="about settings-item about-item">
         <div class="about-info">
           <h3>Lio</h3>
-          <p>v1.0.1</p>
+          <p>v1.1.0</p>
           <p>Made by the designer/developer duo at Tap Five.</p>
           <p>Lio is open source. Check us out on <a target="_blank" href="https://github.com/tapfive/lio">GitHub</a>.</p>
         </div>
@@ -50,7 +50,7 @@
         <div class="about-info">
           <h3>Acknowledgements</h3>
           <h4>Price Data</h4>
-          <p>Lio pulls cryptocurrency prices from <a target="_blank" href="https://www.cryptocompare.com/">CryptoCompare</a> and fiat exchange rates from <a target="_blank" href="http://fixer.io/">Fixer</a>.</p>
+          <p>Lio pulls cryptocurrency prices from <a target="_blank" href="https://www.cryptocompare.com/">CryptoCompare</a> and fiat exchange rates from <a target="_blank" href="https://exchangeratesapi.io/">exchangeratesapi.io</a>.</p>
           <h4>Coin Icons</h4>
           <p>Lio's coin icons are from <a target="_blank" href="https://github.com/allienworks/cryptocoins">Cryptocoins</a> by Martin Allien.</p>
           <h4>Open Source Licenses</h4>

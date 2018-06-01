@@ -71,15 +71,15 @@ export default Vue.extend({
   },
 
   methods: {
-    signOut() {
+    signOut: function() {
       AppData.blockstack.signUserOut(window.location.href);
     },
 
-    changeComponent(component: string) {
+    changeComponent: function(component: string) {
       this.$emit("update:current-component", component);
     },
 
-    isSelected(component: string): boolean {
+    isSelected: function(component: string): boolean {
       return this.currentComponent === component;
     },
 
@@ -91,9 +91,9 @@ export default Vue.extend({
       this.$emit("show-subtract-modal");
     },
 
-    hasProfileImage() {
+    hasProfileImage: function(): any {
       let user = <any>this.user;
-      return (user.image);
+      return user.image;
     }
   }
 });
