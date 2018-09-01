@@ -27,11 +27,17 @@ export default {
 
   mounted() {
     if (this.blockstack.isUserSignedIn()) {
-      this.user = this.blockstack.loadUserData().profile;
+      this.setUser(this.blockstack.loadUserData().profile);
     } else if (this.blockstack.isSignInPending()) {
       this.blockstack.handlePendingSignIn().then(userData => {
-        window.location = window.location.origin;
+        this.setUser(userData.profile);
       });
+    }
+  },
+
+  methods: {
+    setUser: function(profile) {
+      this.user = new this.blockstack.Person(profile);
     }
   }
 };

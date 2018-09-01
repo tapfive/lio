@@ -26,7 +26,7 @@ export class StorageManager {
   public async clearData(): Promise<boolean> {
     // Create a new storage file, removing the old one
     let newStorage = new StorageData(STORAGE_VERSION);
-    await this.blockstack.putFile(STORAGE_FILE, JSON.stringify(newStorage), true);
+    await this.blockstack.putFile(STORAGE_FILE, JSON.stringify(newStorage), null);
     this.storageData = newStorage;
     return true;
   }
@@ -40,16 +40,9 @@ export class StorageManager {
     let storageText = null;
 
     try {
-      storageText = await this.blockstack.getFile(STORAGE_FILE, true);
+      storageText = await this.blockstack.getFile(STORAGE_FILE, null);
     } catch (error) {
-      let dataExists = await this.checkForExistingData();
-
-      if (!dataExists) {
-        // If error was caused by trying to decrypt an empty file, create a new one
-        await this.blockstack.putFile(STORAGE_FILE, JSON.stringify(new StorageData(STORAGE_VERSION)), true);
-      } else {
-        throw error;
-      }
+      throw error;
     }
 
     if (storageText) {
@@ -71,7 +64,7 @@ export class StorageManager {
     let promise = null;
 
     try {
-      promise = this.blockstack.putFile(STORAGE_FILE, JSON.stringify(storage), true);
+      promise = this.blockstack.putFile(STORAGE_FILE, JSON.stringify(storage), null);
     } catch (error) {
       throw error;
     }
@@ -94,18 +87,5 @@ export class StorageManager {
     } catch (error) {
       throw error;
     }
-  }
-
-  private async checkForExistingData(): Promise<boolean> {
-    let storageText = null;
-
-    try {
-      // Get data unencrypted just to see if it exists
-      storageText = await this.blockstack.getFile(STORAGE_FILE, false);
-    } catch (error) {
-      throw error;
-    }
-
-    return storageText !== null;
   }
 }

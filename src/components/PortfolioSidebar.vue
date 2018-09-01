@@ -8,14 +8,14 @@
 
       <div class="sidebar-user">
         <div v-if="hasProfileImage()">
-          <img :src="user.image[0].contentUrl" style="height:64px;width:64px;border-radius:50%;"/>
+          <img :src="user.avatarUrl()" style="height:64px;width:64px;border-radius:50%;"/>
         </div>
         <div v-else>
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64" xml:space="preserve" width="64" height="64"><g class="nc-icon-wrapper" fill="#00334c"><path fill="#00334c" d="M32,1C14.906,1,1,14.907,1,32s13.906,31,31,31s31-13.907,31-31S49.094,1,32,1z M20,28 c0-6.617,5.383-12,12-12s12,5.383,12,12v3c0,6.617-5.383,12-12,12s-12-5.383-12-12V28z M32,61c-6.701,0-12.873-2.291-17.789-6.122 C17.082,49.99,22.26,47,28,47h8c5.733,0,10.911,2.99,13.788,7.879C44.872,58.71,38.7,61,32,61z"></path></g></svg>
         </div>
 
         <div class="user-name-logout">
-          <h3>{{ user.name }}</h3>
+          <h3>{{ user.name() }}</h3>
 
           <a href="#" @click.prevent="signOut">
             <span>Sign Out</span>
@@ -72,7 +72,7 @@ export default Vue.extend({
 
   methods: {
     signOut: function() {
-      AppData.blockstack.signUserOut(window.location.href);
+      AppData.blockstack.signUserOut(window.location.origin);
     },
 
     changeComponent: function(component: string) {
@@ -92,8 +92,7 @@ export default Vue.extend({
     },
 
     hasProfileImage: function(): any {
-      let user = <any>this.user;
-      return user.image;
+      return (<any>this.user).avatarUrl() != null;
     }
   }
 });
