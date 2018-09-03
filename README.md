@@ -1,4 +1,13 @@
-# Lio
+<p align='center'>
+  <a href="http://lioapp.io"><img src="static/img/icons/favicon-96x96.png" width=72 height=72></a>
+  <p align='center'>
+    A simple, decentralized cryptocurrency portfolio.
+    <br>
+    <a href="http://lioapp.io">lioapp.io</a>
+  </p>
+</p>
+
+# Lio 
 
 Lio is a cryptocurrency portfolio built with <a href='https://vuejs.org/'>Vue.js</a>, <a href='https://www.typescriptlang.org/'>TypeScript</a>, and <a href='https://blockstack.org/'>Blockstack</a>.
 
