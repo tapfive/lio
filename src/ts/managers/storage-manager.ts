@@ -4,6 +4,8 @@ import { BlockstackManager } from "./blockstack-manager";
 
 const STORAGE_FILE = "lio-storage.json";
 const STORAGE_VERSION = 1;
+const GET_FILE_OPTIONS = { decrypt: true };
+const PUT_FILE_OPTIONS = { encrypt: true };
 
 export class StorageManager {
   private static instance: StorageManager = new StorageManager();
@@ -26,7 +28,7 @@ export class StorageManager {
   public async clearData(): Promise<boolean> {
     // Create a new storage file, removing the old one
     let newStorage = new StorageData(STORAGE_VERSION);
-    await this.blockstack.putFile(STORAGE_FILE, JSON.stringify(newStorage), null);
+    await this.blockstack.putFile(STORAGE_FILE, JSON.stringify(newStorage), PUT_FILE_OPTIONS);
     this.storageData = newStorage;
     return true;
   }
@@ -40,12 +42,19 @@ export class StorageManager {
     let storageText = null;
 
     try {
-      storageText = await this.blockstack.getFile(STORAGE_FILE, null);
+      storageText = await this.blockstack.getFile(STORAGE_FILE, GET_FILE_OPTIONS);
     } catch (error) {
-      throw error;
+      // Check for old unencrypted data before throwing error
+      let storage: StorageData | null = await this.restoreUnencryptedData();
+
+      if (storage == null) {
+        throw error;
+      } else {
+        return storage;
+      }
     }
 
-    if (storageText) {
+    if (storageText != null) {
       let storage: StorageData = JSON.parse(storageText);
 
       if (storage.version !== STORAGE_VERSION) {
@@ -64,7 +73,7 @@ export class StorageManager {
     let promise = null;
 
     try {
-      promise = this.blockstack.putFile(STORAGE_FILE, JSON.stringify(storage), null);
+      promise = this.blockstack.putFile(STORAGE_FILE, JSON.stringify(storage), PUT_FILE_OPTIONS);
     } catch (error) {
       throw error;
     }
@@ -84,6 +93,24 @@ export class StorageManager {
 
       // Not found
       throw "CoinData not found";
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async restoreUnencryptedData(): Promise<StorageData | null> {
+    try {
+      // Try loading unencrypted data from old versions
+      let storageText = await this.blockstack.getFile(STORAGE_FILE, { decrypt: false });
+      let storage: StorageData = JSON.parse(storageText);
+
+      if (storage != null && storage.version === STORAGE_VERSION) {
+        // If data exists, store with encryption
+        await this.putStorage(storage);
+        return storage;
+      } else {
+        return null;
+      }
     } catch (error) {
       throw error;
     }
