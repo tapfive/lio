@@ -130,7 +130,7 @@ export default Vue.extend({
 .coin-price {
   font-weight: 600;
   font-size: 18px;
-  font-family: "Source Code Pro", monospace;
+  font-family: "Source Code Pro", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
 .coin-value {
@@ -141,7 +141,7 @@ export default Vue.extend({
 .coin-balance {
   font-weight: 600;
   font-size: 18px;
-  font-family: "Source Code Pro", monospace;
+  font-family: "Source Code Pro", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
 .coin-balance > span {

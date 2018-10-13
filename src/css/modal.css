@@ -6,7 +6,7 @@ input {
   box-shadow: 0 0 0px 0 rgba(0, 68, 102, 0);
   color: var(--font-theme-color);
   font-size: 16px;
-  font-family: "Source Code Pro", monospace;
+  font-family: "Source Code Pro", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   transition: all 0.24s var(--ease-out-cubic);
 }
 
@@ -128,7 +128,7 @@ select {
   box-shadow: 0 0 0px 0 rgba(0, 68, 102, 0);
   color: var(--font-theme-color);
   font-size: 16px;
-  font-family: "Source Code Pro", monospace;
+  font-family: "Source Code Pro", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   transition: all 0.24s var(--ease-out-cubic);
   -webkit-appearance: none;
 }
