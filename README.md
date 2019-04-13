@@ -3,7 +3,7 @@
   <p align='center'>
     A simple, decentralized cryptocurrency portfolio.
     <br>
-    <a href="http://lioapp.io">lioapp.io</a>
+    <a href="https://lioapp.io">lioapp.io</a>
   </p>
 </p>
 
