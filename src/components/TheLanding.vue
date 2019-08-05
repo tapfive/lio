@@ -17,7 +17,7 @@
         </div>
 
 
-        <button class="login-btn" @click.prevent="signIn">  <img src="../assets/buttons/btn-login-lg.svg" alt="Log In with Blockstack"></button>
+        <button class="login-btn" @click.prevent="signIn">  <img src="../assets/buttons/btn-blockstack-light-l.svg" alt="Sign In with Blockstack"></button>
       </div>
     </div>
 
@@ -130,16 +130,25 @@ export default Vue.extend({
 .login-btn {
   z-index: 5;
   margin-top: 150px;
-  padding: 0 !important;
-  width: 310px;
-  height: 50px;
-  border-radius: 0;
-  background-color: #270f34;
+
+  padding: 0px 0px;
+  border: none;
+  border-radius: 0px;
+  background-color: transparent !important;
+  box-shadow: unset;
+  color: unset;
+  /* text-transform: uppercase;
+  font-weight: 500; */
+  cursor: pointer;
+  transition: all 0.25s var(--ease-out-cubic);
+  transform: translateY(0px);
 }
 
 .login-btn:hover {
-  background: #270f34;
-  box-shadow: 4px 16px 24px -16px rgba(0, 3, 4, 0.6);
+  transform: translateY(-1px);
+
+  background-color: transparent;
+  box-shadow: unset;
   transform: translateY(-1px);
 }
 
