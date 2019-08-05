@@ -1,14 +1,14 @@
 {
   "name": "Lio",
-  "start_url": "https://lioapp.io",
+  "start_url": "http://lioapp.io",
   "description": "A simple, decentralized cryptocurrency portfolio",
   "icons": [{
-      "src": "https://lioapp.io/img/logo.png",
+      "src": "http://lioapp.io/img/logo.png",
       "sizes": "400x400",
       "type": "image/png"
     },
     {
-      "src": "https://lioapp.io/img/logo512.png",
+      "src": "http://lioapp.io/img/logo512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
